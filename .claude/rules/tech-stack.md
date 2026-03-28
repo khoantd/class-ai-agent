@@ -8,7 +8,8 @@
 
 | Layer | Primary Choice | Alternative | Avoid |
 |-------|---------------|-------------|-------|
-| **Frontend Framework** | Next.js 14+ (App Router) | React + Vite | CRA (deprecated) |
+| **Frontend — Landing/SEO** | Next.js 14+ (App Router) | — | CRA (deprecated) |
+| **Frontend — Admin/Dashboard** | React + Vite (SPA) | — | Next.js (overkill for admin) |
 | **UI Components** | shadcn/ui + Radix UI | Chakra UI | MUI (too heavy) |
 | **Styling** | Tailwind CSS | CSS Modules | Styled-components (runtime cost) |
 | **State Management** | Zustand | Redux Toolkit | MobX, Recoil |
@@ -19,7 +20,8 @@
 | **Database** | PostgreSQL | — | MySQL (prefer PG) |
 | **ORM** | Prisma | Drizzle | Sequelize, TypeORM |
 | **Cache** | Redis (ioredis) | Upstash Redis | Memcached |
-| **Queue** | BullMQ (Redis-backed) | — | RabbitMQ (unless existing infra) |
+| **Queue — Simple jobs** | BullMQ (Redis-backed) | — | — |
+| **Queue — Enterprise/Microservices** | RabbitMQ | Kafka (high-throughput streams) | — |
 | **Auth** | NextAuth.js (Next) / JWT+bcrypt (API) | Lucia Auth | Firebase Auth |
 | **File Storage** | AWS S3 / Cloudflare R2 | Supabase Storage | Local disk (not scalable) |
 | **Email** | Resend | Nodemailer + SMTP | SendGrid (expensive) |
@@ -35,61 +37,104 @@
 
 ---
 
-## 🖥️ Frontend — Next.js
+## 🖥️ Frontend — Chọn đúng framework
 
-### When to use Next.js
-- ✅ Full-stack web application with SEO requirements
-- ✅ Dashboard + public-facing pages
-- ✅ Server-side rendering or static generation needed
-- ✅ API routes collocated with frontend
+### Decision Table
 
-### When to use React + Vite (SPA only)
-- ✅ Pure admin dashboard (no SEO needed)
-- ✅ Highly interactive app (e.g., design tool, game)
-- ✅ Backend is a separate service
+| Tiêu chí | Next.js 14 (App Router) | React + Vite (SPA) |
+|----------|------------------------|--------------------|
+| **Mục đích** | Landing page, marketing, blog | Admin panel, dashboard, internal tool |
+| **SEO** | ✅ SSR/SSG — Google index tốt | ❌ SPA — khó SEO |
+| **Lưu trữ** | Vercel (tối ưu nhất) | Cloudflare Pages, Netlify, S3 |
+| **Performance** | Server Components — ít JS gửi về client | Client-side rendering |
+| **Auth** | NextAuth.js | JWT stored in cookie/localStorage |
+| **API** | API Routes hoặc Server Actions | Gọi backend REST riêng biệt |
+| **Build complexity** | Cao hơn | Đơn giản hơn |
 
-### Project Setup
+> **Rule**: Một project thường có **cả hai** — Next.js cho public site + React cho admin.
+
+---
+
+### Next.js — Landing Page / SEO Project
+
 ```bash
-npx create-next-app@latest my-app \
-  --typescript \
-  --tailwind \
-  --eslint \
-  --app \
-  --src-dir \
-  --import-alias "@/*"
+npx create-next-app@latest my-landing \
+  --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
 ```
 
-### Next.js Folder Structure (App Router)
+**Tại sao Next.js cho landing page:**
+- Server-Side Rendering (SSR) → Google crawl được nội dung
+- Static Site Generation (SSG) → build thành HTML tĩnh, lưu CDN, siêu nhanh
+- Image optimization tự động (`next/image`)
+- `<head>` metadata API tích hợp sẵn
+- Incremental Static Regeneration (ISR) → cập nhật nội dung không rebuild toàn bộ
+
+```tsx
+// app/layout.tsx — SEO metadata
+export const metadata: Metadata = {
+  title: { default: 'My App', template: '%s | My App' },
+  description: 'Mô tả trang chính',
+  openGraph: { type: 'website', locale: 'vi_VN', url: 'https://myapp.com' },
+};
+```
+
+**Folder structure (App Router)**
+```
+src/app/
+├── (marketing)/          # Public pages (SSG/SSR)
+│   ├── page.tsx          # Homepage
+│   ├── about/page.tsx
+│   ├── blog/
+│   │   ├── page.tsx      # Blog list (SSG)
+│   │   └── [slug]/page.tsx  # Blog post (ISR)
+│   └── pricing/page.tsx
+├── (auth)/               # Auth pages
+│   ├── login/page.tsx
+│   └── register/page.tsx
+├── api/v1/               # API Routes
+└── layout.tsx
+```
+
+---
+
+### React + Vite — Admin / Dashboard Project
+
+```bash
+npx create-vite@latest my-admin -- --template react-ts
+cd my-admin && npm install
+```
+
+**Tại sao React SPA cho admin:**
+- Admin panel không cần SEO (đăng nhập mới vào được)
+- SPA build đơn giản, deploy lên S3/Cloudflare Pages/Nginx
+- Trạng thái phức tạp (table, filter, form) dễ quản lý hơn
+- Hot reload nhanh hơn trong development
+
+**Folder structure (Vite SPA)**
 ```
 src/
-├── app/
-│   ├── (auth)/               # Route groups
-│   │   ├── login/page.tsx
-│   │   └── register/page.tsx
-│   ├── (dashboard)/
-│   │   ├── layout.tsx
-│   │   └── page.tsx
-│   ├── api/                  # API Routes
-│   │   └── v1/
-│   │       └── users/route.ts
-│   ├── layout.tsx            # Root layout
-│   └── page.tsx              # Home page
+├── pages/               # Các trang (react-router)
+│   ├── Dashboard.tsx
+│   ├── Users/
+│   │   ├── UserList.tsx
+│   │   └── UserDetail.tsx
+│   └── Settings.tsx
 ├── components/
-│   ├── ui/                   # shadcn/ui components
-│   └── [feature]/            # Feature-specific components
-├── lib/
-│   ├── db.ts                 # Prisma client singleton
-│   ├── redis.ts              # Redis client singleton
-│   └── utils.ts
-├── hooks/                    # Custom React hooks
-├── stores/                   # Zustand stores
-└── types/                    # TypeScript types
+│   ├── layout/          # Sidebar, Header, Layout
+│   └── ui/              # Shared UI components
+├── features/            # Feature-based modules
+│   └── users/
+│       ├── api.ts       # TanStack Query hooks
+│       ├── store.ts     # Zustand slice
+│       └── types.ts
+├── lib/                 # axios instance, utils
+└── main.tsx
 ```
 
-### Key Rules
-- Use **Server Components** by default; add `'use client'` only when needed
-- Use **Server Actions** for form submissions; avoid creating API routes just for internal use
-- Co-locate components with their pages when they're not shared
+**Key Rules cho Admin:**
+- Protected routes với `<AuthGuard>` component
+- Role-based UI: `usePermission()` hook ẩn/hiện features
+- Token refresh tự động trong axios interceptor
 
 ---
 
@@ -227,24 +272,100 @@ myapp:v1:session:abc123      (TTL: 7d)
 myapp:v1:rate_limit:ip:...   (TTL: 15m)
 ```
 
-### Queue with BullMQ
+### Queue with BullMQ (Simple — default)
 ```ts
 // src/queues/email-queue.ts
 import { Queue, Worker } from 'bullmq';
 import { redis } from '@/lib/redis';
 
 export const emailQueue = new Queue('email', { connection: redis });
-
-// Add job
 await emailQueue.add('send-welcome', { to: user.email, name: user.name });
-
-// Worker (separate process)
-const worker = new Worker('email', async (job) => {
-  await sendEmail(job.data);
-}, { connection: redis });
 ```
 
 ---
+
+## 📨 Queue — Chọn đúng loại
+
+### Decision Table
+
+| Tiêu chí | BullMQ | RabbitMQ | Kafka |
+|----------|--------|----------|-------|
+| **Khi dùng** | Jobs đơn giản, retry, schedule | Microservices, routing phức tạp | Event streaming, log, billions messages |
+| **Throughput** | Trung bình | Cao | Cực cao (triệu msg/s) |
+| **Persistence** | Redis TTL | Disk (durable) | Disk (log-based, immutable) |
+| **Setup** | Redis có sẵn | Cài thêm RabbitMQ | Cài thêm Kafka + Zookeeper |
+| **Retry** | ✅ Built-in | ✅ Dead Letter Queue | ✅ Consumer offset |
+| **Ordering** | ❌ Không đảm bảo | ✅ Per-queue | ✅ Per-partition |
+| **Replay** | ❌ | ❌ | ✅ Có thể replay |
+| **Độ phức tạp** | Thấp | Trung bình | Cao |
+
+> **Rule**: Mặc định dùng **BullMQ**. Chỉ dùng RabbitMQ khi microservices. Chỉ dùng Kafka khi cần stream lớn hoặc replay.
+
+### BullMQ — Default (Redis-backed)
+```ts
+// Khi nào: email, notification, PDF, image resize, scheduled tasks
+const emailQueue = new Queue('email', {
+  connection: redis,
+  defaultJobOptions: { attempts: 3, backoff: { type: 'exponential', delay: 2000 } },
+});
+```
+
+### RabbitMQ — Microservices
+```ts
+// Khi nào: nhiều service cần nhận cùng 1 message (pub/sub), routing phức tạp
+import amqplib from 'amqplib';
+
+const conn = await amqplib.connect(process.env.RABBITMQ_URL!);
+const channel = await conn.createChannel();
+
+// Exchange-based routing
+await channel.assertExchange('order.events', 'topic', { durable: true });
+await channel.publish('order.events', 'order.placed', Buffer.from(JSON.stringify(payload)));
+
+// Consumer
+await channel.assertQueue('email-service.order.placed', { durable: true });
+await channel.bindQueue('email-service.order.placed', 'order.events', 'order.placed');
+channel.consume('email-service.order.placed', async (msg) => {
+  if (!msg) return;
+  const data = JSON.parse(msg.content.toString());
+  await sendOrderEmail(data);
+  channel.ack(msg);
+});
+```
+
+### Kafka — High-throughput Streaming
+```ts
+// Khi nào: analytics events, audit logs, real-time feeds, > 100k msg/s
+import { Kafka } from 'kafkajs';
+
+const kafka = new Kafka({ brokers: [process.env.KAFKA_BROKER!] });
+
+// Producer
+const producer = kafka.producer();
+await producer.send({
+  topic: 'user-events',
+  messages: [{ key: userId, value: JSON.stringify({ event: 'page_viewed', page: '/checkout' }) }],
+});
+
+// Consumer group
+const consumer = kafka.consumer({ groupId: 'analytics-service' });
+await consumer.subscribe({ topic: 'user-events', fromBeginning: false });
+await consumer.run({
+  eachMessage: async ({ message }) => {
+    await analyticsService.track(JSON.parse(message.value!.toString()));
+  },
+});
+```
+
+### Queue Naming → See `naming-conventions.md`
+```
+BullMQ queue names: myapp.email.send
+RabbitMQ exchange:  order.events  (type: topic)
+RabbitMQ queue:     email-service.order.placed
+Kafka topic:        user-events, order-events, payment-events
+```
+
+
 
 ## 📄 Documentation
 
