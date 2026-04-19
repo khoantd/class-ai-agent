@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.2.1-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.2.2-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -313,16 +313,4 @@ That advances **`patch`** (e.g. `1.2.0` → `1.2.1`). Use **`npm version minor`*
 ## Credits
 
 - **[Royal Solution](https://codewebkhongkho.com/portfolios)** — project and scaffolding.
-- **[Code Web Khong Kho](https://codewebkhongkho.com/portfolios)** — documentation, community, and templates · [Facebook](https://www.facebook.com/codewebkhongkho) · [TikTok](https://www.tiktok.com/@code.web.khng.kh).
 - Upstream inspiration: [fdhhhdjd/Class-AI-Agent](https://github.com/fdhhhdjd/Class-AI-Agent), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
-- Practices informed by *Software Engineering at Google* and Clean Code principles.
-
-<div align="center">
-
-<img src="https://res.cloudinary.com/ecommerce2021/image/upload/v1768626951/dev_efjbzw.jpg" alt="Code Web Khong Kho" width="80" style="border-radius: 50%" />
-
-**Code Web Khong Kho**
-
-<sub>Made with care · <a href="https://www.facebook.com/codewebkhongkho">Facebook</a> · <a href="https://codewebkhongkho.com/portfolios">Website</a></sub>
-
-</div>
