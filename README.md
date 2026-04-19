@@ -1,30 +1,113 @@
-# AI Agent Project — Production-Grade Configuration
+# AI Agent Project
+
+**Production-grade configuration for [Claude Code](https://code.claude.com/docs) and [Cursor](https://cursor.com)** — shared rules, specialized agents, workflow prompts, and checklists you can drop into any repository.
 
 <div align="center">
-  <img src="https://res.cloudinary.com/ecommerce2021/image/upload/v1768626951/dev_efjbzw.jpg" alt="Code Web Khong Kho" width="120" style="border-radius: 50%"/>
 
-  <h3>Production-ready AI Agent configuration for Claude Code</h3>
-  <p>Structured workflows, specialized agents, mandatory rules, and best practices</p>
+<p>
+  <img src="royal-solution-logo-v2.svg" alt="Royal Solution" width="280" />
+</p>
 
-  ![Version](https://img.shields.io/badge/version-1.2.0-blue?style=flat-square)
-  [![Facebook](https://img.shields.io/badge/Facebook-Code%20Web%20Khong%20Kho-1877F2?logo=facebook)](https://www.facebook.com/codewebkhongkho)
-  [![TikTok](https://img.shields.io/badge/TikTok-@code.web.khng.kh-000000?logo=tiktok)](https://www.tiktok.com/@code.web.khng.kh)
-  [![Website](https://img.shields.io/badge/Website-codewebkhongkho.com-FF6B35?logo=google-chrome)](https://codewebkhongkho.com/portfolios)
+### Royal Solution
 
-  <sub>Inspired by <a href="https://github.com/addyosmani/agent-skills">addyosmani/agent-skills</a></sub>
+Open-source AI agent scaffolding by **Royal Solution** — use it in your own projects and teams.
+
+<sub>Adapted from <a href="https://github.com/fdhhhdjd/Class-AI-Agent">fdhhhdjd/Class-AI-Agent</a> · Community &amp; docs · <a href="https://codewebkhongkho.com/portfolios">Code Web Khong Kho</a></sub>
+
+<p>
+  <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
+  <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
+  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
+  <img src="https://img.shields.io/badge/version-1.2.0-blue?style=flat-square" alt="Version" />
+</p>
+
 </div>
+
+---
+
+## Contents
+
+- [Why use this](#why-use-this)
+- [Install (quick)](#install-quick)
+- [Overview](#overview)
+- [Development workflow](#development-workflow)
+- [Project structure](#project-structure)
+- [Specialized agents](#specialized-agents)
+- [Approved tech stack](#approved-tech-stack)
+- [Mandatory rules](#mandatory-rules)
+- [Using commands & agents](#using-commands--agents)
+- [Key concepts](#key-concepts)
+- [Security](#security)
+- [Contributing](#contributing)
+- [Publishing to npm (maintainers)](#publishing-to-npm-maintainers)
+- [Credits](#credits)
+
+---
+
+## Why use this
+
+| You get | Details |
+|--------|---------|
+| **Two layouts** | **`.claude/`** for Claude Code (`.md` rules) and **`.cursor/`** for Cursor (`.mdc` rules + `CURSOR.md`) |
+| **One workflow** | Spec → Plan → Build → Test → Review → Ship |
+| **10 agent personas** | Frontend, backend, architect, review, QA, security, PM, UX, SEO, test engineer |
+| **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
+| **`npx` installer** | Copies the folders into your project in one command |
+
+Root **`AGENTS.md`** points Cursor at **`.cursor/CURSOR.md`**.
+
+---
+
+## Install (quick)
+
+Requires **Node.js [16.7+](https://nodejs.org/)**.
+
+```bash
+npx class-ai-agent
+```
+
+Install into another directory, or only Claude / only Cursor:
+
+```bash
+npx class-ai-agent --dir /path/to/your/project
+npx class-ai-agent --claude
+npx class-ai-agent --cursor
+npx class-ai-agent --force    # overwrite existing
+npx class-ai-agent --help
+```
+
+**From a clone** (local dev):
+
+```bash
+git clone https://github.com/khoantd/class-ai-agent.git
+cd class-ai-agent
+npm exec -- class-ai-agent --dir /path/to/your/project
+# or: node bin/class-ai-agent.cjs --dir /path/to/your/project
+```
+
+**Manual copy:** copy **`.claude/`**, **`.cursor/`**, and **`AGENTS.md`** into your project root.
 
 ---
 
 ## Overview
 
-This repository provides a **production-grade configuration** for Claude Code AI agents. It includes:
+This repo ships **two parallel trees** so you can use the same habits in Claude Code and Cursor:
 
-- **Structured development workflow** (Spec → Plan → Build → Test → Review → Ship)
-- **10 specialized agents** for different development roles
-- **13 mandatory rules** covering code quality, architecture, and operations
-- **8 slash commands** for common workflows
-- **4 reference checklists** for security, testing, performance, and accessibility
+| Layout | Tool | What you use |
+|--------|------|----------------|
+| **`.claude/`** | Claude Code | Slash commands, **`CLAUDE.md`**, rules as **`.md`** |
+| **`.cursor/`** | Cursor | Project rules as **`.mdc`**, hub **`CURSOR.md`**, **`@`** file mentions |
+
+What is inside:
+
+- **Structured workflow** (Spec → Plan → Build → Test → Review → Ship)
+- **10 specialized agents** (markdown personas under `agents/`)
+- **13 mandatory topic rules** (plus **`cursor-overview.mdc`** under `.cursor/rules/`)
+- **9 workflow prompts** under `commands/`
+- **5 skills** (TDD, code review, incremental implementation, deploy, security review)
+- **4 reference checklists** (security, testing, performance, accessibility)
+
+Keep **`.claude/`** and **`.cursor/`** in sync when you change standards.
 
 ---
 
@@ -32,189 +115,116 @@ This repository provides a **production-grade configuration** for Claude Code AI
 
 ```
 ┌──────────────────────────────────────────────────────────────────┐
-│                                                                  │
-│   /spec  →  /plan  →  /build  →  /test  →  /review  →  /deploy  │
-│                                                                  │
-│   Define    Plan     Build     Verify    Review      Ship        │
-│                                                                  │
+│   /spec  →  /plan  →  /build  →  /test  →  /review  →  /deploy   │
+│   Define     Plan     Build      Verify    Review      Ship      │
 └──────────────────────────────────────────────────────────────────┘
 ```
 
-| Phase | Command | Description |
-|-------|---------|-------------|
-| **Define** | `/spec` | Create PRD with objectives, scope, and boundaries |
-| **Plan** | `/plan` | Decompose into vertical slices with acceptance criteria |
-| **Build** | `/build` | Implement incrementally using TDD |
-| **Verify** | `/test` | Write tests with RED-GREEN-REFACTOR |
+| Phase | Command | Purpose |
+|-------|---------|---------|
+| **Define** | `/spec` | PRD: objectives, scope, boundaries |
+| **Plan** | `/plan` | Vertical slices, acceptance criteria |
+| **Build** | `/build` | Incremental implementation, TDD |
+| **Verify** | `/test` | Tests (RED → GREEN → REFACTOR) |
 | **Review** | `/review` | Five-axis code review |
-| **Ship** | `/deploy` | Build, test, and deploy |
+| **Ship** | `/deploy` | Build, test, deploy |
 
-### Supporting Commands
-
-| Command | Description |
-|---------|-------------|
-| `/debug` | Systematic error diagnosis |
-| `/simplify` | Reduce code complexity |
-| `/fix-issue` | Analyze and fix issues |
+**Supporting:** `/debug`, `/simplify`, `/fix-issue` (see `commands/`).
 
 ---
 
 ## Project Structure
 
+### `.claude/` (Claude Code)
+
 ```
 .claude/
-├── CLAUDE.md                    # Main AI configuration
-│
-├── commands/                    # Slash commands (8 total)
-│   ├── spec.md                  # /spec — PRD creation
-│   ├── plan.md                  # /plan — Task breakdown
-│   ├── build.md                 # /build — Incremental implementation
-│   ├── test.md                  # /test — TDD workflow
-│   ├── review.md                # /review — Code review
-│   ├── deploy.md                # /deploy — Deployment
-│   ├── debug.md                 # /debug — Error diagnosis
-│   ├── simplify.md              # /simplify — Code simplification
-│   └── fix-issue.md             # /fix-issue — Issue resolution
-│
-├── agents/                      # Specialized agents (10 total)
-│   ├── frontend.md              # Frontend Developer
-│   ├── backend.md               # Backend Developer
-│   ├── systems-architect.md     # Systems Architect
-│   ├── code-reviewer.md         # Code Reviewer
-│   ├── test-engineer.md         # Test Engineer
-│   ├── security-auditor.md      # Security Auditor
-│   ├── qa.md                    # QA Engineer
-│   ├── project-manager.md       # Project Manager
-│   ├── ui-ux-designer.md        # UI/UX Designer
-│   └── copywriter-seo.md        # Copywriter/SEO
-│
-├── rules/                       # Mandatory rules (13 total)
-│   ├── clean-code.md            # Clean Code principles
-│   ├── code-style.md            # Formatting & naming
-│   ├── error-handling.md        # Error patterns
-│   ├── tech-stack.md            # Approved technologies
-│   ├── system-design.md         # System design patterns
-│   ├── project-structure.md     # Folder organization
-│   ├── api-conventions.md       # REST API standards
-│   ├── naming-conventions.md    # Naming patterns
-│   ├── database.md              # Database patterns
-│   ├── security.md              # Security requirements
-│   ├── monitoring.md            # Observability
-│   ├── testing.md               # Test standards
-│   └── git-workflow.md          # Git conventions
-│
-├── skills/                      # Advanced skills
-│   ├── tdd/SKILL.md             # Test-Driven Development
-│   ├── code-review/SKILL.md     # Five-axis review
-│   ├── incremental-implementation/SKILL.md
-│   ├── deploy/SKILL.md
-│   └── security-review/SKILL.md
-│
-├── references/                  # Quick checklists
-│   ├── security-checklist.md
-│   ├── testing-patterns.md
-│   ├── performance-checklist.md
-│   └── accessibility-checklist.md
-│
-└── settings.json                # Project settings
+├── CLAUDE.md                 # Main configuration
+├── commands/                 # 9 workflow prompts (spec, plan, build, …)
+├── agents/                   # 10 personas
+├── rules/                    # 13 mandatory topic rules (.md)
+├── skills/                   # TDD, review, deploy, …
+├── references/               # Checklists
+└── settings.json
+```
+
+### `.cursor/` (Cursor)
+
+Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. Differences:
+
+| Item | Role |
+|------|------|
+| **`CURSOR.md`** | Hub (like `CLAUDE.md`, Cursor-focused) |
+| **`rules/*.mdc`** | Project rules + YAML; **`security.mdc`** and **`cursor-overview.mdc`** are central |
+| **`settings.json`** | Path hints (mirrors Claude layout) |
+| **`AGENTS.md`** (repo root) | Entry pointer for Cursor |
+
+```
+.cursor/
+├── CURSOR.md
+├── settings.json
+├── commands/
+├── agents/
+├── rules/                    # 14 × .mdc (13 topics + cursor-overview)
+├── skills/
+└── references/
 ```
 
 ---
 
 ## Specialized Agents
 
-### Development Agents
+| Area | Agents |
+|------|--------|
+| **Development** | Frontend, Backend, Systems Architect |
+| **Quality** | Code Reviewer, Test Engineer, Security Auditor, QA |
+| **Product** | Project Manager, UI/UX Designer, Copywriter/SEO |
 
-| Agent | Role | Invoke When |
-|-------|------|-------------|
-| **Frontend Developer** | Next.js, React, TypeScript, UI | Components, pages, state |
-| **Backend Developer** | Express, Prisma, Redis, BullMQ | APIs, services, jobs |
-| **Systems Architect** | Architecture, ADRs, scaling | System design decisions |
-
-### Quality Agents
-
-| Agent | Role | Invoke When |
-|-------|------|-------------|
-| **Code Reviewer** | Five-axis code review | PR reviews, quality checks |
-| **Test Engineer** | TDD, coverage, test strategy | Writing and reviewing tests |
-| **Security Auditor** | Vulnerability, threat modeling | Security reviews |
-| **QA Engineer** | Test plans, E2E, bug reports | Quality assurance |
-
-### Product Agents
-
-| Agent | Role | Invoke When |
-|-------|------|-------------|
-| **Project Manager** | Stories, sprints, planning | Project planning |
-| **UI/UX Designer** | Design system, accessibility | UX decisions |
-| **Copywriter/SEO** | Copy, meta tags, SEO | Content creation |
+Full definitions live in **`agents/*.md`**. In Cursor, **`@`**-include a file when you want that role.
 
 ---
 
-## Approved Tech Stack
+## Approved tech stack
 
 | Layer | Technology |
-|-------|-----------|
+|-------|------------|
 | **Frontend (SEO)** | Next.js 14 (App Router) |
-| **Frontend (Admin)** | React + Vite |
+| **Frontend (admin)** | React + Vite |
 | **Styling** | Tailwind CSS + shadcn/ui |
 | **State** | Zustand + TanStack Query |
 | **Backend** | Express.js + TypeScript |
 | **ORM** | Prisma |
 | **Database** | PostgreSQL |
 | **Cache** | Redis (ioredis) |
-| **Queue** | BullMQ (simple) / RabbitMQ (enterprise) |
+| **Queue** | BullMQ / RabbitMQ |
 | **Auth** | NextAuth.js / JWT + bcrypt |
 | **Testing** | Vitest + Playwright |
 | **Monitoring** | Prometheus + Grafana + Pino |
 | **CI/CD** | GitHub Actions |
 | **Deploy** | Vercel + Railway/Fly.io |
 
----
-
-## Mandatory Rules
-
-All 13 rules in `.claude/rules/` must be followed:
-
-### Code Quality
-- **clean-code.md** — Variables, functions, SOLID, async/await
-- **code-style.md** — 2-space indent, single quotes, semicolons
-- **error-handling.md** — AppError class, centralized handler
-
-### Architecture
-- **tech-stack.md** — Approved technologies only
-- **system-design.md** — CAP, caching, scaling patterns
-- **project-structure.md** — Layered architecture
-- **api-conventions.md** — REST standards, response envelopes
-
-### Data & Naming
-- **naming-conventions.md** — Cache keys, DB, queues, env vars
-- **database.md** — Prisma patterns, N+1 prevention
-
-### Operations
-- **security.md** — **CRITICAL** — Never violate
-- **monitoring.md** — Prometheus, Grafana, alerting
-- **testing.md** — 80% coverage minimum
-- **git-workflow.md** — Conventional commits
+Details and alternatives are in **`rules/tech-stack.md`** (or **`.mdc`** in Cursor).
 
 ---
 
-## Quick Start
+## Mandatory rules
 
-```bash
-# Clone repository
-git clone <repo-url>
-cd ai-agent
+Use **`.claude/rules/*.md`** or **`.cursor/rules/*.mdc`** (paired content; Cursor applies `.mdc` frontmatter).
 
-# Copy to your project
-cp -r .claude/ /path/to/your/project/
+| Theme | Files |
+|-------|--------|
+| **Code quality** | `clean-code`, `code-style`, `error-handling` |
+| **Architecture** | `tech-stack`, `system-design`, `project-structure`, `api-conventions` |
+| **Data** | `naming-conventions`, `database` |
+| **Operations** | **`security`** (critical), `monitoring`, `testing`, `git-workflow` |
 
-# Or use as template
-```
+---
 
-### Using Commands
+## Using commands & agents
 
-```bash
-# In Claude Code, use slash commands:
+**Claude Code** — run slash commands in the tool, e.g.:
+
+```text
 /spec "User authentication feature"
 /plan
 /build
@@ -223,99 +233,82 @@ cp -r .claude/ /path/to/your/project/
 /deploy
 ```
 
-### Using Agents
+**Cursor** — prompts live under **`.cursor/commands/`**. Open the file, copy the section you need, or **`@`** it (e.g. `@.cursor/commands/spec.md`).
 
-```
-"Act as the Frontend Developer and build the login page"
-"As Systems Architect, design the notification system"
-"Code Reviewer: review this PR for security issues"
-"Test Engineer: write tests for the payment flow"
-```
+**Agents** — describe the role in natural language, or in Cursor **`@`** an agent file, e.g. `@.cursor/agents/code-reviewer.md`.
 
 ---
 
-## Key Concepts
+## Key concepts
 
-### Five-Axis Code Review
+### Five-axis review
 
-Every code review evaluates:
+1. **Correctness** — Behavior, edge cases, tests  
+2. **Readability** — Names, structure  
+3. **Architecture** — Patterns, boundaries  
+4. **Security** — Validation, auth, secrets  
+5. **Performance** — Queries, async, pagination  
 
-1. **Correctness** — Does it work? Edge cases?
-2. **Readability** — Can others understand it?
-3. **Architecture** — Follows patterns? Appropriate abstractions?
-4. **Security** — Input validation? Auth? No secrets?
-5. **Performance** — N+1? Pagination? Async?
+### TDD
 
-### Test-Driven Development
+`RED` (failing test) → `GREEN` (minimal pass) → `REFACTOR`.
 
-```
-RED    → Write failing test
-GREEN  → Write minimal code to pass
-REFACTOR → Improve while green
-```
+### Vertical slices
 
-### Vertical Slicing
-
-Build features end-to-end, not layer-by-layer:
-
-```
-✅ Task 1: User can create task (DB + API + UI)
-✅ Task 2: User can view tasks (DB + API + UI)
-
-❌ Task 1: Create all DB models
-❌ Task 2: Create all API routes
-```
+Ship thin end-to-end slices (DB + API + UI), not “all models first, then all routes.”
 
 ---
 
 ## Security
 
-**Never commit:**
-- `.env` files
-- API keys, secrets, passwords
-- `.claude/settings.local.json`
+**Do not commit:** `.env`, secrets, API keys, **`.claude/settings.local.json`**, or local-only Cursor overrides with secrets.
 
-**Always:**
-- Use environment variables
-- Validate all inputs
-- Hash passwords (bcrypt >= 12 rounds)
-- Parameterize queries
+**Do:** environment variables, input validation, strong password hashing, parameterized queries.
 
 ---
 
 ## Contributing
 
-1. Follow the development workflow (`/spec` → `/plan` → `/build`)
-2. Ensure all tests pass
-3. Run `/review` before submitting PR
-4. Follow conventional commit format
+1. Follow the workflow (`/spec` → `/plan` → `/build`, or the same prompts under `.cursor/commands/`).
+2. Keep tests green.
+3. Run **`/review`** before opening a PR.
+4. Use [conventional commits](https://www.conventionalcommits.org/).
+5. Update **both** `.claude/` and `.cursor/` when rules or workflows change.
+
+---
+
+## Publishing to npm (maintainers)
+
+`package.json` name: **`class-ai-agent`**. Use **`npm publish --access public`** after `npm login`.
+
+<details>
+<summary><strong>403 / two-factor authentication</strong></summary>
+
+If publish fails with **two-factor authentication** required:
+
+1. On [npmjs.com](https://www.npmjs.com/) → **Account** → enable **Two-Factor Authentication** (include **writes** for publishing).
+2. Run **`npm logout`** then **`npm login`**.
+3. Run **`npm publish --access public`** again and enter the OTP when prompted.
+
+For CI, use an [npm access token](https://docs.npmjs.com/about-access-tokens) with publish permission and set **`NPM_TOKEN`** as documented by npm.
+
+</details>
 
 ---
 
 ## Credits
 
-- Workflow inspired by [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills)
-- Best practices from *Software Engineering at Google*
-- Clean Code principles from Robert C. Martin
-
----
-
-## Author
+- **[Royal Solution](https://codewebkhongkho.com/portfolios)** — project and scaffolding.
+- **[Code Web Khong Kho](https://codewebkhongkho.com/portfolios)** — documentation, community, and templates · [Facebook](https://www.facebook.com/codewebkhongkho) · [TikTok](https://www.tiktok.com/@code.web.khng.kh).
+- Upstream inspiration: [fdhhhdjd/Class-AI-Agent](https://github.com/fdhhhdjd/Class-AI-Agent), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
+- Practices informed by *Software Engineering at Google* and Clean Code principles.
 
 <div align="center">
-  <img src="https://res.cloudinary.com/ecommerce2021/image/upload/v1768626951/dev_efjbzw.jpg" alt="Code Web Khong Kho" width="80" style="border-radius: 50%"/>
 
-  **Code Web Khong Kho**
+<img src="https://res.cloudinary.com/ecommerce2021/image/upload/v1768626951/dev_efjbzw.jpg" alt="Code Web Khong Kho" width="80" style="border-radius: 50%" />
 
-  | Platform | Link |
-  |----------|------|
-  | Facebook | [facebook.com/codewebkhongkho](https://www.facebook.com/codewebkhongkho) |
-  | TikTok | [@code.web.khng.kh](https://www.tiktok.com/@code.web.khng.kh) |
-  | Website | [codewebkhongkho.com](https://codewebkhongkho.com/portfolios) |
-</div>
+**Code Web Khong Kho**
 
----
+<sub>Made with care · <a href="https://www.facebook.com/codewebkhongkho">Facebook</a> · <a href="https://codewebkhongkho.com/portfolios">Website</a></sub>
 
-<div align="center">
-  <sub>Made with care by <a href="https://www.facebook.com/codewebkhongkho">Code Web Khong Kho</a></sub>
 </div>
