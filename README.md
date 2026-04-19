@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.2.0-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.2.1-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -291,6 +291,20 @@ If publish fails with **two-factor authentication** required:
 3. Run **`npm publish --access public`** again and enter the OTP when prompted.
 
 For CI, use an [npm access token](https://docs.npmjs.com/about-access-tokens) with publish permission and set **`NPM_TOKEN`** as documented by npm.
+
+</details>
+
+<details>
+<summary><strong>403 / “cannot publish over the previously published versions”</strong></summary>
+
+Each version number can only be published **once**. After **`1.2.0`** is on the registry, you must bump before the next upload, for example:
+
+```bash
+npm version patch --no-git-tag-version
+npm publish --access public
+```
+
+That advances **`patch`** (e.g. `1.2.0` → `1.2.1`). Use **`npm version minor`** or **`major`** when the change warrants it.
 
 </details>
 
