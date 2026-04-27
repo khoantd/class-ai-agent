@@ -104,7 +104,7 @@ What is inside:
 - **10 specialized agents** (markdown personas under `agents/`)
 - **13 mandatory topic rules** (plus **`cursor-overview.mdc`** under `.cursor/rules/`)
 - **9 workflow prompts** under `commands/`
-- **5 skills** (TDD, code review, incremental implementation, deploy, security review)
+- **6 skills** (TDD, code review, incremental implementation, deploy, security review, UI/UX Pro Max)
 - **4 reference checklists** (security, testing, performance, accessibility)
 
 Keep **`.claude/`** and **`.cursor/`** in sync when you change standards.
@@ -169,6 +169,10 @@ Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. D
 ├── skills/
 └── references/
 ```
+
+### Skill notes
+
+- **`ui-ux-pro-max/`**: A UI/UX-oriented skill bundle (includes datasets under `data/` and helper scripts under `scripts/`) to support design-system decisions and UX guidelines.
 
 ---
 
