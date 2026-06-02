@@ -14,4 +14,4 @@ Project guidance for AI coding agents:
 
 **Cross-tool continuity:** committed [`.agent/SESSION.md`](.agent/README.md) — use `/resume` at session start and `/handoff` at session end (see hub docs and `.agent/README.md`).
 
-Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing `.cursor/`, run `npm run sync:kiro` in the **class-ai-agent** repo to refresh `.kiro/`.
+Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing `.cursor/`, run `npm run sync:kiro` in the **class-ai-agent** repo to refresh `.kiro/`. To refresh vendored Supabase skills from upstream, run `npm run sync:supabase-skills`.

@@ -112,6 +112,8 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 | `deploy` | Deployment pipeline |
 | `security-review` | Security audit |
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
+| `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
+| `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
 
 ---
 
@@ -127,6 +129,7 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 | `accessibility-checklist.md` | WCAG-oriented checks |
 | `codegraph.md` | CodeGraph setup (Kiro, Cursor, Claude Code) |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
+| `supabase.md` | Supabase skills, MCP OAuth, secrets |
 
 ---
 

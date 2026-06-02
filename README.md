@@ -152,10 +152,10 @@ What is inside:
 - **10 specialized agents** (markdown personas under `agents/`)
 - **13 mandatory topic rules** (plus **`cursor-overview.mdc`** under `.cursor/rules/`)
 - **11 workflow prompts** under `commands/` (includes `handoff`, `resume`)
-- **7 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max)
-- **6 reference docs** (security, testing, performance, accessibility, codegraph, agent-continuity)
+- **9 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **supabase**, **supabase-postgres-best-practices**)
+- **7 reference docs** (security, testing, performance, accessibility, codegraph, agent-continuity, **supabase**)
 - **`.agent/SESSION.md`** for cross-tool session handoff
-- **CodeGraph MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`)
+- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`)
 
 Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change standards. After editing `.cursor/`, run **`npm run sync:kiro`** (or `node scripts/sync-kiro-from-cursor.mjs`) to refresh `.kiro/`.
 
@@ -224,7 +224,7 @@ Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. D
 ```
 .cursor/
 ├── CURSOR.md
-├── mcp.json                  # CodeGraph MCP (npx @colbymchenry/codegraph)
+├── mcp.json                  # CodeGraph + Supabase MCP
 ├── settings.json
 ├── commands/
 ├── agents/
@@ -250,7 +250,7 @@ Mirrors `.cursor/` for `commands/`, `agents/`, `skills/`, `references/`. Kiro us
 .kiro/
 ├── KIRO.md
 ├── settings/
-│   └── mcp.json              # CodeGraph MCP
+│   └── mcp.json              # CodeGraph + Supabase MCP
 ├── settings.json
 ├── steering/                 # kiro-overview.md, security.md, codegraph.md, …
 ├── commands/
@@ -364,7 +364,11 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 ## Release notes
 
+### 1.4.0 — 2026-06-02
 
+- Bundle official **Supabase Agent Skills** (`supabase`, `supabase-postgres-best-practices`) for Cursor, Claude Code, and Kiro
+- Add **Supabase MCP** (`https://mcp.supabase.com/mcp?features=docs`) alongside CodeGraph in `.cursor/mcp.json` and `.kiro/settings/mcp.json`
+- Add `.cursor/references/supabase.md`, `THIRD_PARTY_NOTICES.md`, and maintainer command `npm run sync:supabase-skills` (pinned to [supabase/agent-skills](https://github.com/supabase/agent-skills) v0.1.5)
 
 ### 1.3.0 — 2026-06-02
 
@@ -380,7 +384,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 2. Keep tests green.
 3. Run **`/review`** before opening a PR.
 4. Use [conventional commits](https://www.conventionalcommits.org/).
-5. Update **`.claude/`**, **`.cursor/`**, and **`.kiro/`** when rules or workflows change (run `npm run sync:kiro` after `.cursor/` edits).
+5. Update **`.claude/`**, **`.cursor/`**, and **`.kiro/`** when rules or workflows change (run `npm run sync:kiro` after `.cursor/` edits; run `npm run sync:supabase-skills` to refresh vendored Supabase skills).
 
 ---
 

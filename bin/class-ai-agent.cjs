@@ -37,6 +37,10 @@ CodeGraph:
   After install, runs "npx @colbymchenry/codegraph init -i" in the target directory
   (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
 
+Supabase:
+  Bundled skills under skills/supabase/ and skills/supabase-postgres-best-practices/.
+  MCP: https://mcp.supabase.com/mcp (OAuth on first use). Reload Cursor / restart Kiro after install.
+
 Examples:
   npx class-ai-agent
   npx class-ai-agent --dir ./my-app
@@ -304,10 +308,12 @@ function run(opts) {
   if (installKiro) hints.push('.kiro/KIRO.md');
   console.log(`\nDone. Next steps: read ${hints.join(', ')}.`);
   if (installCursor) {
-    console.log('  Cursor: reload the window so CodeGraph MCP loads (.cursor/mcp.json).');
+    console.log('  Cursor: reload the window so MCP loads (.cursor/mcp.json — CodeGraph + Supabase).');
+    console.log('  Supabase: complete OAuth in the browser when you first use Supabase MCP tools.');
   }
   if (installKiro) {
-    console.log('  Kiro: restart IDE/CLI so CodeGraph MCP loads (.kiro/settings/mcp.json).');
+    console.log('  Kiro: restart IDE/CLI so MCP loads (.kiro/settings/mcp.json — CodeGraph + Supabase).');
+    console.log('  Supabase: complete OAuth when you first use Supabase MCP tools.');
   }
   if (shouldInstallAgentDir(opts)) {
     console.log('  Continuity: edit .agent/SESSION.md at session end (/handoff); read at start (/resume).');

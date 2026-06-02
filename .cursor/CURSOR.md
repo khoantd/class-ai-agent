@@ -104,6 +104,8 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `deploy` | Deployment pipeline |
 | `security-review` | Security audit |
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
+| `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
+| `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
 
 ---
 
@@ -119,6 +121,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `accessibility-checklist.md` | WCAG-oriented checks |
 | `codegraph.md` | CodeGraph install and Claude Code setup |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
+| `supabase.md` | Supabase skills, MCP OAuth, secrets |
 
 ---
 

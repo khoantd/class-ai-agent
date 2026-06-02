@@ -139,6 +139,8 @@ Specialized skills for complex operations:
 | `deploy` | Full deployment pipeline |
 | `security-review` | Security audit checklist |
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
+| `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
+| `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
 
 ---
 
@@ -154,6 +156,7 @@ Quick references in `.claude/references/`:
 | `accessibility-checklist.md` | WCAG 2.1 AA compliance |
 | `codegraph.md` | CodeGraph install (Claude Code) and Cursor MCP notes |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
+| `supabase.md` | Supabase skills, MCP OAuth, secrets |
 
 ---
 

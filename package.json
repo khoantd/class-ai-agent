@@ -1,6 +1,6 @@
 {
   "name": "class-ai-agent",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Production-grade AI agent configuration for Claude Code, Cursor & Kiro",
   "license": "MIT",
   "repository": {
@@ -17,6 +17,7 @@
     "cursor",
     "kiro",
     "codegraph",
+    "supabase",
     "ai",
     "agent",
     "scaffold"
@@ -39,7 +40,8 @@
   "scripts": {
     "prepack": "node -e \"const fs=require('fs');['.agent','.claude','.cursor','.kiro','AGENTS.md'].forEach(p=>{if(!fs.existsSync(p))process.exit(1)})\"",
     "sync:kiro": "node scripts/sync-kiro-from-cursor.mjs",
+    "sync:supabase-skills": "node scripts/sync-supabase-skills.mjs",
     "release:readme": "node scripts/update-readme-release.mjs",
-    "test:cli": "node bin/class-ai-agent.cjs --help && node bin/class-ai-agent.cjs --version && node -e \"const fs=require('fs');const c=JSON.parse(fs.readFileSync('.cursor/mcp.json','utf8'));const k=JSON.parse(fs.readFileSync('.kiro/settings/mcp.json','utf8'));if(!c.mcpServers?.codegraph||!k.mcpServers?.codegraph)throw new Error('missing codegraph MCP');if(!fs.existsSync('.cursor/rules/codegraph.mdc'))throw new Error('missing codegraph.mdc');if(!fs.existsSync('.kiro/steering/codegraph.md'))throw new Error('missing kiro codegraph steering');if(!fs.existsSync('.agent/SESSION.template.md'))throw new Error('missing SESSION.template');if(!fs.existsSync('.cursor/rules/agent-continuity.mdc'))throw new Error('missing agent-continuity.mdc');if(!fs.existsSync('.kiro/steering/agent-continuity.md'))throw new Error('missing kiro agent-continuity steering');if(!fs.existsSync('.cursor/commands/handoff.md')||!fs.existsSync('.cursor/commands/resume.md'))throw new Error('missing handoff/resume commands');\""
+    "test:cli": "node bin/class-ai-agent.cjs --help && node bin/class-ai-agent.cjs --version && node -e \"const fs=require('fs');const c=JSON.parse(fs.readFileSync('.cursor/mcp.json','utf8'));const k=JSON.parse(fs.readFileSync('.kiro/settings/mcp.json','utf8'));if(!c.mcpServers?.codegraph||!k.mcpServers?.codegraph)throw new Error('missing codegraph MCP');if(!c.mcpServers?.supabase?.url?.includes('mcp.supabase.com')||!k.mcpServers?.supabase?.url?.includes('mcp.supabase.com'))throw new Error('missing supabase MCP');if(!fs.existsSync('.cursor/skills/supabase/SKILL.md')||!fs.existsSync('.cursor/skills/supabase-postgres-best-practices/SKILL.md'))throw new Error('missing supabase skills');if(!fs.existsSync('.claude/skills/supabase/SKILL.md'))throw new Error('missing claude supabase skill');if(!fs.existsSync('.cursor/references/supabase.md'))throw new Error('missing supabase reference');if(!fs.existsSync('scripts/sync-supabase-skills.mjs'))throw new Error('missing sync-supabase-skills');if(!fs.existsSync('.cursor/rules/codegraph.mdc'))throw new Error('missing codegraph.mdc');if(!fs.existsSync('.kiro/steering/codegraph.md'))throw new Error('missing kiro codegraph steering');if(!fs.existsSync('.agent/SESSION.template.md'))throw new Error('missing SESSION.template');if(!fs.existsSync('.cursor/rules/agent-continuity.mdc'))throw new Error('missing agent-continuity.mdc');if(!fs.existsSync('.kiro/steering/agent-continuity.md'))throw new Error('missing kiro agent-continuity steering');if(!fs.existsSync('.cursor/commands/handoff.md')||!fs.existsSync('.cursor/commands/resume.md'))throw new Error('missing handoff/resume commands');\""
   }
 }
