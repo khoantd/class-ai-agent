@@ -8,6 +8,8 @@ Cross-tool handoff lives in **`.agent/SESSION.md`** (committed). Cursor, Claude 
 2. When the user says **continue**, **resume**, or **pick up**, use **`.claude/commands/resume.md`**.
 3. Then read **`tasks/todo.md`** and linked **SPEC** paths from SESSION **Pointers**.
 
+**Do not** call `codegraph_context` with `query` / `limit` for session resume — that tool requires **`task`** and is for code symbols, not handoff state. For continuity, read `.agent/SESSION.md` (and `tasks/todo.md`); use `codegraph_context` only when you need structural code context for the work described in SESSION.
+
 ## Session end and phase changes
 
 1. Update **`.agent/SESSION.md`** before ending a session or switching tools — use **`.claude/commands/handoff.md`** when possible.

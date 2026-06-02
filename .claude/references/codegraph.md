@@ -43,4 +43,8 @@ Or install globally: `codegraph install --target=kiro --yes`
 
 ## Troubleshooting
 
-See [CodeGraph README — Troubleshooting](https://github.com/colbymchenry/codegraph#troubleshooting) or `.cursor/references/codegraph.md`.
+| Issue | Action |
+|-------|--------|
+| `task must be a non-empty string` | On `codegraph_context`, use **`task`** (not `query`) and **`maxNodes`** (not `limit`). For `/resume`, read `.agent/SESSION.md` — not CodeGraph. |
+
+See [CodeGraph README — Troubleshooting](https://github.com/colbymchenry/codegraph#troubleshooting) or `.cursor/references/codegraph.md` for MCP setup.

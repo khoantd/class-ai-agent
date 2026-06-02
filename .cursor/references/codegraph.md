@@ -51,10 +51,34 @@ See the [CodeGraph README](https://github.com/colbymchenry/codegraph) for tools,
 - **Node 20+** recommended for CodeGraph (class-ai-agent CLI itself supports Node 16.7+).
 - First index can take a minute on large repos; progress prints during `npx class-ai-agent` install.
 
+## Tool parameters
+
+| Tool | Pass | Not |
+|------|------|-----|
+| `codegraph_search` | `query`, optional `limit` | — |
+| `codegraph_context` | **`task`** (natural-language area), optional **`maxNodes`** | `query`, `limit` |
+
+Example — wrong (search-style args on context):
+
+```json
+{ "query": "auth flow", "limit": 15 }
+```
+
+→ `Error: task must be a non-empty string`
+
+Example — correct:
+
+```json
+{ "task": "how authentication flow works", "maxNodes": 15 }
+```
+
+**Session handoff** (`/resume`, `.agent/SESSION.md`) is not a CodeGraph call — read those files with the editor Read tool.
+
 ## Troubleshooting
 
 | Issue | Action |
 |-------|--------|
+| `task must be a non-empty string` | Use `task` (not `query`) on `codegraph_context`; use `maxNodes` (not `limit`). For `/resume`, read `.agent/SESSION.md` instead. |
 | MCP “not initialized” | Run `npx @colbymchenry/codegraph init -i` in project root |
 | MCP not connecting | Reload Cursor; verify `.cursor/mcp.json`; test `npx @colbymchenry/codegraph serve --mcp` |
 | Stale symbols after edit | Wait ~2s for watcher sync, or check staleness banner in tool output |

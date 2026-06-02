@@ -24,6 +24,15 @@ Use codegraph for **structural** questions — what calls what, what would break
 | "What files exist under path/" | `codegraph_files` |
 | "Is the index healthy?" | `codegraph_status` |
 
+### Tool parameters (do not mix)
+
+| Tool | Required arg | Optional cap | Wrong args → error |
+|------|--------------|--------------|-------------------|
+| `codegraph_search` | **`query`** (symbol name) | `limit` (default 10) | — |
+| `codegraph_context` | **`task`** (feature/bug description) | `maxNodes` (default 20) | `query` / `limit` → **`task must be a non-empty string`** |
+
+`codegraph_context` is for **code structure** around a task — not for loading **`.agent/SESSION.md`** or `/resume` handoff (use **Read** + `.cursor/commands/resume.md`).
+
 ### Rules of thumb
 
 - **Answer directly — don't delegate exploration.** For "how does X work" / architecture questions, answer with 2-3 codegraph calls: `codegraph_context` first, then ONE `codegraph_explore` for the source of the symbols it surfaces. For a specific **flow** ("how does X reach Y") start with `codegraph_trace` from→to — one call returns the whole path with dynamic hops bridged — then ONE `codegraph_explore` for the bodies; don't rebuild the path with `codegraph_search` + `codegraph_callers`. Codegraph IS the pre-built index, so spawning a separate file-reading sub-task/agent — or running a grep + read loop — repeats work codegraph already did and costs more for the same answer.
