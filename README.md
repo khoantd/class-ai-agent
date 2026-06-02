@@ -40,6 +40,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 - [Using commands & agents](#using-commands--agents)
 - [Key concepts](#key-concepts)
 - [Security](#security)
+- [Release notes](#release-notes)
 - [Contributing](#contributing)
 - [Publishing to npm (maintainers)](#publishing-to-npm-maintainers)
 - [Credits](#credits)
@@ -360,6 +361,18 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 **Do:** environment variables, input validation, strong password hashing, parameterized queries.
 
 ---
+
+## Release notes
+
+
+
+### 1.3.0 — 2026-06-02
+
+- Add **Kiro** support (steering, commands, MCP) with `npm run sync:kiro` to keep `.kiro/` aligned with `.cursor/`
+- Ship **CodeGraph** rules, references, and MCP config for Cursor, Claude Code, and Kiro
+- Add **agent continuity**: `.agent/SESSION.md` template, `/resume` and `/handoff` commands, and cross-tool rules
+- Document `codegraph_context` (`task`) vs `codegraph_search` (`query`) so agents avoid MCP parameter errors
+- Include **UI/UX Pro Max** skill and expanded production skills, commands, and specialized agents
 
 ## Contributing
 
