@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project uses **Cursor** with the same structured workflows, specialized agent personas, and coding standards as the Claude-oriented **`.claude/`** tree. Cursor-specific files live under **`.cursor/`**.
+This project uses **Cursor** with the same structured workflows, specialized agent personas, and coding standards as **`.claude/`** and **`.kiro/`**. Cursor-specific files live under **`.cursor/`**.
 
 ---
 
@@ -56,6 +56,24 @@ Project rules are **`.cursor/rules/*.mdc`**. They use YAML frontmatter:
 | Stack, structure, APIs | `tech-stack`, `project-structure`, `api-conventions` |
 | Data & naming | `naming-conventions`, `database` |
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
+| Code intelligence | `codegraph` (MCP usage; see below) |
+
+---
+
+## Code intelligence (CodeGraph)
+
+This project includes **[CodeGraph](https://github.com/colbymchenry/codegraph)** for local, structural code search via MCP.
+
+| Item | Location |
+|------|----------|
+| MCP server config | `.cursor/mcp.json` |
+| Usage rules | `.cursor/rules/codegraph.mdc` |
+| Symbol index (generated) | `.codegraph/` (gitignored) |
+| Setup reference | `.cursor/references/codegraph.md` |
+
+After installing scaffolding, **reload the Cursor window** (or restart Cursor) so the CodeGraph MCP server connects. Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
+
+If the index is missing, run `npx @colbymchenry/codegraph init -i` in the project root.
 
 ---
 
@@ -95,12 +113,13 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `testing-patterns.md` | Test structure |
 | `performance-checklist.md` | Performance |
 | `accessibility-checklist.md` | WCAG-oriented checks |
+| `codegraph.md` | CodeGraph install and Claude Code setup |
 
 ---
 
 ## Config parity
 
-**`.cursor/settings.json`** lists directories (mirrors `.claude/settings.json` for Claude Code). Cursor natively loads **`.cursor/rules/*.mdc`**; other paths are documentation for humans and for `@` includes.
+**`.cursor/settings.json`** lists directories (mirrors `.claude/settings.json` for Claude Code). Cursor natively loads **`.cursor/rules/*.mdc`** and **`.cursor/mcp.json`** for MCP servers; other paths are documentation for humans and for `@` includes.
 
 ---
 

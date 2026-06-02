@@ -25,11 +25,16 @@ Supporting prompts: `debug`, `simplify`, `fix-issue` in `.cursor/commands/`.
 - Follow **`.cursor/rules/`** (`.mdc`). **`security.mdc`** is always applied; other rule files apply when matching globs are in scope (see each file’s frontmatter).
 - Prefer **tests first** and **small vertical slices** (see `.cursor/skills/incremental-implementation/`).
 - Use **`.cursor/references/`** for checklists (security, testing, performance, accessibility).
+- For **structural** code questions (symbols, callers, callees, traces, impact), prefer **CodeGraph** MCP tools (`codegraph_*`) per **`.cursor/rules/codegraph.mdc`** instead of grep/read exploration loops.
 
 ## Agents (personas)
 
 Specialized instructions live in **`.cursor/agents/`**. In Cursor, **@ mention** the file you want (e.g. `@.cursor/agents/code-reviewer.md`) when you need that role.
 
-## Relation to `.claude/`
+## Relation to `.claude/` and `.kiro/`
 
-If both folders exist: **`.claude/`** targets Claude Code; **`.cursor/`** targets Cursor. Keep them aligned when you change workflows or standards.
+- **`.claude/`** — Claude Code
+- **`.cursor/`** — Cursor
+- **`.kiro/`** — Kiro (steering + MCP; sync from `.cursor/` via `npm run sync:kiro`)
+
+Keep all three aligned when you change workflows or standards.

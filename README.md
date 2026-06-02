@@ -1,6 +1,6 @@
 # AI Agent Project
 
-**Production-grade configuration for [Claude Code](https://code.claude.com/docs) and [Cursor](https://cursor.com)** — shared rules, specialized agents, workflow prompts, and checklists you can drop into any repository.
+**Production-grade configuration for [Claude Code](https://code.claude.com/docs), [Cursor](https://cursor.com), and [Kiro](https://kiro.dev)** — shared rules, specialized agents, workflow prompts, and checklists you can drop into any repository.
 
 <div align="center">
 
@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.2.2-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.2.5-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -29,6 +29,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 
 - [Why use this](#why-use-this)
 - [Install (quick)](#install-quick)
+- [CodeGraph (code intelligence)](#codegraph-code-intelligence)
 - [Overview](#overview)
 - [Development workflow](#development-workflow)
 - [Project structure](#project-structure)
@@ -48,13 +49,14 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 
 | You get | Details |
 |--------|---------|
-| **Two layouts** | **`.claude/`** for Claude Code (`.md` rules) and **`.cursor/`** for Cursor (`.mdc` rules + `CURSOR.md`) |
+| **Three layouts** | **`.claude/`** (Claude Code), **`.cursor/`** (Cursor), **`.kiro/`** (Kiro steering + MCP) |
 | **One workflow** | Spec → Plan → Build → Test → Review → Ship |
 | **10 agent personas** | Frontend, backend, architect, review, QA, security, PM, UX, SEO, test engineer |
 | **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
 | **`npx` installer** | Copies the folders into your project in one command |
+| **CodeGraph** | MCP + usage rules for Cursor and Kiro; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
 
-Root **`AGENTS.md`** points Cursor at **`.cursor/CURSOR.md`**.
+Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**.
 
 ---
 
@@ -66,12 +68,21 @@ Requires **Node.js [16.7+](https://nodejs.org/)**.
 npx class-ai-agent
 ```
 
-Install into another directory, or only Claude / only Cursor:
+The installer also runs **`npx @colbymchenry/codegraph init -i`** in the target directory (builds `.codegraph/` and adds it to `.gitignore`). **Node 20+** is recommended for CodeGraph. First run may take a minute while the index builds.
+
+Skip indexing (copy-only, e.g. CI):
+
+```bash
+CODEGRAPH_SKIP_INIT=1 npx class-ai-agent
+```
+
+Install into another directory, or only one agent target:
 
 ```bash
 npx class-ai-agent --dir /path/to/your/project
 npx class-ai-agent --claude
 npx class-ai-agent --cursor
+npx class-ai-agent --kiro
 npx class-ai-agent --force    # overwrite existing
 npx class-ai-agent --help
 ```
@@ -85,18 +96,35 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 # or: node bin/class-ai-agent.cjs --dir /path/to/your/project
 ```
 
-**Manual copy:** copy **`.claude/`**, **`.cursor/`**, and **`AGENTS.md`** into your project root.
+**Manual copy:** copy **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and **`AGENTS.md`** into your project root. Then run `npx @colbymchenry/codegraph init -i` and reload Cursor / restart Kiro.
+
+---
+
+## CodeGraph (code intelligence)
+
+[class-ai-agent](https://www.npmjs.com/package/class-ai-agent) integrates **[CodeGraph](https://github.com/colbymchenry/codegraph)** — a local knowledge graph of symbols, call edges, and routes — so agents can answer structural questions with fewer grep/read tool calls.
+
+| Topic | Details |
+|-------|---------|
+| **What you get** | Cursor + Kiro MCP config, usage rules, auto `init -i`, `.codegraph/` gitignored |
+| **Cursor** | `.cursor/mcp.json`, `.cursor/rules/codegraph.mdc` — reload window after install |
+| **Kiro** | `.kiro/settings/mcp.json`, `.kiro/steering/codegraph.md` — restart Kiro after install |
+| **Claude Code** | Not wired by this package — `codegraph install --target=claude` (see `.claude/references/codegraph.md`) |
+| **Manual index** | `npx @colbymchenry/codegraph init -i` if auto-init failed |
+| **Opt-out** | `CODEGRAPH_SKIP_INIT=1` when running `npx class-ai-agent` |
+| **Troubleshooting** | [CodeGraph README](https://github.com/colbymchenry/codegraph#troubleshooting) · `.cursor/references/codegraph.md` |
 
 ---
 
 ## Overview
 
-This repo ships **two parallel trees** so you can use the same habits in Claude Code and Cursor:
+This repo ships **three parallel trees** so you can use the same habits in Claude Code, Cursor, and Kiro:
 
 | Layout | Tool | What you use |
 |--------|------|----------------|
 | **`.claude/`** | Claude Code | Slash commands, **`CLAUDE.md`**, rules as **`.md`** |
 | **`.cursor/`** | Cursor | Project rules as **`.mdc`**, hub **`CURSOR.md`**, **`@`** file mentions |
+| **`.kiro/`** | Kiro | **Steering** as **`.md`** in `.kiro/steering/`, hub **`KIRO.md`**, **`.kiro/settings/mcp.json`** |
 
 What is inside:
 
@@ -105,9 +133,10 @@ What is inside:
 - **13 mandatory topic rules** (plus **`cursor-overview.mdc`** under `.cursor/rules/`)
 - **9 workflow prompts** under `commands/`
 - **6 skills** (TDD, code review, incremental implementation, deploy, security review, UI/UX Pro Max)
-- **4 reference checklists** (security, testing, performance, accessibility)
+- **5 reference docs** (security, testing, performance, accessibility, codegraph)
+- **CodeGraph MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`)
 
-Keep **`.claude/`** and **`.cursor/`** in sync when you change standards.
+Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change standards. After editing `.cursor/`, run **`npm run sync:kiro`** (or `node scripts/sync-kiro-from-cursor.mjs`) to refresh `.kiro/`.
 
 ---
 
@@ -144,7 +173,7 @@ Keep **`.claude/`** and **`.cursor/`** in sync when you change standards.
 ├── agents/                   # 10 personas
 ├── rules/                    # 13 mandatory topic rules (.md)
 ├── skills/                   # TDD, review, deploy, …
-├── references/               # Checklists
+├── references/               # Checklists + codegraph.md
 └── settings.json
 ```
 
@@ -155,20 +184,50 @@ Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. D
 | Item | Role |
 |------|------|
 | **`CURSOR.md`** | Hub (like `CLAUDE.md`, Cursor-focused) |
-| **`rules/*.mdc`** | Project rules + YAML; **`security.mdc`** and **`cursor-overview.mdc`** are central |
+| **`rules/*.mdc`** | Project rules + YAML; **`security.mdc`**, **`cursor-overview.mdc`**, **`codegraph.mdc`** are central |
+| **`mcp.json`** | MCP servers (CodeGraph) |
 | **`settings.json`** | Path hints (mirrors Claude layout) |
 | **`AGENTS.md`** (repo root) | Entry pointer for Cursor |
 
 ```
 .cursor/
 ├── CURSOR.md
+├── mcp.json                  # CodeGraph MCP (npx @colbymchenry/codegraph)
 ├── settings.json
 ├── commands/
 ├── agents/
-├── rules/                    # 14 × .mdc (13 topics + cursor-overview)
+├── rules/                    # 15 × .mdc (13 topics + cursor-overview + codegraph)
+├── skills/
+└── references/               # includes codegraph.md
+```
+
+After install, **`.codegraph/`** (generated index) lives at the project root and should stay gitignored.
+
+### `.kiro/` (Kiro)
+
+Mirrors `.cursor/` for `commands/`, `agents/`, `skills/`, `references/`. Kiro uses **steering** instead of `.mdc` rules:
+
+| Item | Role |
+|------|------|
+| **`KIRO.md`** | Hub (like `CURSOR.md`) |
+| **`steering/*.md`** | Project standards (`inclusion: always` / `fileMatch` / `manual`) |
+| **`settings/mcp.json`** | MCP servers (CodeGraph) |
+| **`settings.json`** | Path hints |
+
+```
+.kiro/
+├── KIRO.md
+├── settings/
+│   └── mcp.json              # CodeGraph MCP
+├── settings.json
+├── steering/                 # kiro-overview.md, security.md, codegraph.md, …
+├── commands/
+├── agents/
 ├── skills/
 └── references/
 ```
+
+Regenerate from `.cursor/` after rule changes: `npm run sync:kiro`.
 
 ### Skill notes
 
@@ -277,7 +336,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 2. Keep tests green.
 3. Run **`/review`** before opening a PR.
 4. Use [conventional commits](https://www.conventionalcommits.org/).
-5. Update **both** `.claude/` and `.cursor/` when rules or workflows change.
+5. Update **`.claude/`**, **`.cursor/`**, and **`.kiro/`** when rules or workflows change (run `npm run sync:kiro` after `.cursor/` edits).
 
 ---
 
@@ -318,3 +377,4 @@ That advances **`patch`** (e.g. `1.2.0` → `1.2.1`). Use **`npm version minor`*
 
 - **[Royal Solution](https://codewebkhongkho.com/portfolios)** — project and scaffolding.
 - Upstream inspiration: [fdhhhdjd/Class-AI-Agent](https://github.com/fdhhhdjd/Class-AI-Agent), [addyosmani/agent-skills](https://github.com/addyosmani/agent-skills).
+- **CodeGraph:** [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph) (MIT).

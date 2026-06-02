@@ -141,6 +141,7 @@ Quick references in `.claude/references/`:
 | `testing-patterns.md` | Test structure and anti-patterns |
 | `performance-checklist.md` | Core Web Vitals, optimization |
 | `accessibility-checklist.md` | WCAG 2.1 AA compliance |
+| `codegraph.md` | CodeGraph install (Claude Code) and Cursor MCP notes |
 
 ---
 

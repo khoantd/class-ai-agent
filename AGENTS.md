@@ -1,11 +1,15 @@
 # AI agent instructions
 
-Cursor-oriented guidance for this repository lives in **`.cursor/CURSOR.md`**.
+Project guidance for AI coding agents:
 
-- **Rules:** `.cursor/rules/` (`.mdc` files; see `cursor-overview.mdc` and `security.mdc`)
-- **Command prompts:** `.cursor/commands/`
-- **Agent personas:** `.cursor/agents/` (reference with `@` in Cursor)
-- **Skills:** `.cursor/skills/`
-- **Checklists:** `.cursor/references/`
+| Tool | Hub |
+|------|-----|
+| **Cursor** | [`.cursor/CURSOR.md`](.cursor/CURSOR.md) |
+| **Kiro** | [`.kiro/KIRO.md`](.kiro/KIRO.md) |
+| **Claude Code** | [`.claude/CLAUDE.md`](.claude/CLAUDE.md) |
 
-Claude Code uses the parallel **`.claude/`** tree; keep both in sync when you change workflows or standards.
+- **Cursor:** `.cursor/rules/` (`.mdc`), `.cursor/commands/`, `.cursor/mcp.json`
+- **Kiro:** `.kiro/steering/` (`*.md`), `.kiro/commands/`, `.kiro/settings/mcp.json`
+- **Claude Code:** `.claude/rules/`, `.claude/commands/`
+
+Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing `.cursor/`, run `npm run sync:kiro` in the **class-ai-agent** repo to refresh `.kiro/`.

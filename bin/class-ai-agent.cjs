@@ -3,6 +3,7 @@
 
 const fs = require('fs');
 const path = require('path');
+const { spawnSync } = require('child_process');
 
 const PKG_ROOT = path.resolve(__dirname, '..');
 
@@ -12,7 +13,7 @@ function readPkg() {
 }
 
 function printHelp() {
-  console.log(`class-ai-agent — Install Claude Code & Cursor AI agent scaffolding
+  console.log(`class-ai-agent — Install Claude Code, Cursor & Kiro AI agent scaffolding
 
 Usage:
   npx class-ai-agent [init] [options]
@@ -20,15 +21,23 @@ Usage:
 Options:
   -d, --dir <path>   Target directory (default: current working directory)
       --claude       Install only .claude/
-      --cursor       Install only .cursor/ and AGENTS.md
+      --cursor       Install only .cursor/
+      --kiro         Install only .kiro/
   -f, --force        Overwrite existing files or directories
   -h, --help         Show help
   -v, --version      Print version
 
+AGENTS.md is installed with --cursor, --kiro, or a full install (no --*-only flags).
+
+CodeGraph:
+  After install, runs "npx @colbymchenry/codegraph init -i" in the target directory
+  (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
+
 Examples:
   npx class-ai-agent
   npx class-ai-agent --dir ./my-app
-  npx class-ai-agent --cursor --force
+  npx class-ai-agent --kiro --force
+  CODEGRAPH_SKIP_INIT=1 npx class-ai-agent
 `);
 }
 
@@ -38,6 +47,7 @@ function parseArgs(argv) {
     dir: process.cwd(),
     claudeOnly: false,
     cursorOnly: false,
+    kiroOnly: false,
     force: false,
     help: false,
     version: false,
@@ -68,6 +78,10 @@ function parseArgs(argv) {
     }
     if (a === '--cursor') {
       opts.cursorOnly = true;
+      continue;
+    }
+    if (a === '--kiro') {
+      opts.kiroOnly = true;
       continue;
     }
     if (a === '-d' || a === '--dir') {
@@ -120,14 +134,76 @@ function copyFile(src, dest, { force }) {
   fs.copyFileSync(src, dest);
 }
 
-function run(opts) {
-  const full =
-    (!opts.claudeOnly && !opts.cursorOnly) ||
-    (opts.claudeOnly && opts.cursorOnly);
+const CODEGRAPH_GITIGNORE_ENTRY = '.codegraph/';
 
-  const installClaude = full || (opts.claudeOnly && !opts.cursorOnly);
-  const installCursor = full || (opts.cursorOnly && !opts.claudeOnly);
-  const installAgents = full || opts.cursorOnly;
+function ensureCodegraphGitignore(targetDir) {
+  const gitignorePath = path.join(targetDir, '.gitignore');
+  const entry = CODEGRAPH_GITIGNORE_ENTRY;
+
+  if (fs.existsSync(gitignorePath)) {
+    const content = fs.readFileSync(gitignorePath, 'utf8');
+    if (content.includes(entry) || content.includes('.codegraph')) {
+      return;
+    }
+    const suffix = content.endsWith('\n') ? '' : '\n';
+    fs.appendFileSync(gitignorePath, `${suffix}${entry}\n`);
+    console.log(`Updated: ${gitignorePath} (${entry})`);
+    return;
+  }
+
+  fs.writeFileSync(gitignorePath, `${entry}\n`);
+  console.log(`Created: ${gitignorePath} (${entry})`);
+}
+
+function runCodegraphInit(targetDir) {
+  if (process.env.CODEGRAPH_SKIP_INIT === '1') {
+    console.log('\nCodeGraph: skipped (CODEGRAPH_SKIP_INIT=1).');
+    return;
+  }
+
+  console.log('\nCodeGraph: building local index (npx @colbymchenry/codegraph init -i)...');
+  const result = spawnSync(
+    'npx',
+    ['-y', '@colbymchenry/codegraph@latest', 'init', '-i'],
+    {
+      cwd: targetDir,
+      stdio: 'inherit',
+      shell: process.platform === 'win32',
+    }
+  );
+
+  if (result.status === 0) {
+    console.log(`CodeGraph: index ready under ${path.join(targetDir, '.codegraph')}`);
+    console.log(
+      'CodeGraph: reload Cursor (.cursor/mcp.json) and/or restart Kiro (.kiro/settings/mcp.json).'
+    );
+    return;
+  }
+
+  console.warn(
+    '\nCodeGraph: init failed (network, Node version, or permissions). Scaffolding was installed.'
+  );
+  console.warn(
+    '  Retry: npx @colbymchenry/codegraph init -i  (Node 20+ recommended)'
+  );
+}
+
+function shouldInstallTarget(target, opts) {
+  const only = {
+    claude: opts.claudeOnly,
+    cursor: opts.cursorOnly,
+    kiro: opts.kiroOnly,
+  };
+  const anyOnly = only.claude || only.cursor || only.kiro;
+  if (!anyOnly) return true;
+  return only[target];
+}
+
+function run(opts) {
+  const installClaude = shouldInstallTarget('claude', opts);
+  const installCursor = shouldInstallTarget('cursor', opts);
+  const installKiro = shouldInstallTarget('kiro', opts);
+  const installAgents = installCursor || installKiro;
 
   fs.mkdirSync(opts.dir, { recursive: true });
 
@@ -147,6 +223,13 @@ function run(opts) {
     console.log(`Installed: ${dest}`);
   }
 
+  if (installKiro) {
+    const src = path.join(PKG_ROOT, '.kiro');
+    const dest = path.join(opts.dir, '.kiro');
+    copyDir(src, dest, copyOpts);
+    console.log(`Installed: ${dest}`);
+  }
+
   if (installAgents) {
     const src = path.join(PKG_ROOT, 'AGENTS.md');
     const dest = path.join(opts.dir, 'AGENTS.md');
@@ -154,10 +237,20 @@ function run(opts) {
     console.log(`Installed: ${dest}`);
   }
 
+  ensureCodegraphGitignore(opts.dir);
+  runCodegraphInit(opts.dir);
+
   const hints = [];
   if (installClaude) hints.push('.claude/CLAUDE.md');
   if (installCursor) hints.push('.cursor/CURSOR.md');
-  console.log(`\nDone. Next steps: read ${hints.join(' and ')}.`);
+  if (installKiro) hints.push('.kiro/KIRO.md');
+  console.log(`\nDone. Next steps: read ${hints.join(', ')}.`);
+  if (installCursor) {
+    console.log('  Cursor: reload the window so CodeGraph MCP loads (.cursor/mcp.json).');
+  }
+  if (installKiro) {
+    console.log('  Kiro: restart IDE/CLI so CodeGraph MCP loads (.kiro/settings/mcp.json).');
+  }
 }
 
 const argv = process.argv.slice(2);
