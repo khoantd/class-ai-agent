@@ -36,6 +36,15 @@ Follow this workflow for all feature development:
 | `/debug` | Systematic error diagnosis and root cause analysis |
 | `/simplify` | Reduce complexity without changing behavior |
 | `/fix-issue` | Analyze and fix reported issues |
+| `/handoff` | End session — update `.agent/SESSION.md` for cross-tool continuity |
+| `/resume` | Start session — load `.agent/SESSION.md` and continue prior work |
+| `publish-npm` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
+
+---
+
+## Agent continuity
+
+Cross-tool handoff lives in **`.agent/SESSION.md`** (committed). Use **`/resume`** at session start and **`/handoff`** at session end when switching chats or tools. See **`.claude/references/agent-continuity.md`** and **`.claude/rules/agent-continuity.md`**.
 
 ---
 
@@ -86,6 +95,7 @@ All rules in `.claude/rules/` are **mandatory** and must be followed:
 | `monitoring.md` | Prometheus, Grafana, logging, alerting |
 | `testing.md` | Coverage thresholds, test patterns |
 | `git-workflow.md` | Branching strategy, conventional commits |
+| `agent-continuity.md` | Session handoff via `.agent/SESSION.md` |
 
 ---
 
@@ -128,6 +138,7 @@ Specialized skills for complex operations:
 | `incremental-implementation` | Vertical slice development |
 | `deploy` | Full deployment pipeline |
 | `security-review` | Security audit checklist |
+| `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 
 ---
 
@@ -142,15 +153,18 @@ Quick references in `.claude/references/`:
 | `performance-checklist.md` | Core Web Vitals, optimization |
 | `accessibility-checklist.md` | WCAG 2.1 AA compliance |
 | `codegraph.md` | CodeGraph install (Claude Code) and Cursor MCP notes |
+| `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 
 ---
 
 ## Agent Behavior Guidelines
 
 1. **Follow the workflow** — Use `/spec` → `/plan` → `/build` → `/review`
-2. **Apply mandatory rules** — All rules in `.claude/rules/` are non-negotiable
-3. **Test first** — Write failing tests before implementing
-4. **Incremental changes** — Small commits, always buildable
-5. **Explain before acting** — Describe changes before making them
-6. **Fix root causes** — Don't patch symptoms
-7. **Use the right agent** — Invoke specialized agents for their domains
+2. **Read `.agent/SESSION.md`** before planning or coding when present; use **`/resume`** to continue prior work
+3. **Apply mandatory rules** — All rules in `.claude/rules/` are non-negotiable
+4. **Test first** — Write failing tests before implementing
+5. **Incremental changes** — Small commits, always buildable
+6. **Explain before acting** — Describe changes before making them
+7. **Fix root causes** — Don't patch symptoms
+8. **Use the right agent** — Invoke specialized agents for their domains
+9. **Hand off** — Update `.agent/SESSION.md` with **`/handoff`** before ending a session

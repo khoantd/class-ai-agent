@@ -30,6 +30,9 @@ Follow this workflow for feature development:
 | `commands/debug.md` | Systematic diagnosis |
 | `commands/simplify.md` | Reduce complexity, same behavior |
 | `commands/fix-issue.md` | Analyze and fix reported issues |
+| `commands/handoff.md` | End session — update `.agent/SESSION.md` for cross-tool continuity |
+| `commands/resume.md` | Start session — load `.agent/SESSION.md` and continue prior work |
+| `commands/publish-npm.md` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
 
 **How to use:** Open the markdown file, copy the section you need, or **#steering reference or paste from** the file in Chat/Composer so the model loads it.
 
@@ -47,7 +50,7 @@ Follow this workflow for feature development:
 
 Project standards are **`.kiro/steering/*.md`**. They use YAML frontmatter:
 
-- **`inclusion: always`** — Loaded every session (`kiro-overview.md`, `security.md`, `codegraph.md`)
+- **`inclusion: always`** — Loaded every session (`kiro-overview.md`, `security.md`, `codegraph.md`, `agent-continuity.md`)
 - **`inclusion: fileMatch`** — Loaded when edited files match `fileMatchPattern`
 - **`inclusion: manual`** — Reference with `#filename` in chat or `/` slash commands
 
@@ -58,6 +61,13 @@ Project standards are **`.kiro/steering/*.md`**. They use YAML frontmatter:
 | Data & naming | `naming-conventions`, `database` |
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
+| Agent continuity | `agent-continuity` (`.agent/SESSION.md` handoff) |
+
+---
+
+## Agent continuity
+
+Cross-tool handoff lives in **`.agent/SESSION.md`** (committed). Use **`/resume`** at session start and **`/handoff`** at session end when switching chats or tools. See **`.kiro/references/agent-continuity.md`** and **`.kiro/steering/agent-continuity.md`**.
 
 ---
 
@@ -101,6 +111,7 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 | `incremental-implementation` | Vertical slices |
 | `deploy` | Deployment pipeline |
 | `security-review` | Security audit |
+| `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 
 ---
 
@@ -115,6 +126,7 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 | `performance-checklist.md` | Performance |
 | `accessibility-checklist.md` | WCAG-oriented checks |
 | `codegraph.md` | CodeGraph setup (Kiro, Cursor, Claude Code) |
+| `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 
 ---
 
@@ -127,6 +139,8 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 ## Agent behavior
 
 1. Follow the workflow and use the command prompts when starting a phase.
-2. Apply **`.kiro/steering/`**; treat **`security.md`** as non-negotiable.
-3. Prefer tests first and small, buildable changes.
-4. **#steering reference or paste from** the right **`.kiro/agents/`** file when the task matches that role.
+2. If **`.agent/SESSION.md`** exists, read it before planning or coding; run **`/resume`** when continuing prior work.
+3. Apply **`.kiro/steering/`**; treat **`security.md`** as non-negotiable.
+4. Prefer tests first and small, buildable changes.
+5. **#steering reference or paste from** the right **`.kiro/agents/`** file when the task matches that role.
+6. Update **`.agent/SESSION.md`** (or **`/handoff`**) before ending a session.

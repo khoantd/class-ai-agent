@@ -12,4 +12,6 @@ Project guidance for AI coding agents:
 - **Kiro:** `.kiro/steering/` (`*.md`), `.kiro/commands/`, `.kiro/settings/mcp.json`
 - **Claude Code:** `.claude/rules/`, `.claude/commands/`
 
+**Cross-tool continuity:** committed [`.agent/SESSION.md`](.agent/README.md) — use `/resume` at session start and `/handoff` at session end (see hub docs and `.agent/README.md`).
+
 Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing `.cursor/`, run `npm run sync:kiro` in the **class-ai-agent** repo to refresh `.kiro/`.

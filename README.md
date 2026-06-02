@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.2.5-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.3.0-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -30,6 +30,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 - [Why use this](#why-use-this)
 - [Install (quick)](#install-quick)
 - [CodeGraph (code intelligence)](#codegraph-code-intelligence)
+- [Agent continuity (cross-tool)](#agent-continuity-cross-tool)
 - [Overview](#overview)
 - [Development workflow](#development-workflow)
 - [Project structure](#project-structure)
@@ -55,8 +56,26 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 | **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
 | **`npx` installer** | Copies the folders into your project in one command |
 | **CodeGraph** | MCP + usage rules for Cursor and Kiro; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
+| **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, and Kiro |
 
 Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**.
+
+---
+
+## Agent continuity (cross-tool)
+
+When one agent stops and another starts (new chat, different IDE, or teammate), **`npx class-ai-agent`** installs **`.agent/SESSION.md`** — a committed handoff file shared by all tools.
+
+| Command | When |
+|---------|------|
+| **`/resume`** | Session start — read SESSION, `tasks/todo.md`, linked spec; summarize and continue |
+| **`/handoff`** | Session end — update SESSION, sync tasks, note blockers |
+
+**Read order:** `.agent/SESSION.md` → `tasks/todo.md` → `SPEC.md` (from SESSION pointers).
+
+Rules: `.cursor/rules/agent-continuity.mdc`, `.claude/rules/agent-continuity.md`, `.kiro/steering/agent-continuity.md`. Reference: `.cursor/references/agent-continuity.md`.
+
+Do **not** put secrets or PII in `SESSION.md`. See [`.agent/README.md`](.agent/README.md).
 
 ---
 
@@ -96,7 +115,7 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 # or: node bin/class-ai-agent.cjs --dir /path/to/your/project
 ```
 
-**Manual copy:** copy **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and **`AGENTS.md`** into your project root. Then run `npx @colbymchenry/codegraph init -i` and reload Cursor / restart Kiro.
+**Manual copy:** copy **`.agent/`**, **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and **`AGENTS.md`** into your project root. Copy `.agent/SESSION.template.md` → `.agent/SESSION.md` if needed. Then run `npx @colbymchenry/codegraph init -i` and reload Cursor / restart Kiro.
 
 ---
 
@@ -131,9 +150,10 @@ What is inside:
 - **Structured workflow** (Spec → Plan → Build → Test → Review → Ship)
 - **10 specialized agents** (markdown personas under `agents/`)
 - **13 mandatory topic rules** (plus **`cursor-overview.mdc`** under `.cursor/rules/`)
-- **9 workflow prompts** under `commands/`
-- **6 skills** (TDD, code review, incremental implementation, deploy, security review, UI/UX Pro Max)
-- **5 reference docs** (security, testing, performance, accessibility, codegraph)
+- **11 workflow prompts** under `commands/` (includes `handoff`, `resume`)
+- **7 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max)
+- **6 reference docs** (security, testing, performance, accessibility, codegraph, agent-continuity)
+- **`.agent/SESSION.md`** for cross-tool session handoff
 - **CodeGraph MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`)
 
 Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change standards. After editing `.cursor/`, run **`npm run sync:kiro`** (or `node scripts/sync-kiro-from-cursor.mjs`) to refresh `.kiro/`.
@@ -158,20 +178,31 @@ Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change st
 | **Review** | `/review` | Five-axis code review |
 | **Ship** | `/deploy` | Build, test, deploy |
 
-**Supporting:** `/debug`, `/simplify`, `/fix-issue` (see `commands/`).
+**Supporting:** `/debug`, `/simplify`, `/fix-issue`, `/handoff`, `/resume` (see `commands/`).
+
+At session boundaries, use **`/handoff`** before switching tools and **`/resume`** when picking work back up.
 
 ---
 
 ## Project Structure
+
+### `.agent/` (cross-tool)
+
+```
+.agent/
+├── README.md
+├── SESSION.md              # Live handoff (committed; seeded on install)
+└── SESSION.template.md     # Schema reference
+```
 
 ### `.claude/` (Claude Code)
 
 ```
 .claude/
 ├── CLAUDE.md                 # Main configuration
-├── commands/                 # 9 workflow prompts (spec, plan, build, …)
+├── commands/                 # 11 workflow prompts (spec, plan, build, handoff, resume, …)
 ├── agents/                   # 10 personas
-├── rules/                    # 13 mandatory topic rules (.md)
+├── rules/                    # 14 mandatory topic rules (.md)
 ├── skills/                   # TDD, review, deploy, …
 ├── references/               # Checklists + codegraph.md
 └── settings.json
@@ -196,7 +227,7 @@ Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. D
 ├── settings.json
 ├── commands/
 ├── agents/
-├── rules/                    # 15 × .mdc (13 topics + cursor-overview + codegraph)
+├── rules/                    # 16 × .mdc (13 topics + cursor-overview + codegraph + agent-continuity)
 ├── skills/
 └── references/               # includes codegraph.md
 ```

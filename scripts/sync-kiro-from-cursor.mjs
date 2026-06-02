@@ -31,11 +31,13 @@ Use the same phase order as in \`.kiro/KIRO.md\`:
 5. **Review** — \`.kiro/commands/review.md\` (five-axis: \`.kiro/skills/code-review/\`)
 6. **Ship** — \`.kiro/commands/deploy.md\`
 
-Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\` in \`.kiro/commands/\`.
+Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resume\` in \`.kiro/commands/\`. Maintainers: \`publish-npm\` (say **push to npm repo** to draft README release notes and publish).
+
+**Agent continuity:** committed **\`.agent/SESSION.md\`** — read at session start (\`/resume\`), update at end (\`/handoff\`). See **\`.kiro/steering/agent-continuity.md\`**.
 
 ## Mandatory standards
 
-- Follow **\`.kiro/steering/\`** (\`*.md\` with YAML frontmatter). **\`security.md\`** and **\`codegraph.md\`** use \`inclusion: always\`; others often use \`fileMatch\`.
+- Follow **\`.kiro/steering/\`** (\`*.md\` with YAML frontmatter). **\`security.md\`**, **\`codegraph.md\`**, and **\`agent-continuity.md\`** use \`inclusion: always\`; others often use \`fileMatch\`.
 - Prefer **tests first** and **small vertical slices** (see \`.kiro/skills/incremental-implementation/\`).
 - Use **\`.kiro/references/\`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **\`.kiro/steering/codegraph.md\`**.

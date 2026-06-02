@@ -29,6 +29,10 @@ Options:
 
 AGENTS.md is installed with --cursor, --kiro, or a full install (no --*-only flags).
 
+.agent/:
+  Cross-tool session handoff (.agent/SESSION.md). Seeded from template on install;
+  existing SESSION.md is never overwritten unless you use --force on .agent/.
+
 CodeGraph:
   After install, runs "npx @colbymchenry/codegraph init -i" in the target directory
   (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
@@ -199,6 +203,56 @@ function shouldInstallTarget(target, opts) {
   return only[target];
 }
 
+function shouldInstallAgentDir(opts) {
+  const anyOnly = opts.claudeOnly || opts.cursorOnly || opts.kiroOnly;
+  return !anyOnly;
+}
+
+function installAgentContinuity(targetDir, { force }) {
+  const srcDir = path.join(PKG_ROOT, '.agent');
+  const destDir = path.join(targetDir, '.agent');
+  const templateSrc = path.join(srcDir, 'SESSION.template.md');
+  const sessionDest = path.join(destDir, 'SESSION.md');
+
+  if (!fs.existsSync(srcDir)) {
+    console.error(`Error: template missing from package: ${srcDir}`);
+    process.exit(1);
+  }
+
+  if (fs.existsSync(destDir)) {
+    if (force) {
+      fs.rmSync(destDir, { recursive: true, force: true });
+      fs.cpSync(srcDir, destDir, { recursive: true });
+      console.log(`Installed: ${destDir} (overwritten)`);
+    } else {
+      const readmeSrc = path.join(srcDir, 'README.md');
+      const readmeDest = path.join(destDir, 'README.md');
+      if (fs.existsSync(readmeSrc) && (!fs.existsSync(readmeDest) || force)) {
+        ensureParentDir(readmeDest);
+        fs.copyFileSync(readmeSrc, readmeDest);
+        console.log(`Updated: ${readmeDest}`);
+      }
+      const templateDest = path.join(destDir, 'SESSION.template.md');
+      if (fs.existsSync(templateSrc) && (!fs.existsSync(templateDest) || force)) {
+        ensureParentDir(templateDest);
+        fs.copyFileSync(templateSrc, templateDest);
+        console.log(`Updated: ${templateDest}`);
+      }
+      console.log(`Skipped overwrite: ${destDir} (existing; use --force to replace)`);
+    }
+  } else {
+    fs.mkdirSync(path.dirname(destDir), { recursive: true });
+    fs.cpSync(srcDir, destDir, { recursive: true });
+    console.log(`Installed: ${destDir}`);
+  }
+
+  if (!fs.existsSync(sessionDest) && fs.existsSync(templateSrc)) {
+    ensureParentDir(sessionDest);
+    fs.copyFileSync(templateSrc, sessionDest);
+    console.log(`Created: ${sessionDest} (from template)`);
+  }
+}
+
 function run(opts) {
   const installClaude = shouldInstallTarget('claude', opts);
   const installCursor = shouldInstallTarget('cursor', opts);
@@ -237,6 +291,10 @@ function run(opts) {
     console.log(`Installed: ${dest}`);
   }
 
+  if (shouldInstallAgentDir(opts)) {
+    installAgentContinuity(opts.dir, copyOpts);
+  }
+
   ensureCodegraphGitignore(opts.dir);
   runCodegraphInit(opts.dir);
 
@@ -250,6 +308,9 @@ function run(opts) {
   }
   if (installKiro) {
     console.log('  Kiro: restart IDE/CLI so CodeGraph MCP loads (.kiro/settings/mcp.json).');
+  }
+  if (shouldInstallAgentDir(opts)) {
+    console.log('  Continuity: edit .agent/SESSION.md at session end (/handoff); read at start (/resume).');
   }
 }
 

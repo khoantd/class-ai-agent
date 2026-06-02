@@ -1,0 +1,42 @@
+---
+inclusion: always
+description: "Agent session continuity — cross-tool handoff via .agent/SESSION.md"
+---
+
+# Agent continuity
+
+Cross-tool handoff lives in **`.agent/SESSION.md`** (committed). Cursor, Claude Code, and Kiro agents share this file.
+
+## Session start
+
+1. If **`.agent/SESSION.md`** exists, read it **before** planning or editing code.
+2. When the user says **continue**, **resume**, or **pick up**, use **`.kiro/commands/resume.md`** (or equivalent in `.cursor/` / `.claude/`).
+3. Then read **`tasks/todo.md`** and linked **SPEC** paths from SESSION **Pointers**.
+
+## Session end and phase changes
+
+1. Update **`.agent/SESSION.md`** before ending a session or switching tools — use **`.kiro/commands/handoff.md`** when possible.
+2. Keep **Done**, **In progress**, and **Next** accurate; do not leave stale **In progress** items.
+3. Sync **`tasks/todo.md`** checkboxes when tasks change.
+
+## Security (SESSION.md)
+
+**Never** store in `.agent/SESSION.md`:
+
+- API keys, passwords, tokens, credentials
+- PII or customer data
+
+Use issue links, commit SHAs, and file paths instead.
+
+## Workflow integration
+
+| Phase | SESSION `phase` value |
+|-------|------------------------|
+| Spec | `spec` |
+| Plan | `plan` |
+| Build | `build` |
+| Test | `test` |
+| Review | `review` |
+| Debug | `debug` |
+
+Set **Meta → Tool** to `cursor`, `claude`, or `kiro` as appropriate.

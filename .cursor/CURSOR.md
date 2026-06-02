@@ -30,6 +30,9 @@ Follow this workflow for feature development:
 | `commands/debug.md` | Systematic diagnosis |
 | `commands/simplify.md` | Reduce complexity, same behavior |
 | `commands/fix-issue.md` | Analyze and fix reported issues |
+| `commands/handoff.md` | End session — update `.agent/SESSION.md` for cross-tool continuity |
+| `commands/resume.md` | Start session — load `.agent/SESSION.md` and continue prior work |
+| `commands/publish-npm.md` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
 
 **How to use:** Open the markdown file, copy the section you need, or **@ mention** the file in Chat/Composer so the model loads it.
 
@@ -100,6 +103,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `incremental-implementation` | Vertical slices |
 | `deploy` | Deployment pipeline |
 | `security-review` | Security audit |
+| `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 
 ---
 
@@ -114,6 +118,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `performance-checklist.md` | Performance |
 | `accessibility-checklist.md` | WCAG-oriented checks |
 | `codegraph.md` | CodeGraph install and Claude Code setup |
+| `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 
 ---
 
@@ -123,9 +128,17 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 
 ---
 
+## Agent continuity
+
+Cross-tool handoff lives in **`.agent/SESSION.md`** (committed). Use **`/resume`** at session start and **`/handoff`** at session end when switching chats or tools (Cursor, Claude Code, Kiro). See **`.cursor/references/agent-continuity.md`** and **`.cursor/rules/agent-continuity.mdc`**.
+
+---
+
 ## Agent behavior
 
 1. Follow the workflow and use the command prompts when starting a phase.
-2. Apply **`.cursor/rules/`**; treat **`security.mdc`** as non-negotiable.
-3. Prefer tests first and small, buildable changes.
-4. **@ mention** the right **`.cursor/agents/`** file when the task matches that role.
+2. If **`.agent/SESSION.md`** exists, read it before planning or coding; run **`/resume`** when continuing prior work.
+3. Apply **`.cursor/rules/`**; treat **`security.mdc`** as non-negotiable.
+4. Prefer tests first and small, buildable changes.
+5. **@ mention** the right **`.cursor/agents/`** file when the task matches that role.
+6. Update **`.agent/SESSION.md`** (or **`/handoff`**) before ending a session.
