@@ -96,6 +96,28 @@ All rules in `.claude/rules/` are **mandatory** and must be followed:
 | `testing.md` | Coverage thresholds, test patterns |
 | `git-workflow.md` | Branching strategy, conventional commits |
 | `agent-continuity.md` | Session handoff via `.agent/SESSION.md` |
+| `codegraph.md` | CodeGraph MCP usage; when to use `codegraph_*` tools |
+
+---
+
+## Code intelligence (CodeGraph)
+
+This project includes **[CodeGraph](https://github.com/colbymchenry/codegraph)** for local, structural code search via MCP.
+
+| Item | Location |
+|------|----------|
+| Usage rules | `.claude/rules/codegraph.md` |
+| Symbol index (generated) | `.codegraph/` (gitignored) |
+| Setup reference | `.claude/references/codegraph.md` |
+
+Install CodeGraph for Claude Code globally (project scaffolding does not add Claude MCP config):
+
+```bash
+npx @colbymchenry/codegraph
+codegraph install --target=claude --yes
+```
+
+Then in each project: `codegraph init -i` (class-ai-agent may run this on install). Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
 
 ---
 

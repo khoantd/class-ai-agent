@@ -1,10 +1,10 @@
 ---
 inclusion: fileMatch
 fileMatchPattern: "**/*.{ts,tsx,js,jsx,mjs,cjs,json,md,prisma,yml,yaml}"
-description: "doc# Database Rules"
+description: "Database Rules"
 ---
 
-doc# Database Rules
+# Database Rules
 
 ## General Rules
 - **Never** write raw SQL strings directly in business logic

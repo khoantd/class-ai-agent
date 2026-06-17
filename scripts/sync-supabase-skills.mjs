@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Vendor supabase/agent-skills into .cursor/skills and .claude/skills.
- * Updates THIRD_PARTY_NOTICES.md and runs sync:kiro.
+ * Updates THIRD_PARTY_NOTICES.md and runs sync:all.
  *
  * Usage: node scripts/sync-supabase-skills.mjs
  * Pin: scripts/supabase-skills.lock.json
@@ -108,9 +108,9 @@ function writeThirdPartyNotices() {
   console.log('Updated: THIRD_PARTY_NOTICES.md');
 }
 
-function runSyncKiro() {
-  console.log('\nRunning sync:kiro ...');
-  const result = spawnSync('node', ['scripts/sync-kiro-from-cursor.mjs'], {
+function runSyncAll() {
+  console.log('\nRunning sync:all ...');
+  const result = spawnSync('node', ['scripts/sync-all.mjs'], {
     cwd: ROOT,
     stdio: 'inherit',
   });
@@ -130,7 +130,7 @@ function main() {
     rmIfExists(tmp);
   }
 
-  runSyncKiro();
+  runSyncAll();
   console.log('\nDone. Supabase skills synced from', lock.ref);
 }
 

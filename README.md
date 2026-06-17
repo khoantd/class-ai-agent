@@ -150,14 +150,14 @@ What is inside:
 
 - **Structured workflow** (Spec → Plan → Build → Test → Review → Ship)
 - **10 specialized agents** (markdown personas under `agents/`)
-- **13 mandatory topic rules** (plus **`cursor-overview.mdc`** under `.cursor/rules/`)
+- **13 mandatory topic rules** (plus **`cursor-overview.mdc`**, **`codegraph.mdc`**, and **`agent-continuity.mdc`** under `.cursor/rules/`)
 - **11 workflow prompts** under `commands/` (includes `handoff`, `resume`)
 - **9 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **supabase**, **supabase-postgres-best-practices**)
 - **7 reference docs** (security, testing, performance, accessibility, codegraph, agent-continuity, **supabase**)
 - **`.agent/SESSION.md`** for cross-tool session handoff
 - **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`)
 
-Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change standards. After editing `.cursor/`, run **`npm run sync:kiro`** (or `node scripts/sync-kiro-from-cursor.mjs`) to refresh `.kiro/`.
+Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change standards. After editing `.cursor/` (canonical), run **`npm run sync:all`** to refresh `.claude/` and `.kiro/`.
 
 ---
 
@@ -203,7 +203,7 @@ At session boundaries, use **`/handoff`** before switching tools and **`/resume`
 ├── CLAUDE.md                 # Main configuration
 ├── commands/                 # 11 workflow prompts (spec, plan, build, handoff, resume, …)
 ├── agents/                   # 10 personas
-├── rules/                    # 14 mandatory topic rules (.md)
+├── rules/                    # 15 mandatory topic rules (.md, synced from .cursor/)
 ├── skills/                   # TDD, review, deploy, …
 ├── references/               # Checklists + codegraph.md
 └── settings.json
@@ -259,7 +259,7 @@ Mirrors `.cursor/` for `commands/`, `agents/`, `skills/`, `references/`. Kiro us
 └── references/
 ```
 
-Regenerate from `.cursor/` after rule changes: `npm run sync:kiro`.
+Regenerate from `.cursor/` after rule changes: `npm run sync:all`.
 
 ### Skill notes
 
@@ -330,7 +330,9 @@ Use **`.claude/rules/*.md`** or **`.cursor/rules/*.mdc`** (paired content; Curso
 
 **Cursor** — prompts live under **`.cursor/commands/`**. Open the file, copy the section you need, or **`@`** it (e.g. `@.cursor/commands/spec.md`).
 
-**Agents** — describe the role in natural language, or in Cursor **`@`** an agent file, e.g. `@.cursor/agents/code-reviewer.md`.
+**Kiro** — prompts live under **`.kiro/commands/`**. Open the file, paste or attach in chat, or reference it when running a slash workflow. Restart Kiro after install so MCP (CodeGraph, Supabase) connects.
+
+**Agents** — describe the role in natural language, or **`@`** (Cursor) / reference (Claude, Kiro) an agent file, e.g. `@.cursor/agents/code-reviewer.md` or `.kiro/agents/code-reviewer.md`.
 
 ---
 
@@ -384,7 +386,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 2. Keep tests green.
 3. Run **`/review`** before opening a PR.
 4. Use [conventional commits](https://www.conventionalcommits.org/).
-5. Update **`.claude/`**, **`.cursor/`**, and **`.kiro/`** when rules or workflows change (run `npm run sync:kiro` after `.cursor/` edits; run `npm run sync:supabase-skills` to refresh vendored Supabase skills).
+5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/` and `.kiro/`; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills.
 
 ---
 

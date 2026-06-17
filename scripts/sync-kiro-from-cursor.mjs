@@ -48,7 +48,7 @@ Specialized instructions live in **\`.kiro/agents/\`**. Reference files in chat 
 
 ## Relation to \`.claude/\` and \`.cursor/\`
 
-Keep all three trees aligned when you change workflows or standards. After editing \`.cursor/\`, run \`npm run sync:kiro\`.
+Keep all three trees aligned when you change workflows or standards. After editing \`.cursor/\`, run \`npm run sync:all\`.
 `;
 
 function rmIfExists(p) {

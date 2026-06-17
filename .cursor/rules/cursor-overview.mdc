@@ -37,6 +37,6 @@ Specialized instructions live in **`.cursor/agents/`**. In Cursor, **@ mention**
 
 - **`.claude/`** — Claude Code
 - **`.cursor/`** — Cursor
-- **`.kiro/`** — Kiro (steering + MCP; sync from `.cursor/` via `npm run sync:kiro`)
+- **`.kiro/`** — Kiro (steering + MCP; sync from `.cursor/` via `npm run sync:all`)
 
 Keep all three aligned when you change workflows or standards.

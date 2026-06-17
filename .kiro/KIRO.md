@@ -34,7 +34,7 @@ Follow this workflow for feature development:
 | `commands/resume.md` | Start session — load `.agent/SESSION.md` and continue prior work |
 | `commands/publish-npm.md` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
 
-**How to use:** Open the markdown file, copy the section you need, or **#steering reference or paste from** the file in Chat/Composer so the model loads it.
+**How to use:** Open the markdown file, copy the section you need, or reference it in chat (paste or attach).
 
 ---
 
@@ -145,5 +145,5 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 2. If **`.agent/SESSION.md`** exists, read it before planning or coding; run **`/resume`** when continuing prior work.
 3. Apply **`.kiro/steering/`**; treat **`security.md`** as non-negotiable.
 4. Prefer tests first and small, buildable changes.
-5. **#steering reference or paste from** the right **`.kiro/agents/`** file when the task matches that role.
+5. **Reference** the right **`.kiro/agents/`** file when the task matches that role (paste or attach).
 6. Update **`.agent/SESSION.md`** (or **`/handoff`**) before ending a session.

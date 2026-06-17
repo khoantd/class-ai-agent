@@ -8,10 +8,29 @@ Project guidance for AI coding agents:
 | **Kiro** | [`.kiro/KIRO.md`](.kiro/KIRO.md) |
 | **Claude Code** | [`.claude/CLAUDE.md`](.claude/CLAUDE.md) |
 
+## Quick start (any tool)
+
+1. Read **[`.agent/SESSION.md`](.agent/SESSION.md)** if it exists — run **`/resume`** to continue prior work
+2. Open your tool's **hub** (table above) for workflow, rules, agents, and skills
+3. Pick a **workflow command** for the current phase (`/spec`, `/plan`, `/build`, `/test`, `/review`, `/deploy`)
+4. End with **`/handoff`** when switching chats or tools
+
+## Per-tool invocation
+
+| Tool | Hub | Workflow command | Persona |
+|------|-----|------------------|---------|
+| **Cursor** | `.cursor/CURSOR.md` | `@.cursor/commands/build.md` | `@.cursor/agents/backend.md` |
+| **Claude Code** | `.claude/CLAUDE.md` | `/build` slash command | reference `.claude/agents/backend.md` |
+| **Kiro** | `.kiro/KIRO.md` | `.kiro/commands/build.md` (paste or attach) | reference `.kiro/agents/backend.md` |
+
+## Layout
+
 - **Cursor:** `.cursor/rules/` (`.mdc`), `.cursor/commands/`, `.cursor/mcp.json`
 - **Kiro:** `.kiro/steering/` (`*.md`), `.kiro/commands/`, `.kiro/settings/mcp.json`
 - **Claude Code:** `.claude/rules/`, `.claude/commands/`
 
 **Cross-tool continuity:** committed [`.agent/SESSION.md`](.agent/README.md) — use `/resume` at session start and `/handoff` at session end (see hub docs and `.agent/README.md`).
 
-Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing `.cursor/`, run `npm run sync:kiro` in the **class-ai-agent** repo to refresh `.kiro/`. To refresh vendored Supabase skills from upstream, run `npm run sync:supabase-skills`.
+## Maintainers
+
+Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing **`.cursor/`** (canonical), run **`npm run sync:all`** to refresh `.claude/` and `.kiro/`. To refresh vendored Supabase skills from upstream, run **`npm run sync:supabase-skills`**.
