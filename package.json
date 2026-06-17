@@ -1,6 +1,6 @@
 {
   "name": "class-ai-agent",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Production-grade AI agent configuration for Claude Code, Cursor & Kiro",
   "license": "MIT",
   "repository": {

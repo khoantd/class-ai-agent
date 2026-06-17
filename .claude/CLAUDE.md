@@ -143,6 +143,7 @@ Invoke the right agent for each task type:
 ### Product Agents
 | Agent | When to Invoke |
 |-------|---------------|
+| 📊 **Business Analyst** | Requirements elicitation, BABOK v3, process modeling, gap analysis |
 | 📋 **Project Manager** | User stories, sprint planning, status reports |
 | 🎨 **UI/UX Designer** | Design system, wireframes, accessibility |
 | ✍️ **Copywriter/SEO** | Page copy, meta tags, SEO optimization |

@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.4.0-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.4.1-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -53,7 +53,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 |--------|---------|
 | **Three layouts** | **`.claude/`** (Claude Code), **`.cursor/`** (Cursor), **`.kiro/`** (Kiro steering + MCP) |
 | **One workflow** | Spec → Plan → Build → Test → Review → Ship |
-| **10 agent personas** | Frontend, backend, architect, review, QA, security, PM, UX, SEO, test engineer |
+| **11 agent personas** | Frontend, backend, architect, review, QA, security, BA, PM, UX, SEO, test engineer |
 | **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
 | **`npx` installer** | Copies the folders into your project in one command |
 | **CodeGraph** | MCP + usage rules for Cursor and Kiro; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
@@ -365,6 +365,13 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 ---
 
 ## Release notes
+
+
+
+### 1.4.1 — 2026-06-17
+
+- Add **Business Analyst** agent persona (BABOK v3) for Cursor, Claude Code, and Kiro
+- Document Business Analyst in hub agent tables (`.cursor/CURSOR.md`, `.claude/CLAUDE.md`, `.kiro/KIRO.md`)
 
 ### 1.4.0 — 2026-06-02
 

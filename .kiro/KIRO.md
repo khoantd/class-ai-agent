@@ -96,7 +96,7 @@ Instructions live in **`.kiro/agents/`**. Invoke by **referencing** the file (e.
 |------|------|
 | Frontend, backend, architecture | `frontend.md`, `backend.md`, `systems-architect.md` |
 | Quality | `code-reviewer.md`, `test-engineer.md`, `qa.md`, `security-auditor.md` |
-| Product & content | `project-manager.md`, `ui-ux-designer.md`, `copywriter-seo.md` |
+| Product & content | `business-analyst.md`, `project-manager.md`, `ui-ux-designer.md`, `copywriter-seo.md` |
 
 ---
 
