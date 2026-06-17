@@ -1,7 +1,7 @@
 {
   "name": "class-ai-agent",
-  "version": "1.4.1",
-  "description": "Production-grade AI agent configuration for Claude Code, Cursor & Kiro",
+  "version": "1.5.0",
+  "description": "Production-grade AI agent configuration for Claude Code, Cursor, Kiro & Antigravity",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -16,6 +16,8 @@
     "claude-code",
     "cursor",
     "kiro",
+    "antigravity",
+    "gemini",
     "codegraph",
     "supabase",
     "ai",
@@ -31,19 +33,22 @@
   "files": [
     "bin",
     ".agent",
+    ".agents",
     ".claude",
     ".cursor",
     ".kiro",
     "AGENTS.md",
+    "GEMINI.md",
     "royal-solution-logo-v2.svg"
   ],
   "scripts": {
-    "prepack": "node -e \"const fs=require('fs');['.agent','.claude','.cursor','.kiro','AGENTS.md'].forEach(p=>{if(!fs.existsSync(p))process.exit(1)})\"",
+    "prepack": "node -e \"const fs=require('fs');['.agent','.agents','.claude','.cursor','.kiro','AGENTS.md','GEMINI.md'].forEach(p=>{if(!fs.existsSync(p))process.exit(1)})\"",
     "sync:kiro": "node scripts/sync-kiro-from-cursor.mjs",
     "sync:claude": "node scripts/sync-claude-from-cursor.mjs",
+    "sync:antigravity": "node scripts/sync-antigravity-from-cursor.mjs",
     "sync:all": "node scripts/sync-all.mjs",
     "sync:supabase-skills": "node scripts/sync-supabase-skills.mjs",
     "release:readme": "node scripts/update-readme-release.mjs",
-    "test:cli": "node bin/class-ai-agent.cjs --help && node bin/class-ai-agent.cjs --version && node -e \"const fs=require('fs');const c=JSON.parse(fs.readFileSync('.cursor/mcp.json','utf8'));const k=JSON.parse(fs.readFileSync('.kiro/settings/mcp.json','utf8'));if(!c.mcpServers?.codegraph||!k.mcpServers?.codegraph)throw new Error('missing codegraph MCP');if(!c.mcpServers?.supabase?.url?.includes('mcp.supabase.com')||!k.mcpServers?.supabase?.url?.includes('mcp.supabase.com'))throw new Error('missing supabase MCP');if(!fs.existsSync('.cursor/skills/supabase/SKILL.md')||!fs.existsSync('.cursor/skills/supabase-postgres-best-practices/SKILL.md'))throw new Error('missing supabase skills');if(!fs.existsSync('.claude/skills/supabase/SKILL.md'))throw new Error('missing claude supabase skill');if(!fs.existsSync('.cursor/references/supabase.md'))throw new Error('missing supabase reference');if(!fs.existsSync('scripts/sync-supabase-skills.mjs'))throw new Error('missing sync-supabase-skills');if(!fs.existsSync('.cursor/rules/codegraph.mdc'))throw new Error('missing codegraph.mdc');if(!fs.existsSync('.claude/rules/codegraph.md'))throw new Error('missing claude codegraph rule');if(!fs.existsSync('.kiro/steering/codegraph.md'))throw new Error('missing kiro codegraph steering');if(!fs.existsSync('.agent/SESSION.template.md'))throw new Error('missing SESSION.template');if(!fs.existsSync('.cursor/rules/agent-continuity.mdc'))throw new Error('missing agent-continuity.mdc');if(!fs.existsSync('.kiro/steering/agent-continuity.md'))throw new Error('missing kiro agent-continuity steering');if(!fs.existsSync('.cursor/commands/handoff.md')||!fs.existsSync('.cursor/commands/resume.md'))throw new Error('missing handoff/resume commands');\" && node scripts/check-parity.mjs"
+    "test:cli": "node bin/class-ai-agent.cjs --help && node bin/class-ai-agent.cjs --version && node -e \"const fs=require('fs');const c=JSON.parse(fs.readFileSync('.cursor/mcp.json','utf8'));const k=JSON.parse(fs.readFileSync('.kiro/settings/mcp.json','utf8'));if(!c.mcpServers?.codegraph||!k.mcpServers?.codegraph)throw new Error('missing codegraph MCP');if(!c.mcpServers?.supabase?.url?.includes('mcp.supabase.com')||!k.mcpServers?.supabase?.url?.includes('mcp.supabase.com'))throw new Error('missing supabase MCP');if(!fs.existsSync('.cursor/skills/supabase/SKILL.md')||!fs.existsSync('.cursor/skills/supabase-postgres-best-practices/SKILL.md'))throw new Error('missing supabase skills');if(!fs.existsSync('.claude/skills/supabase/SKILL.md'))throw new Error('missing claude supabase skill');if(!fs.existsSync('.agents/skills/supabase/SKILL.md'))throw new Error('missing antigravity supabase skill');if(!fs.existsSync('.cursor/references/supabase.md'))throw new Error('missing supabase reference');if(!fs.existsSync('.agents/references/mcp-antigravity.md'))throw new Error('missing mcp-antigravity reference');if(!fs.existsSync('scripts/sync-supabase-skills.mjs'))throw new Error('missing sync-supabase-skills');if(!fs.existsSync('.cursor/rules/codegraph.mdc'))throw new Error('missing codegraph.mdc');if(!fs.existsSync('.claude/rules/codegraph.md'))throw new Error('missing claude codegraph rule');if(!fs.existsSync('.kiro/steering/codegraph.md'))throw new Error('missing kiro codegraph steering');if(!fs.existsSync('.agent/rules/codegraph.md'))throw new Error('missing antigravity codegraph rule');if(!fs.existsSync('.agent/SESSION.template.md'))throw new Error('missing SESSION.template');if(!fs.existsSync('.cursor/rules/agent-continuity.mdc'))throw new Error('missing agent-continuity.mdc');if(!fs.existsSync('.kiro/steering/agent-continuity.md'))throw new Error('missing kiro agent-continuity steering');if(!fs.existsSync('.agent/rules/agent-continuity.md'))throw new Error('missing antigravity agent-continuity rule');if(!fs.existsSync('.cursor/commands/handoff.md')||!fs.existsSync('.cursor/commands/resume.md'))throw new Error('missing handoff/resume commands');if(!fs.existsSync('.agents/workflows/handoff.md')||!fs.existsSync('.agents/workflows/resume.md'))throw new Error('missing antigravity handoff/resume workflows');if(!fs.existsSync('GEMINI.md'))throw new Error('missing GEMINI.md');if(!fs.existsSync('scripts/sync-antigravity-from-cursor.mjs'))throw new Error('missing sync-antigravity script');\" && node scripts/check-parity.mjs"
   }
 }

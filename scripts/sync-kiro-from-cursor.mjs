@@ -46,9 +46,9 @@ Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resum
 
 Specialized instructions live in **\`.kiro/agents/\`**. Reference files in chat (paste or attach).
 
-## Relation to \`.claude/\` and \`.cursor/\`
+## Relation to \`.claude/\`, \`.cursor/\`, and Antigravity
 
-Keep all three trees aligned when you change workflows or standards. After editing \`.cursor/\`, run \`npm run sync:all\`.
+Keep all four trees aligned when you change workflows or standards. After editing \`.cursor/\`, run \`npm run sync:all\`.
 `;
 
 function rmIfExists(p) {

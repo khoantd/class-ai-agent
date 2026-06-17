@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Regenerate .claude/ and .kiro/ from .cursor/ (canonical source).
+ * Regenerate .claude/, .kiro/, and Antigravity layout from .cursor/ (canonical source).
  * Run after changing .cursor/: npm run sync:all
  */
 import { spawnSync } from 'child_process';
@@ -17,10 +17,11 @@ function runScript(name) {
 }
 
 function main() {
-  console.log('Syncing .claude/ and .kiro/ from .cursor/ ...');
+  console.log('Syncing .claude/, .kiro/, and Antigravity layout from .cursor/ ...');
   runScript('sync-claude-from-cursor.mjs');
   runScript('sync-kiro-from-cursor.mjs');
-  console.log('\nDone: .claude/ and .kiro/ synced from .cursor/');
+  runScript('sync-antigravity-from-cursor.mjs');
+  console.log('\nDone: .claude/, .kiro/, and Antigravity layout synced from .cursor/');
 }
 
 main();

@@ -33,10 +33,11 @@ Supporting prompts: `debug`, `simplify`, `fix-issue`, `handoff`, `resume` in `.c
 
 Specialized instructions live in **`.cursor/agents/`**. In Cursor, **@ mention** the file you want (e.g. `@.cursor/agents/code-reviewer.md`) when you need that role.
 
-## Relation to `.claude/` and `.kiro/`
+## Relation to `.claude/`, `.kiro/`, and Antigravity
 
 - **`.claude/`** — Claude Code
 - **`.cursor/`** — Cursor
 - **`.kiro/`** — Kiro (steering + MCP; sync from `.cursor/` via `npm run sync:all`)
+- **`.agents/`** + **`GEMINI.md`** — Antigravity (workflows, skills; sync from `.cursor/` via `npm run sync:all`)
 
-Keep all three aligned when you change workflows or standards.
+Keep all four trees aligned when you change workflows or standards. After editing `.cursor/`, run `npm run sync:all`.

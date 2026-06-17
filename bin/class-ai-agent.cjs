@@ -13,7 +13,7 @@ function readPkg() {
 }
 
 function printHelp() {
-  console.log(`class-ai-agent — Install Claude Code, Cursor & Kiro AI agent scaffolding
+  console.log(`class-ai-agent — Install Claude Code, Cursor, Kiro & Antigravity AI agent scaffolding
 
 Usage:
   npx class-ai-agent [init] [options]
@@ -23,15 +23,17 @@ Options:
       --claude       Install only .claude/
       --cursor       Install only .cursor/
       --kiro         Install only .kiro/
+      --antigravity  Install only .agents/, .agent/rules/, GEMINI.md
   -f, --force        Overwrite existing files or directories
   -h, --help         Show help
   -v, --version      Print version
 
-AGENTS.md is installed with --cursor, --kiro, or a full install (no --*-only flags).
+AGENTS.md is installed with --cursor, --kiro, --antigravity, or a full install (no --*-only flags).
 
 .agent/:
   Cross-tool session handoff (.agent/SESSION.md). Seeded from template on install;
   existing SESSION.md is never overwritten unless you use --force on .agent/.
+  Antigravity supplement rules live in .agent/rules/ (merged on install).
 
 CodeGraph:
   After install, runs "npx @colbymchenry/codegraph init -i" in the target directory
@@ -40,11 +42,13 @@ CodeGraph:
 Supabase:
   Bundled skills under skills/supabase/ and skills/supabase-postgres-best-practices/.
   MCP: https://mcp.supabase.com/mcp (OAuth on first use). Reload Cursor / restart Kiro after install.
+  Antigravity: configure ~/.gemini/antigravity/mcp_config.json (see .agents/references/mcp-antigravity.md).
 
 Examples:
   npx class-ai-agent
   npx class-ai-agent --dir ./my-app
   npx class-ai-agent --kiro --force
+  npx class-ai-agent --antigravity
   CODEGRAPH_SKIP_INIT=1 npx class-ai-agent
 `);
 }
@@ -56,6 +60,7 @@ function parseArgs(argv) {
     claudeOnly: false,
     cursorOnly: false,
     kiroOnly: false,
+    antigravityOnly: false,
     force: false,
     help: false,
     version: false,
@@ -90,6 +95,10 @@ function parseArgs(argv) {
     }
     if (a === '--kiro') {
       opts.kiroOnly = true;
+      continue;
+    }
+    if (a === '--antigravity') {
+      opts.antigravityOnly = true;
       continue;
     }
     if (a === '-d' || a === '--dir') {
@@ -127,6 +136,27 @@ function copyDir(src, dest, { force }) {
   }
   fs.mkdirSync(path.dirname(dest), { recursive: true });
   fs.cpSync(src, dest, { recursive: true });
+}
+
+function mergeDir(src, dest, { force }) {
+  if (!fs.existsSync(src)) {
+    console.error(`Error: template missing from package: ${src}`);
+    process.exit(1);
+  }
+  fs.mkdirSync(dest, { recursive: true });
+  for (const entry of fs.readdirSync(src, { withFileTypes: true })) {
+    const srcPath = path.join(src, entry.name);
+    const destPath = path.join(dest, entry.name);
+    if (entry.isDirectory()) {
+      mergeDir(srcPath, destPath, { force });
+    } else if (entry.isFile()) {
+      if (fs.existsSync(destPath) && !force) {
+        continue;
+      }
+      ensureParentDir(destPath);
+      fs.copyFileSync(srcPath, destPath);
+    }
+  }
 }
 
 function copyFile(src, dest, { force }) {
@@ -183,7 +213,7 @@ function runCodegraphInit(targetDir) {
   if (result.status === 0) {
     console.log(`CodeGraph: index ready under ${path.join(targetDir, '.codegraph')}`);
     console.log(
-      'CodeGraph: reload Cursor (.cursor/mcp.json) and/or restart Kiro (.kiro/settings/mcp.json).'
+      'CodeGraph: reload Cursor (.cursor/mcp.json), restart Kiro (.kiro/settings/mcp.json), or configure Antigravity MCP.'
     );
     return;
   }
@@ -201,15 +231,33 @@ function shouldInstallTarget(target, opts) {
     claude: opts.claudeOnly,
     cursor: opts.cursorOnly,
     kiro: opts.kiroOnly,
+    antigravity: opts.antigravityOnly,
   };
-  const anyOnly = only.claude || only.cursor || only.kiro;
+  const anyOnly = only.claude || only.cursor || only.kiro || only.antigravity;
   if (!anyOnly) return true;
   return only[target];
 }
 
 function shouldInstallAgentDir(opts) {
-  const anyOnly = opts.claudeOnly || opts.cursorOnly || opts.kiroOnly;
-  return !anyOnly;
+  const anyOnly =
+    opts.claudeOnly || opts.cursorOnly || opts.kiroOnly || opts.antigravityOnly;
+  if (!anyOnly) return true;
+  return opts.antigravityOnly;
+}
+
+function shouldInstallAgentsMd(opts) {
+  const anyOnly =
+    opts.claudeOnly || opts.cursorOnly || opts.kiroOnly || opts.antigravityOnly;
+  if (!anyOnly) return true;
+  return opts.cursorOnly || opts.kiroOnly || opts.antigravityOnly;
+}
+
+function installAgentRules(targetDir, { force }) {
+  const srcRules = path.join(PKG_ROOT, '.agent', 'rules');
+  const destRules = path.join(targetDir, '.agent', 'rules');
+  if (!fs.existsSync(srcRules)) return;
+  mergeDir(srcRules, destRules, { force: true });
+  console.log(`Installed: ${destRules}`);
 }
 
 function installAgentContinuity(targetDir, { force }) {
@@ -225,9 +273,15 @@ function installAgentContinuity(targetDir, { force }) {
 
   if (fs.existsSync(destDir)) {
     if (force) {
+      const sessionBackup =
+        fs.existsSync(sessionDest) ? fs.readFileSync(sessionDest, 'utf8') : null;
       fs.rmSync(destDir, { recursive: true, force: true });
       fs.cpSync(srcDir, destDir, { recursive: true });
-      console.log(`Installed: ${destDir} (overwritten)`);
+      if (sessionBackup !== null) {
+        fs.writeFileSync(sessionDest, sessionBackup);
+        console.log(`Preserved: ${sessionDest} (existing session handoff)`);
+      }
+      console.log(`Installed: ${destDir} (overwritten; SESSION.md preserved if present)`);
     } else {
       const readmeSrc = path.join(srcDir, 'README.md');
       const readmeDest = path.join(destDir, 'README.md');
@@ -261,7 +315,8 @@ function run(opts) {
   const installClaude = shouldInstallTarget('claude', opts);
   const installCursor = shouldInstallTarget('cursor', opts);
   const installKiro = shouldInstallTarget('kiro', opts);
-  const installAgents = installCursor || installKiro;
+  const installAntigravity = shouldInstallTarget('antigravity', opts);
+  const installAgentsMd = shouldInstallAgentsMd(opts);
 
   fs.mkdirSync(opts.dir, { recursive: true });
 
@@ -288,7 +343,19 @@ function run(opts) {
     console.log(`Installed: ${dest}`);
   }
 
-  if (installAgents) {
+  if (installAntigravity) {
+    const src = path.join(PKG_ROOT, '.agents');
+    const dest = path.join(opts.dir, '.agents');
+    copyDir(src, dest, copyOpts);
+    console.log(`Installed: ${dest}`);
+
+    const geminiSrc = path.join(PKG_ROOT, 'GEMINI.md');
+    const geminiDest = path.join(opts.dir, 'GEMINI.md');
+    copyFile(geminiSrc, geminiDest, copyOpts);
+    console.log(`Installed: ${geminiDest}`);
+  }
+
+  if (installAgentsMd) {
     const src = path.join(PKG_ROOT, 'AGENTS.md');
     const dest = path.join(opts.dir, 'AGENTS.md');
     copyFile(src, dest, copyOpts);
@@ -299,6 +366,10 @@ function run(opts) {
     installAgentContinuity(opts.dir, copyOpts);
   }
 
+  if (installAntigravity || shouldInstallAgentDir(opts)) {
+    installAgentRules(opts.dir, copyOpts);
+  }
+
   ensureCodegraphGitignore(opts.dir);
   runCodegraphInit(opts.dir);
 
@@ -306,6 +377,7 @@ function run(opts) {
   if (installClaude) hints.push('.claude/CLAUDE.md');
   if (installCursor) hints.push('.cursor/CURSOR.md');
   if (installKiro) hints.push('.kiro/KIRO.md');
+  if (installAntigravity) hints.push('GEMINI.md');
   console.log(`\nDone. Next steps: read ${hints.join(', ')}.`);
   if (installCursor) {
     console.log('  Cursor: reload the window so MCP loads (.cursor/mcp.json — CodeGraph + Supabase).');
@@ -314,6 +386,10 @@ function run(opts) {
   if (installKiro) {
     console.log('  Kiro: restart IDE/CLI so MCP loads (.kiro/settings/mcp.json — CodeGraph + Supabase).');
     console.log('  Supabase: complete OAuth when you first use Supabase MCP tools.');
+  }
+  if (installAntigravity) {
+    console.log('  Antigravity: configure ~/.gemini/antigravity/mcp_config.json (.agents/references/mcp-antigravity.md).');
+    console.log('  Antigravity: use /build, /resume, /handoff workflows; read GEMINI.md for the full hub.');
   }
   if (shouldInstallAgentDir(opts)) {
     console.log('  Continuity: edit .agent/SESSION.md at session end (/handoff); read at start (/resume).');

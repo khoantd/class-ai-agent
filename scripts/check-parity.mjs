@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Verify .claude/ and .kiro/ stay aligned with canonical .cursor/.
+ * Verify .claude/, .kiro/, and Antigravity layout stay aligned with canonical .cursor/.
  * Exit 1 on parity failures (for test:cli / CI).
  */
 import fs from 'fs';
@@ -11,6 +11,8 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CURSOR = path.join(ROOT, '.cursor');
 const CLAUDE = path.join(ROOT, '.claude');
 const KIRO = path.join(ROOT, '.kiro');
+const AGENTS = path.join(ROOT, '.agents');
+const AGENT_RULES = path.join(ROOT, '.agent', 'rules');
 
 const errors = [];
 
@@ -36,6 +38,72 @@ function assertSameFilenames(label, cursorDir, claudeDir, kiroDir) {
   if (onlyKiro.length) errors.push(`${label}: extra in .kiro/: ${onlyKiro.join(', ')}`);
   if (missingClaude.length) errors.push(`${label}: missing in .claude/: ${missingClaude.join(', ')}`);
   if (missingKiro.length) errors.push(`${label}: missing in .kiro/: ${missingKiro.join(', ')}`);
+}
+
+function assertAntigravityParity() {
+  const cursorCommands = listFiles(path.join(CURSOR, 'commands'), { ext: '.md' });
+  const workflows = listFiles(path.join(AGENTS, 'workflows'), { ext: '.md' });
+  const cursorAgents = listFiles(path.join(CURSOR, 'agents'), { ext: '.md' });
+  const antigravityAgents = listFiles(path.join(AGENTS, 'agents'), { ext: '.md' });
+  const cursorRefs = listFiles(path.join(CURSOR, 'references'), { ext: '.md' });
+  const antigravityRefs = listFiles(path.join(AGENTS, 'references'), { ext: '.md' });
+
+  const missingWorkflows = cursorCommands.filter((f) => !workflows.includes(f));
+  const extraWorkflows = workflows.filter((f) => !cursorCommands.includes(f));
+  const missingAgents = cursorAgents.filter((f) => !antigravityAgents.includes(f));
+  const extraAgents = antigravityAgents.filter((f) => !cursorAgents.includes(f));
+
+  if (missingWorkflows.length) {
+    errors.push(`workflows: missing in .agents/workflows/: ${missingWorkflows.join(', ')}`);
+  }
+  if (extraWorkflows.length) {
+    errors.push(`workflows: extra in .agents/workflows/: ${extraWorkflows.join(', ')}`);
+  }
+  if (missingAgents.length) {
+    errors.push(`agents: missing in .agents/agents/: ${missingAgents.join(', ')}`);
+  }
+  if (extraAgents.length) {
+    errors.push(`agents: extra in .agents/agents/: ${extraAgents.join(', ')}`);
+  }
+
+  for (const ref of cursorRefs) {
+    if (!antigravityRefs.includes(ref)) {
+      errors.push(`references: missing in .agents/references/: ${ref}`);
+    }
+  }
+  if (!antigravityRefs.includes('mcp-antigravity.md')) {
+    errors.push('references: missing .agents/references/mcp-antigravity.md');
+  }
+
+  const mdcFiles = listFiles(path.join(CURSOR, 'rules'), { ext: '.mdc' });
+  for (const file of mdcFiles) {
+    if (file === 'cursor-overview.mdc') continue;
+    const base = file.replace(/\.mdc$/, '.md');
+    if (!fs.existsSync(path.join(AGENT_RULES, base))) {
+      errors.push(`rules: missing .agent/rules/${base}`);
+    }
+  }
+  if (!fs.existsSync(path.join(AGENT_RULES, 'antigravity-overview.md'))) {
+    errors.push('rules: missing .agent/rules/antigravity-overview.md');
+  }
+
+  const cursorSkills = path.join(CURSOR, 'skills');
+  const antigravitySkills = path.join(AGENTS, 'skills');
+  if (fs.existsSync(cursorSkills)) {
+    for (const skill of fs.readdirSync(cursorSkills)) {
+      const skillMd = path.join(antigravitySkills, skill, 'SKILL.md');
+      if (!fs.existsSync(skillMd)) {
+        errors.push(`skills: missing .agents/skills/${skill}/SKILL.md`);
+      }
+    }
+  }
+
+  if (!fs.existsSync(path.join(ROOT, 'GEMINI.md'))) {
+    errors.push('missing GEMINI.md');
+  }
+  if (!fs.existsSync(path.join(ROOT, 'scripts/sync-antigravity-from-cursor.mjs'))) {
+    errors.push('missing scripts/sync-antigravity-from-cursor.mjs');
+  }
 }
 
 function assertRuleParity() {
@@ -66,16 +134,22 @@ function assertRequiredFiles() {
     '.cursor/rules/codegraph.mdc',
     '.claude/rules/codegraph.md',
     '.kiro/steering/codegraph.md',
+    '.agent/rules/codegraph.md',
     '.cursor/rules/agent-continuity.mdc',
     '.claude/rules/agent-continuity.md',
     '.kiro/steering/agent-continuity.md',
+    '.agent/rules/agent-continuity.md',
     '.agent/SESSION.template.md',
     '.cursor/commands/resume.md',
     '.cursor/commands/handoff.md',
+    '.agents/workflows/resume.md',
+    '.agents/workflows/handoff.md',
     '.claude/commands/resume.md',
     '.kiro/commands/resume.md',
     'scripts/sync-claude-from-cursor.mjs',
+    'scripts/sync-antigravity-from-cursor.mjs',
     'scripts/sync-all.mjs',
+    '.agents/references/mcp-antigravity.md',
   ];
   for (const rel of required) {
     if (!fs.existsSync(path.join(ROOT, rel))) errors.push(`required file missing: ${rel}`);
@@ -87,6 +161,7 @@ function main() {
   assertSameFilenames('agents', 'agents', 'agents', 'agents');
   assertSameFilenames('references', 'references', 'references', 'references');
   assertRuleParity();
+  assertAntigravityParity();
   assertMcpParity();
   assertRequiredFiles();
 
@@ -96,7 +171,7 @@ function main() {
     process.exit(1);
   }
 
-  console.log('Parity check passed (.cursor/ ↔ .claude/ ↔ .kiro/)');
+  console.log('Parity check passed (.cursor/ ↔ .claude/ ↔ .kiro/ ↔ Antigravity)');
 }
 
 main();

@@ -7,6 +7,7 @@ Project guidance for AI coding agents:
 | **Cursor** | [`.cursor/CURSOR.md`](.cursor/CURSOR.md) |
 | **Kiro** | [`.kiro/KIRO.md`](.kiro/KIRO.md) |
 | **Claude Code** | [`.claude/CLAUDE.md`](.claude/CLAUDE.md) |
+| **Antigravity** | [`GEMINI.md`](GEMINI.md) |
 
 ## Quick start (any tool)
 
@@ -22,15 +23,17 @@ Project guidance for AI coding agents:
 | **Cursor** | `.cursor/CURSOR.md` | `@.cursor/commands/build.md` | `@.cursor/agents/backend.md` |
 | **Claude Code** | `.claude/CLAUDE.md` | `/build` slash command | reference `.claude/agents/backend.md` |
 | **Kiro** | `.kiro/KIRO.md` | `.kiro/commands/build.md` (paste or attach) | reference `.kiro/agents/backend.md` |
+| **Antigravity** | `GEMINI.md` | `/build` workflow (`.agents/workflows/build.md`) | reference `.agents/agents/backend.md` |
 
 ## Layout
 
 - **Cursor:** `.cursor/rules/` (`.mdc`), `.cursor/commands/`, `.cursor/mcp.json`
 - **Kiro:** `.kiro/steering/` (`*.md`), `.kiro/commands/`, `.kiro/settings/mcp.json`
 - **Claude Code:** `.claude/rules/`, `.claude/commands/`
+- **Antigravity:** `.agents/workflows/`, `.agents/skills/`, `.agent/rules/`, `GEMINI.md` (MCP: user-level `~/.gemini/antigravity/mcp_config.json`)
 
 **Cross-tool continuity:** committed [`.agent/SESSION.md`](.agent/README.md) — use `/resume` at session start and `/handoff` at session end (see hub docs and `.agent/README.md`).
 
 ## Maintainers
 
-Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change workflows or standards. After editing **`.cursor/`** (canonical), run **`npm run sync:all`** to refresh `.claude/` and `.kiro/`. To refresh vendored Supabase skills from upstream, run **`npm run sync:supabase-skills`**.
+Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change workflows or standards. After editing **`.cursor/`** (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`. To refresh vendored Supabase skills from upstream, run **`npm run sync:supabase-skills`**.

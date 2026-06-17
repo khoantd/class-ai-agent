@@ -1,6 +1,6 @@
 # AI Agent Project
 
-**Production-grade configuration for [Claude Code](https://code.claude.com/docs), [Cursor](https://cursor.com), and [Kiro](https://kiro.dev)** — shared rules, specialized agents, workflow prompts, and checklists you can drop into any repository.
+**Production-grade configuration for [Claude Code](https://code.claude.com/docs), [Cursor](https://cursor.com), [Kiro](https://kiro.dev), and [Antigravity](https://antigravity.google)** — shared rules, specialized agents, workflow prompts, and checklists you can drop into any repository.
 
 <div align="center">
 
@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.4.1-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.5.0-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -51,15 +51,15 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 
 | You get | Details |
 |--------|---------|
-| **Three layouts** | **`.claude/`** (Claude Code), **`.cursor/`** (Cursor), **`.kiro/`** (Kiro steering + MCP) |
+| **Four layouts** | **`.claude/`** (Claude Code), **`.cursor/`** (Cursor), **`.kiro/`** (Kiro), **`.agents/`** + **`GEMINI.md`** (Antigravity) |
 | **One workflow** | Spec → Plan → Build → Test → Review → Ship |
 | **11 agent personas** | Frontend, backend, architect, review, QA, security, BA, PM, UX, SEO, test engineer |
 | **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
 | **`npx` installer** | Copies the folders into your project in one command |
-| **CodeGraph** | MCP + usage rules for Cursor and Kiro; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
-| **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, and Kiro |
+| **CodeGraph** | MCP + usage rules for Cursor and Kiro; Antigravity via user `mcp_config.json`; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
+| **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, Kiro, and Antigravity |
 
-Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**.
+Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**, **`GEMINI.md`**.
 
 ---
 
@@ -74,7 +74,7 @@ When one agent stops and another starts (new chat, different IDE, or teammate), 
 
 **Read order:** `.agent/SESSION.md` → `tasks/todo.md` → `SPEC.md` (from SESSION pointers).
 
-Rules: `.cursor/rules/agent-continuity.mdc`, `.claude/rules/agent-continuity.md`, `.kiro/steering/agent-continuity.md`. Reference: `.cursor/references/agent-continuity.md`.
+Rules: `.cursor/rules/agent-continuity.mdc`, `.claude/rules/agent-continuity.md`, `.kiro/steering/agent-continuity.md`, `.agent/rules/agent-continuity.md`. Reference: `.cursor/references/agent-continuity.md`.
 
 Do **not** put secrets or PII in `SESSION.md`. See [`.agent/README.md`](.agent/README.md).
 
@@ -103,6 +103,7 @@ npx class-ai-agent --dir /path/to/your/project
 npx class-ai-agent --claude
 npx class-ai-agent --cursor
 npx class-ai-agent --kiro
+npx class-ai-agent --antigravity
 npx class-ai-agent --force    # overwrite existing
 npx class-ai-agent --help
 ```
@@ -116,7 +117,7 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 # or: node bin/class-ai-agent.cjs --dir /path/to/your/project
 ```
 
-**Manual copy:** copy **`.agent/`**, **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and **`AGENTS.md`** into your project root. Copy `.agent/SESSION.template.md` → `.agent/SESSION.md` if needed. Then run `npx @colbymchenry/codegraph init -i` and reload Cursor / restart Kiro.
+**Manual copy:** copy **`.agent/`**, **`.agents/`**, **`.claude/`**, **`.cursor/`**, **`.kiro/`**, **`AGENTS.md`**, and **`GEMINI.md`** into your project root. Copy `.agent/SESSION.template.md` → `.agent/SESSION.md` if needed. Then run `npx @colbymchenry/codegraph init -i` and reload Cursor / restart Kiro / configure Antigravity MCP.
 
 ---
 
@@ -130,21 +131,23 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 | **Cursor** | `.cursor/mcp.json`, `.cursor/rules/codegraph.mdc` — reload window after install |
 | **Kiro** | `.kiro/settings/mcp.json`, `.kiro/steering/codegraph.md` — restart Kiro after install |
 | **Claude Code** | Not wired by this package — `codegraph install --target=claude` (see `.claude/references/codegraph.md`) |
+| **Antigravity** | User `~/.gemini/antigravity/mcp_config.json`, `.agent/rules/codegraph.md` — see `.agents/references/mcp-antigravity.md` |
 | **Manual index** | `npx @colbymchenry/codegraph init -i` if auto-init failed |
-| **Opt-out** | `CODEGRAPH_SKIP_INIT=1` when running `npx class-ai-agent` |
 | **Troubleshooting** | [CodeGraph README](https://github.com/colbymchenry/codegraph#troubleshooting) · `.cursor/references/codegraph.md` |
+| **Opt-out** | `CODEGRAPH_SKIP_INIT=1` when running `npx class-ai-agent` |
 
 ---
 
 ## Overview
 
-This repo ships **three parallel trees** so you can use the same habits in Claude Code, Cursor, and Kiro:
+This repo ships **four parallel layouts** so you can use the same habits in Claude Code, Cursor, Kiro, and Antigravity:
 
 | Layout | Tool | What you use |
 |--------|------|----------------|
 | **`.claude/`** | Claude Code | Slash commands, **`CLAUDE.md`**, rules as **`.md`** |
 | **`.cursor/`** | Cursor | Project rules as **`.mdc`**, hub **`CURSOR.md`**, **`@`** file mentions |
 | **`.kiro/`** | Kiro | **Steering** as **`.md`** in `.kiro/steering/`, hub **`KIRO.md`**, **`.kiro/settings/mcp.json`** |
+| **`.agents/`** + **`GEMINI.md`** | Antigravity | **Workflows** in `.agents/workflows/` (slash commands), **`.agent/rules/`**, root **`AGENTS.md`** |
 
 What is inside:
 
@@ -155,9 +158,9 @@ What is inside:
 - **9 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **supabase**, **supabase-postgres-best-practices**)
 - **7 reference docs** (security, testing, performance, accessibility, codegraph, agent-continuity, **supabase**)
 - **`.agent/SESSION.md`** for cross-tool session handoff
-- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`)
+- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`); Antigravity via user `mcp_config.json` (example in `.agents/references/mcp-antigravity.md`)
 
-Keep **`.claude/`**, **`.cursor/`**, and **`.kiro/`** in sync when you change standards. After editing `.cursor/` (canonical), run **`npm run sync:all`** to refresh `.claude/` and `.kiro/`.
+Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change standards. After editing `.cursor/` (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`.
 
 ---
 
@@ -193,8 +196,31 @@ At session boundaries, use **`/handoff`** before switching tools and **`/resume`
 .agent/
 ├── README.md
 ├── SESSION.md              # Live handoff (committed; seeded on install)
-└── SESSION.template.md     # Schema reference
+├── SESSION.template.md     # Schema reference
+└── rules/                  # Antigravity supplement rules (synced from .cursor/rules/)
 ```
+
+### `.agents/` + `GEMINI.md` (Antigravity)
+
+Mirrors `.cursor/` for skills, agents, and references. Commands become **workflows** (slash commands):
+
+| Item | Role |
+|------|------|
+| **`GEMINI.md`** | Hub (Antigravity-specific; overrides `AGENTS.md` when rules conflict) |
+| **`workflows/*.md`** | Slash-command workflows (`/build`, `/resume`, …) |
+| **`skills/`**, **`agents/`**, **`references/`** | Same content as `.cursor/` (path-rewritten) |
+| **`.agent/rules/`** | Supplement rules (`trigger: always_on` / `glob`) |
+
+```
+.agents/
+├── workflows/              # 12 workflows (from .cursor/commands/)
+├── agents/
+├── skills/
+└── references/             # includes mcp-antigravity.md
+GEMINI.md                   # Antigravity hub (repo root)
+```
+
+MCP is **user-level**: `~/.gemini/antigravity/mcp_config.json` — see `.agents/references/mcp-antigravity.md`.
 
 ### `.claude/` (Claude Code)
 
@@ -332,7 +358,9 @@ Use **`.claude/rules/*.md`** or **`.cursor/rules/*.mdc`** (paired content; Curso
 
 **Kiro** — prompts live under **`.kiro/commands/`**. Open the file, paste or attach in chat, or reference it when running a slash workflow. Restart Kiro after install so MCP (CodeGraph, Supabase) connects.
 
-**Agents** — describe the role in natural language, or **`@`** (Cursor) / reference (Claude, Kiro) an agent file, e.g. `@.cursor/agents/code-reviewer.md` or `.kiro/agents/code-reviewer.md`.
+**Antigravity** — use slash workflows (`/build`, `/spec`, …) or open **`.agents/workflows/*.md`**. Read **`GEMINI.md`** for the hub. Configure MCP via **Manage MCP Servers** (see `.agents/references/mcp-antigravity.md`).
+
+**Agents** — describe the role in natural language, or **`@`** (Cursor) / reference (Claude, Kiro, Antigravity) an agent file, e.g. `@.cursor/agents/code-reviewer.md` or `.agents/agents/code-reviewer.md`.
 
 ---
 
@@ -368,6 +396,15 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+### 1.5.0 — 2026-06-17
+
+- Add Google Antigravity IDE support: `GEMINI.md` hub, `.agents/` workflows/skills/agents, `.agent/rules/` supplement rules
+- New `sync-antigravity-from-cursor.mjs` wired into `npm run sync:all` with parity checks
+- CLI `--antigravity` flag; safe merge of `.agent/rules/` without overwriting `SESSION.md`
+- MCP setup reference at `.agents/references/mcp-antigravity.md` (user-level `mcp_config.json`)
+
 ### 1.4.1 — 2026-06-17
 
 - Add **Business Analyst** agent persona (BABOK v3) for Cursor, Claude Code, and Kiro
@@ -393,7 +430,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 2. Keep tests green.
 3. Run **`/review`** before opening a PR.
 4. Use [conventional commits](https://www.conventionalcommits.org/).
-5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/` and `.kiro/`; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills.
+5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, and Antigravity layout; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills.
 
 ---
 
