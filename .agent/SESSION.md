@@ -46,6 +46,7 @@ Maintain and ship **class-ai-agent** — production-grade AI agent scaffolding f
 
 - Calling `codegraph_context` with `{ "query": "...", "limit": 15 }` → `task must be a non-empty string`.
 - CodeGraph MCP may need `projectPath` if workspace root is not detected.
+- OntoSight with bare `.` may load the wrong project's graph — pass absolute workspace root as `[project-path]`; run `codegraph_status` first.
 - CLI smoke test: `npm run test:cli`
 - `npx class-ai-agent` runs CodeGraph init by default; set `CODEGRAPH_SKIP_INIT=1` to skip.
 

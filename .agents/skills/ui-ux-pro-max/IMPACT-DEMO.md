@@ -46,7 +46,7 @@ Use for: summary-before-graph; tell the user what OntoSight is loading and what 
 
 ## Chat summary template
 
-Present this **before** running `npx @royalsolution/ontosight@0.2.0`:
+Present this **before** running `npx @royalsolution/ontosight@0.2.0` (with absolute workspace root as `[project-path]`):
 
 ### 1. Seed
 
@@ -71,10 +71,10 @@ Group by risk: **direct callers** (highest) vs **transitive** (lower).
 
 ### 4. Action
 
-Short line: *"Opening interactive impact graph…"* then run:
+Short line: *"Opening interactive impact graph…"* then run (replace `<workspace-root>` with absolute workspace path):
 
 ```bash
-npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir-from-search> --hops 3 --max-nodes 200
+npx @royalsolution/ontosight@0.2.0 "<workspace-root>" --symbol <name> --path <dir-from-search> --hops 3 --max-nodes 200
 ```
 
 ---
@@ -90,12 +90,13 @@ npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir-from-search> --
 ## Full agent workflow
 
 ```text
-1. codegraph_search({ query: "<symbol>" })
-2. codegraph_impact({ query: "<symbol>" })
+0. codegraph_status({ projectPath: "<workspace-root>" })  → verify index at workspace root
+1. codegraph_search({ query: "<symbol>", projectPath: "<workspace-root>" })
+2. codegraph_impact({ query: "<symbol>", projectPath: "<workspace-root>" })
 3. Read this file (IMPACT-DEMO.md)
 4. Optional: ui-ux-pro-max chart/ux searches above
 5. Chat summary (template sections 1–3)
-6. npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir> --hops 3 --max-nodes 200
+6. npx @royalsolution/ontosight@0.2.0 "<workspace-root>" --symbol <name> --path <dir> --hops 3 --max-nodes 200
 ```
 
 See **`.agents/references/ontosight.md`** for flags and troubleshooting.

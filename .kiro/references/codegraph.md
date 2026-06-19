@@ -79,12 +79,14 @@ Example — correct:
 |-------|--------|
 | `task must be a non-empty string` | Use `task` (not `query`) on `codegraph_context`; use `maxNodes` (not `limit`). For `/resume`, read `.agent/SESSION.md` instead. |
 | MCP “not initialized” | Run `npx @colbymchenry/codegraph init -i` in project root |
+| MCP wrong project / path mismatch | Pass `projectPath: "<workspace-root>"` on all `codegraph_*` calls; use the same root for OntoSight `[project-path]` |
 | MCP not connecting | Reload Cursor; verify `.cursor/mcp.json`; test `npx @colbymchenry/codegraph serve --mcp` |
 | Stale symbols after edit | Wait ~2s for watcher sync, or check staleness banner in tool output |
 | Init failed during install | Run `npx @colbymchenry/codegraph init -i` manually |
+| OntoSight shows wrong project's graph | Pass absolute workspace root to OntoSight (not bare `.`); run `codegraph_status` first — see [`.cursor/references/ontosight.md`](ontosight.md) |
 
 ## Visualization (OntoSight)
 
-For interactive call-graph exploration in the browser, use **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** (`npx @royalsolution/ontosight@0.2.0`). Gather facts with `codegraph_*` first; open OntoSight when the user wants a visual UI. See [`.cursor/references/ontosight.md`](ontosight.md).
+For interactive call-graph exploration in the browser, use **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** (`npx @royalsolution/ontosight@0.2.0`). Gather facts with `codegraph_*` first; open OntoSight when the user wants a visual UI. Pass the **absolute workspace root** as `[project-path]` (not bare `.`) so the browser loads this project's graph. See [`.cursor/references/ontosight.md`](ontosight.md).
 
 Upstream: [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph)

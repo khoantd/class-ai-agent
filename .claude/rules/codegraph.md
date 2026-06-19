@@ -28,6 +28,8 @@ For interactive call-graph UI (user asks to "show the graph" or explore architec
 
 For **impact demonstration** requests ("show impact", "blast radius", "what breaks if I change X"), run `codegraph_impact` first, present a text summary, then open OntoSight — never stop at MCP text alone when the user wants to see or show impact.
 
+**Project graph fidelity:** OntoSight is a separate CLI — MCP `${workspaceFolder}` binding does not apply automatically. Pass the **same workspace root** to OntoSight's `[project-path]` as you use for `projectPath` on `codegraph_*` calls when MCP cwd detection is wrong. Run `codegraph_status` before opening OntoSight; seeds (`--symbol`, `--task`) must come from queries against that same index. See **Project graph fidelity** in **`.claude/rules/ontosight.md`**.
+
 ### Tool parameters (do not mix)
 
 | Tool | Required arg | Optional cap | Wrong args → error |

@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.2-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.3-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -151,7 +151,8 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 | **Kiro** | `.kiro/steering/ontosight.md`, `.kiro/references/ontosight.md` |
 | **Claude Code** | `.claude/rules/ontosight.md`, `.claude/references/ontosight.md` |
 | **Antigravity** | `.agent/rules/ontosight.md`, `.agents/references/ontosight.md` |
-| **Quick start** | `npx @royalsolution/ontosight@0.2.0 .` (auto-inits CodeGraph index if missing) |
+| **Quick start** | `npx @royalsolution/ontosight@0.2.0 "<workspace-root>"` — pass absolute workspace root (not bare `.`); auto-inits CodeGraph index if missing |
+| **Project graph** | Preflight with `codegraph_status`; seeds from `codegraph_search` in same project — see `.cursor/rules/ontosight.mdc` |
 | **Pinned version** | `@royalsolution/ontosight@0.2.0` (`ontosight-codegraph` 0.2.0 on PyPI) |
 | **Requirements** | Node 20+, Python 3.11+, uv or pipx; shares `.codegraph/` with CodeGraph |
 | **Troubleshooting** | `.cursor/references/ontosight.md` |
@@ -160,18 +161,22 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 Example agent workflow (feature area):
 
 ```text
-1. codegraph_context({ task: "auth flow", maxNodes: 20 })  → answer in chat
-2. npx @royalsolution/ontosight@0.2.0 . --task "auth flow" --hops 2   → open graph for user
+0. codegraph_status({ projectPath: "<workspace-root>" })
+1. codegraph_context({ task: "auth flow", maxNodes: 20, projectPath: "<workspace-root>" })  → answer in chat
+2. npx @royalsolution/ontosight@0.2.0 "<workspace-root>" --task "auth flow" --hops 2   → open graph for user
 ```
 
 Example **impact analysis** demo:
 
 ```text
-1. codegraph_search({ query: "deleteUser" })
-2. codegraph_impact({ query: "deleteUser" })  → ranked blast radius in chat
+0. codegraph_status({ projectPath: "<workspace-root>" })
+1. codegraph_search({ query: "<symbol>", projectPath: "<workspace-root>" })
+2. codegraph_impact({ query: "<symbol>", projectPath: "<workspace-root>" })  → ranked blast radius in chat
 3. Follow IMPACT-DEMO.md (ui-ux-pro-max presentation)
-4. npx @royalsolution/ontosight@0.2.0 . --symbol deleteUser --path src/services/ --hops 3
+4. npx @royalsolution/ontosight@0.2.0 "<workspace-root>" --symbol <name> --path <dir> --hops 3
 ```
+
+**Wrong graph in browser?** OntoSight defaults to shell `cwd` — always pass the absolute workspace root as `[project-path]`. See `.cursor/references/ontosight.md` troubleshooting.
 
 ---
 
@@ -436,6 +441,14 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+
+### 1.6.3 — 2026-06-19
+
+- Add **Project graph fidelity** rules for OntoSight — mandatory `codegraph_status` preflight, absolute workspace root as `[project-path]`, seed binding from CodeGraph MCP
+- Replace fragile bare `.` OntoSight examples with `<workspace-root>` across rules, references, IMPACT-DEMO, README, and CLI help
+- Add wrong-graph troubleshooting (foreign repo symbols, MCP/OntoSight path mismatch)
 
 ### 1.6.2 — 2026-06-19
 
