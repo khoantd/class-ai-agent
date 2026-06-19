@@ -97,6 +97,7 @@ All rules in `.claude/rules/` are **mandatory** and must be followed:
 | `git-workflow.md` | Branching strategy, conventional commits |
 | `agent-continuity.md` | Session handoff via `.agent/SESSION.md` |
 | `codegraph.md` | CodeGraph MCP usage; when to use `codegraph_*` tools |
+| `ontosight.md` | OntoSight CLI for visual call graphs |
 
 ---
 
@@ -118,6 +119,20 @@ codegraph install --target=claude --yes
 ```
 
 Then in each project: `codegraph init -i` (class-ai-agent may run this on install). Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
+
+---
+
+## Code visualization (OntoSight)
+
+This project includes **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** for interactive CodeGraph call subgraphs in the browser.
+
+| Item | Location |
+|------|----------|
+| Usage rules | `.claude/rules/ontosight.md` |
+| Setup reference | `.claude/references/ontosight.md` |
+| Shared index | `.codegraph/` (same as CodeGraph) |
+
+Use `codegraph_*` MCP tools to gather structural facts in chat; run `npx @royalsolution/ontosight .` when the user wants a visual call graph. For **impact analysis demos**, follow `skills/ui-ux-pro-max/IMPACT-DEMO.md` (search → `codegraph_impact` → summary → graph). Requires Node 20+, Python 3.11+, and uv or pipx.
 
 ---
 
@@ -178,6 +193,7 @@ Quick references in `.claude/references/`:
 | `performance-checklist.md` | Core Web Vitals, optimization |
 | `accessibility-checklist.md` | WCAG 2.1 AA compliance |
 | `codegraph.md` | CodeGraph install (Claude Code) and Cursor MCP notes |
+| `ontosight.md` | OntoSight CLI for visual call graphs |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 | `supabase.md` | Supabase skills, MCP OAuth, secrets |
 

@@ -34,6 +34,11 @@ Project guidance for AI coding agents:
 
 **Cross-tool continuity:** committed [`.agent/SESSION.md`](.agent/README.md) — use `/resume` at session start and `/handoff` at session end (see hub docs and `.agent/README.md`).
 
+## Code intelligence
+
+- **CodeGraph MCP** (`codegraph_*`) — structural code search in chat; rules in each tool's `codegraph` rule file
+- **OntoSight** (`npx @royalsolution/ontosight`) — interactive call-graph visualization in the browser; rules in each tool's `ontosight` rule file
+
 ## Maintainers
 
 Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change workflows or standards. After editing **`.cursor/`** (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`. To refresh vendored Supabase skills from upstream, run **`npm run sync:supabase-skills`**.

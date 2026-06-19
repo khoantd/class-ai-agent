@@ -52,7 +52,7 @@ Follow this workflow for feature development:
 
 Project standards are **`.agent/rules/*.md`**. They use YAML frontmatter:
 
-- **`trigger: always_on`** — Loaded every session (`antigravity-overview.md`, `security.md`, `codegraph.md`, `agent-continuity.md`)
+- **`trigger: always_on`** — Loaded every session (`antigravity-overview.md`, `security.md`, `codegraph.md`, `ontosight.md`, `agent-continuity.md`)
 - **`trigger: glob`** — Loaded when active files match `globs`
 - **`trigger: model_decision`** — Activated by intent (persona rules)
 
@@ -63,6 +63,7 @@ Project standards are **`.agent/rules/*.md`**. They use YAML frontmatter:
 | Data & naming | `naming-conventions`, `database` |
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
+| Code visualization | `ontosight` (CLI; see below) |
 | Agent continuity | `agent-continuity` (`.agent/SESSION.md` handoff) |
 
 ---
@@ -87,6 +88,20 @@ This project includes **[CodeGraph](https://github.com/colbymchenry/codegraph)**
 After configuring MCP, **restart Antigravity** so the CodeGraph MCP server connects. Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
 
 If the index is missing, run `npx @colbymchenry/codegraph init -i` in the project root.
+
+---
+
+## Code visualization (OntoSight)
+
+This project includes **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** for interactive CodeGraph call subgraphs in the browser.
+
+| Item | Location |
+|------|----------|
+| Usage rules | `.agent/rules/ontosight.md` |
+| Setup reference | `.agents/references/ontosight.md` |
+| Shared index | `.codegraph/` (same as CodeGraph) |
+
+Use `codegraph_*` MCP tools to gather structural facts in chat; run `npx @royalsolution/ontosight .` when the user wants a visual call graph. Requires Node 20+, Python 3.11+, and uv or pipx.
 
 ---
 
@@ -130,6 +145,7 @@ Reusable playbooks: **`.agents/skills/*/SKILL.md`** (and related `.md` files whe
 | `performance-checklist.md` | Performance |
 | `accessibility-checklist.md` | WCAG-oriented checks |
 | `codegraph.md` | CodeGraph setup (all tools) |
+| `ontosight.md` | OntoSight CLI for visual call graphs |
 | `mcp-antigravity.md` | Antigravity MCP config (`mcp_config.json`) |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 | `supabase.md` | Supabase skills, MCP OAuth, secrets |

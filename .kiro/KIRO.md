@@ -50,7 +50,7 @@ Follow this workflow for feature development:
 
 Project standards are **`.kiro/steering/*.md`**. They use YAML frontmatter:
 
-- **`inclusion: always`** — Loaded every session (`kiro-overview.md`, `security.md`, `codegraph.md`, `agent-continuity.md`)
+- **`inclusion: always`** — Loaded every session (`kiro-overview.md`, `security.md`, `codegraph.md`, `ontosight.md`, `agent-continuity.md`)
 - **`inclusion: fileMatch`** — Loaded when edited files match `fileMatchPattern`
 - **`inclusion: manual`** — Reference with `#filename` in chat or `/` slash commands
 
@@ -61,6 +61,7 @@ Project standards are **`.kiro/steering/*.md`**. They use YAML frontmatter:
 | Data & naming | `naming-conventions`, `database` |
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
+| Code visualization | `ontosight` (CLI; see below) |
 | Agent continuity | `agent-continuity` (`.agent/SESSION.md` handoff) |
 
 ---
@@ -85,6 +86,20 @@ This project includes **[CodeGraph](https://github.com/colbymchenry/codegraph)**
 After installing scaffolding, **restart Kiro** so the CodeGraph MCP server connects. Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
 
 If the index is missing, run `npx @colbymchenry/codegraph init -i` in the project root.
+
+---
+
+## Code visualization (OntoSight)
+
+This project includes **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** for interactive CodeGraph call subgraphs in the browser.
+
+| Item | Location |
+|------|----------|
+| Usage rules | `.kiro/steering/ontosight.md` |
+| Setup reference | `.kiro/references/ontosight.md` |
+| Shared index | `.codegraph/` (same as CodeGraph) |
+
+Use `codegraph_*` MCP tools to gather structural facts in chat; run `npx @royalsolution/ontosight .` when the user wants a visual call graph. For **impact analysis demos**, follow `skills/ui-ux-pro-max/IMPACT-DEMO.md` (search → `codegraph_impact` → summary → graph). Requires Node 20+, Python 3.11+, and uv or pipx.
 
 ---
 

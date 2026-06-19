@@ -60,6 +60,7 @@ Project rules are **`.cursor/rules/*.mdc`**. They use YAML frontmatter:
 | Data & naming | `naming-conventions`, `database` |
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
+| Code visualization | `ontosight` (CLI; see below) |
 
 ---
 
@@ -77,6 +78,20 @@ This project includes **[CodeGraph](https://github.com/colbymchenry/codegraph)**
 After installing scaffolding, **reload the Cursor window** (or restart Cursor) so the CodeGraph MCP server connects. Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
 
 If the index is missing, run `npx @colbymchenry/codegraph init -i` in the project root.
+
+---
+
+## Code visualization (OntoSight)
+
+This project includes **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** for interactive CodeGraph call subgraphs in the browser.
+
+| Item | Location |
+|------|----------|
+| Usage rules | `.cursor/rules/ontosight.mdc` |
+| Setup reference | `.cursor/references/ontosight.md` |
+| Shared index | `.codegraph/` (same as CodeGraph) |
+
+Use `codegraph_*` MCP tools to gather structural facts in chat; run `npx @royalsolution/ontosight .` when the user wants a visual call graph. For **impact analysis demos**, follow `skills/ui-ux-pro-max/IMPACT-DEMO.md` (search → `codegraph_impact` → summary → graph). Requires Node 20+, Python 3.11+, and uv or pipx.
 
 ---
 
@@ -120,6 +135,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `performance-checklist.md` | Performance |
 | `accessibility-checklist.md` | WCAG-oriented checks |
 | `codegraph.md` | CodeGraph install and Claude Code setup |
+| `ontosight.md` | OntoSight CLI for visual call graphs |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 | `supabase.md` | Supabase skills, MCP OAuth, secrets |
 

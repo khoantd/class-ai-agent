@@ -24,10 +24,11 @@ Supporting workflows: `debug`, `simplify`, `fix-issue`, `handoff`, `resume` in `
 
 ## Mandatory standards
 
-- Follow **`.agent/rules/`** (`*.md` with YAML frontmatter). **`security.md`**, **`codegraph.md`**, and **`agent-continuity.md`** use `trigger: always_on`; others often use `trigger: glob`.
+- Follow **`.agent/rules/`** (`*.md` with YAML frontmatter). **`security.md`**, **`codegraph.md`**, **`ontosight.md`**, and **`agent-continuity.md`** use `trigger: always_on`; others often use `trigger: glob`.
 - Prefer **tests first** and **small vertical slices** (see `.agents/skills/incremental-implementation/`).
 - Use **`.agents/references/`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **`.agent/rules/codegraph.md`**.
+- When the user wants a **visual call graph**, use **OntoSight CLI** per **`.agent/rules/ontosight.md`** (`npx @royalsolution/ontosight`).
 
 ## Agents (personas)
 

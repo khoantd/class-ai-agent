@@ -39,6 +39,11 @@ CodeGraph:
   After install, runs "npx @colbymchenry/codegraph init -i" in the target directory
   (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
 
+OntoSight:
+  Visual call graphs: npx @royalsolution/ontosight .
+  Agent rules installed at .cursor/rules/ontosight.mdc (and synced trees).
+  Requires Node 20+, Python 3.11+, uv or pipx.
+
 Supabase:
   Bundled skills under skills/supabase/ and skills/supabase-postgres-best-practices/.
   MCP: https://mcp.supabase.com/mcp (OAuth on first use). Reload Cursor / restart Kiro after install.

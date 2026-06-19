@@ -19,6 +19,14 @@ Use codegraph for **structural** questions — what calls what, what would break
 | "See several related symbols' source at once" | `codegraph_explore` |
 | "What files exist under path/" | `codegraph_files` |
 | "Is the index healthy?" | `codegraph_status` |
+| Visual exploration of a subgraph in browser | `npx @royalsolution/ontosight` (see **`.claude/rules/ontosight.md`**) |
+| "Show/demonstrate impact of changing Z" | `codegraph_impact` → then OntoSight `--symbol Z` (see **`.claude/rules/ontosight.md`**) |
+
+### Visualization
+
+For interactive call-graph UI (user asks to "show the graph" or explore architecture visually), use **OntoSight CLI** after gathering context with `codegraph_*` tools. See **`.claude/rules/ontosight.md`**.
+
+For **impact demonstration** requests ("show impact", "blast radius", "what breaks if I change X"), run `codegraph_impact` first, present a text summary, then open OntoSight — never stop at MCP text alone when the user wants to see or show impact.
 
 ### Tool parameters (do not mix)
 

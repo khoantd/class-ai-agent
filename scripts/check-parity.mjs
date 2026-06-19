@@ -135,6 +135,11 @@ function assertRequiredFiles() {
     '.claude/rules/codegraph.md',
     '.kiro/steering/codegraph.md',
     '.agent/rules/codegraph.md',
+    '.cursor/rules/ontosight.mdc',
+    '.claude/rules/ontosight.md',
+    '.kiro/steering/ontosight.md',
+    '.agent/rules/ontosight.md',
+    '.cursor/references/ontosight.md',
     '.cursor/rules/agent-continuity.mdc',
     '.claude/rules/agent-continuity.md',
     '.kiro/steering/agent-continuity.md',
@@ -150,6 +155,10 @@ function assertRequiredFiles() {
     'scripts/sync-antigravity-from-cursor.mjs',
     'scripts/sync-all.mjs',
     '.agents/references/mcp-antigravity.md',
+    '.cursor/skills/ui-ux-pro-max/IMPACT-DEMO.md',
+    '.claude/skills/ui-ux-pro-max/IMPACT-DEMO.md',
+    '.kiro/skills/ui-ux-pro-max/IMPACT-DEMO.md',
+    '.agents/skills/ui-ux-pro-max/IMPACT-DEMO.md',
   ];
   for (const rel of required) {
     if (!fs.existsSync(path.join(ROOT, rel))) errors.push(`required file missing: ${rel}`);

@@ -18,7 +18,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.5.0-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.1-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -30,6 +30,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 - [Why use this](#why-use-this)
 - [Install (quick)](#install-quick)
 - [CodeGraph (code intelligence)](#codegraph-code-intelligence)
+- [OntoSight (code visualization)](#ontosight-code-visualization)
 - [Agent continuity (cross-tool)](#agent-continuity-cross-tool)
 - [Overview](#overview)
 - [Development workflow](#development-workflow)
@@ -57,6 +58,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 | **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
 | **`npx` installer** | Copies the folders into your project in one command |
 | **CodeGraph** | MCP + usage rules for Cursor and Kiro; Antigravity via user `mcp_config.json`; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
+| **OntoSight** | Visual call-graph UI via `npx @royalsolution/ontosight`; usage rules synced to all four agent trees |
 | **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, Kiro, and Antigravity |
 
 Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**, **`GEMINI.md`**.
@@ -138,6 +140,40 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 
 ---
 
+## OntoSight (code visualization)
+
+[class-ai-agent](https://www.npmjs.com/package/class-ai-agent) integrates **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** — interactive CodeGraph call subgraphs in the browser. OntoSight complements CodeGraph MCP: use `codegraph_*` for facts in chat; use OntoSight when the user wants a visual graph.
+
+| Topic | Details |
+|-------|---------|
+| **What you get** | Always-on usage rules across Cursor, Claude Code, Kiro, and Antigravity |
+| **Cursor** | `.cursor/rules/ontosight.mdc`, `.cursor/references/ontosight.md` |
+| **Kiro** | `.kiro/steering/ontosight.md`, `.kiro/references/ontosight.md` |
+| **Claude Code** | `.claude/rules/ontosight.md`, `.claude/references/ontosight.md` |
+| **Antigravity** | `.agent/rules/ontosight.md`, `.agents/references/ontosight.md` |
+| **Quick start** | `npx @royalsolution/ontosight .` (auto-inits CodeGraph index if missing) |
+| **Requirements** | Node 20+, Python 3.11+, uv or pipx; shares `.codegraph/` with CodeGraph |
+| **Troubleshooting** | `.cursor/references/ontosight.md` |
+| **Impact demos** | `skills/ui-ux-pro-max/IMPACT-DEMO.md` — `codegraph_impact` → UX summary → graph |
+
+Example agent workflow (feature area):
+
+```text
+1. codegraph_context({ task: "auth flow", maxNodes: 20 })  → answer in chat
+2. npx @royalsolution/ontosight . --task "auth flow" --hops 2   → open graph for user
+```
+
+Example **impact analysis** demo:
+
+```text
+1. codegraph_search({ query: "deleteUser" })
+2. codegraph_impact({ query: "deleteUser" })  → ranked blast radius in chat
+3. Follow IMPACT-DEMO.md (ui-ux-pro-max presentation)
+4. npx @royalsolution/ontosight . --symbol deleteUser --path src/services/ --hops 3
+```
+
+---
+
 ## Overview
 
 This repo ships **four parallel layouts** so you can use the same habits in Claude Code, Cursor, Kiro, and Antigravity:
@@ -153,12 +189,12 @@ What is inside:
 
 - **Structured workflow** (Spec → Plan → Build → Test → Review → Ship)
 - **10 specialized agents** (markdown personas under `agents/`)
-- **13 mandatory topic rules** (plus **`cursor-overview.mdc`**, **`codegraph.mdc`**, and **`agent-continuity.mdc`** under `.cursor/rules/`)
+- **13 mandatory topic rules** (plus **`cursor-overview.mdc`**, **`codegraph.mdc`**, **`ontosight.mdc`**, and **`agent-continuity.mdc`** under `.cursor/rules/`)
 - **11 workflow prompts** under `commands/` (includes `handoff`, `resume`)
 - **9 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **supabase**, **supabase-postgres-best-practices**)
-- **7 reference docs** (security, testing, performance, accessibility, codegraph, agent-continuity, **supabase**)
+- **8 reference docs** (security, testing, performance, accessibility, codegraph, ontosight, agent-continuity, **supabase**)
 - **`.agent/SESSION.md`** for cross-tool session handoff
-- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`); Antigravity via user `mcp_config.json` (example in `.agents/references/mcp-antigravity.md`)
+- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`); Antigravity via user `mcp_config.json` (example in `.agents/references/mcp-antigravity.md`); **OntoSight CLI** for visual call graphs
 
 Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change standards. After editing `.cursor/` (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`.
 
@@ -242,7 +278,7 @@ Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. D
 | Item | Role |
 |------|------|
 | **`CURSOR.md`** | Hub (like `CLAUDE.md`, Cursor-focused) |
-| **`rules/*.mdc`** | Project rules + YAML; **`security.mdc`**, **`cursor-overview.mdc`**, **`codegraph.mdc`** are central |
+| **`rules/*.mdc`** | Project rules + YAML; **`security.mdc`**, **`cursor-overview.mdc`**, **`codegraph.mdc`**, **`ontosight.mdc`** are central |
 | **`mcp.json`** | MCP servers (CodeGraph) |
 | **`settings.json`** | Path hints (mirrors Claude layout) |
 | **`AGENTS.md`** (repo root) | Entry pointer for Cursor |
@@ -254,9 +290,9 @@ Same ideas as `.claude/` for `commands/`, `agents/`, `skills/`, `references/`. D
 ├── settings.json
 ├── commands/
 ├── agents/
-├── rules/                    # 16 × .mdc (13 topics + cursor-overview + codegraph + agent-continuity)
+├── rules/                    # 17 × .mdc (13 topics + cursor-overview + codegraph + ontosight + agent-continuity)
 ├── skills/
-└── references/               # includes codegraph.md
+└── references/               # includes codegraph.md, ontosight.md
 ```
 
 After install, **`.codegraph/`** (generated index) lives at the project root and should stay gitignored.
@@ -397,6 +433,24 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+
+### 1.6.1 — 2026-06-19
+
+- Add **impact analysis demonstration** workflow: `codegraph_impact` → UX summary → OntoSight graph
+- New `skills/ui-ux-pro-max/IMPACT-DEMO.md` playbook (ui-ux-pro-max chart/UX framing, accessible ranked table)
+- Extend `ontosight` and `codegraph` rules with impact triggers and visualization cross-links
+
+### 1.6.0 — 2026-06-19
+
+- Integrate **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** — visual CodeGraph call subgraphs via `npx @royalsolution/ontosight`
+- Add always-on `ontosight` rules and references synced to Cursor, Claude Code, Kiro, and Antigravity
+- Cross-link CodeGraph rules with OntoSight visualization workflows
+
+### 1.5.1 — 2026-06-17
+
+- Sync package-lock.json version with package.json
 
 ### 1.5.0 — 2026-06-17
 

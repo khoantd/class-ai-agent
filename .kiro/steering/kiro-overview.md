@@ -24,10 +24,11 @@ Supporting prompts: `debug`, `simplify`, `fix-issue`, `handoff`, `resume` in `.k
 
 ## Mandatory standards
 
-- Follow **`.kiro/steering/`** (`*.md` with YAML frontmatter). **`security.md`**, **`codegraph.md`**, and **`agent-continuity.md`** use `inclusion: always`; others often use `fileMatch`.
+- Follow **`.kiro/steering/`** (`*.md` with YAML frontmatter). **`security.md`**, **`codegraph.md`**, **`ontosight.md`**, and **`agent-continuity.md`** use `inclusion: always`; others often use `fileMatch`.
 - Prefer **tests first** and **small vertical slices** (see `.kiro/skills/incremental-implementation/`).
 - Use **`.kiro/references/`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **`.kiro/steering/codegraph.md`**.
+- When the user wants a **visual call graph**, use **OntoSight CLI** per **`.kiro/steering/ontosight.md`** (`npx @royalsolution/ontosight`).
 
 ## Agents (personas)
 
