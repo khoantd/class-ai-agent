@@ -14,7 +14,7 @@ See **`.agent/rules/codegraph.md`** for MCP usage and **`.agents/references/onto
 | Goal | Use |
 |------|-----|
 | Find symbols, callers, traces, impact (text in chat) | `codegraph_*` MCP tools |
-| Visual exploration of a subgraph | `npx @royalsolution/ontosight` |
+| Visual exploration of a subgraph | `npx @royalsolution/ontosight@0.2.0` |
 | User says "show me the graph" | OntoSight CLI |
 | Impact / blast radius demonstration | `codegraph_impact` → summary → OntoSight CLI |
 
@@ -46,7 +46,7 @@ Do **not** run OntoSight to collect agent context — that duplicates CodeGraph 
 3. Read **`.agents/skills/ui-ux-pro-max/IMPACT-DEMO.md`** — presentation checklist (use your tool's skills path: `.agents/skills/`, `.agents/skills/`, `.agents/skills/`)
 4. Optional: run ui-ux-pro-max searches from the playbook for chart/UX framing
 5. Summarize in chat: seed symbol, top impacted callers, risk tier, what the graph will highlight
-6. `npx @royalsolution/ontosight . --symbol <name> --path <dir> --hops 3 --max-nodes 200`
+6. `npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir> --hops 3 --max-nodes 200`
 
 **Hop guidance:** use `--hops 3` (or `4` for deep trees) for impact demos; prefer `--path` over raising `--max-nodes` when truncated.
 
@@ -58,23 +58,23 @@ Do **not** run OntoSight to collect agent context — that duplicates CodeGraph 
 
 1. `codegraph_search({ query: "<name>" })` → confirm file + kind
 2. Summarize in chat
-3. `npx @royalsolution/ontosight . --symbol <name> --path <dir-from-search>`
+3. `npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir-from-search>`
 
 **Feature area ("how does auth work?"):**
 
 1. `codegraph_context({ task: "authentication flow", maxNodes: 20 })`
 2. Summarize key symbols in chat
-3. `npx @royalsolution/ontosight . --task "authentication flow" --hops 2 --max-nodes 200`
+3. `npx @royalsolution/ontosight@0.2.0 . --task "authentication flow" --hops 2 --max-nodes 200`
 
 **Large repo:** prefer `--path` or `--symbol` before raising `--max-nodes`.
 
 ### Commands
 
 ```bash
-npx @royalsolution/ontosight .
-npx @royalsolution/ontosight . --symbol <name> --path <dir>
-npx @royalsolution/ontosight . --task "auth flow" --hops 2 --max-nodes 200
-npx @royalsolution/ontosight . --symbol <name> --path <dir> --hops 3 --max-nodes 200
+npx @royalsolution/ontosight@0.2.0 .
+npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir>
+npx @royalsolution/ontosight@0.2.0 . --task "auth flow" --hops 2 --max-nodes 200
+npx @royalsolution/ontosight@0.2.0 . --symbol <name> --path <dir> --hops 3 --max-nodes 200
 ```
 
 Auto-creates the CodeGraph index when `.codegraph/codegraph.db` is missing (unless `ONTOSIGHT_SKIP_AUTO_INIT=1`). Ask the user before auto-init on very large repos.
@@ -83,7 +83,7 @@ Auto-creates the CodeGraph index when `.codegraph/codegraph.db` is missing (unle
 
 | Requirement | Notes |
 |-------------|-------|
-| Node 20+ | For `npx @royalsolution/ontosight` |
+| Node 20+ | For `npx @royalsolution/ontosight@0.2.0` |
 | Python 3.11+ | Used by `ontosight-codegraph` |
 | uv (recommended) or pipx | Wrapper tries `uvx` first, then `pipx run` |
 | CodeGraph index | `.codegraph/codegraph.db` in project root |

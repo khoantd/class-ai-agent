@@ -41,7 +41,7 @@ Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resum
 - Prefer **tests first** and **small vertical slices** (see \`.kiro/skills/incremental-implementation/\`).
 - Use **\`.kiro/references/\`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **\`.kiro/steering/codegraph.md\`**.
-- When the user wants a **visual call graph**, use **OntoSight CLI** per **\`.kiro/steering/ontosight.md\`** (\`npx @royalsolution/ontosight\`).
+- When the user wants a **visual call graph**, use **OntoSight CLI** per **\`.kiro/steering/ontosight.md\`** (\`npx @royalsolution/ontosight@0.2.0\`).
 
 ## Agents (personas)
 

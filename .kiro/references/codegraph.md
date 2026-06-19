@@ -85,6 +85,6 @@ Example — correct:
 
 ## Visualization (OntoSight)
 
-For interactive call-graph exploration in the browser, use **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** (`npx @royalsolution/ontosight`). Gather facts with `codegraph_*` first; open OntoSight when the user wants a visual UI. See [`.cursor/references/ontosight.md`](ontosight.md).
+For interactive call-graph exploration in the browser, use **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** (`npx @royalsolution/ontosight@0.2.0`). Gather facts with `codegraph_*` first; open OntoSight when the user wants a visual UI. See [`.cursor/references/ontosight.md`](ontosight.md).
 
 Upstream: [colbymchenry/codegraph](https://github.com/colbymchenry/codegraph)

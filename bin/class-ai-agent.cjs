@@ -40,7 +40,7 @@ CodeGraph:
   (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
 
 OntoSight:
-  Visual call graphs: npx @royalsolution/ontosight .
+  Visual call graphs: npx @royalsolution/ontosight@0.2.0 .
   Agent rules installed at .cursor/rules/ontosight.mdc (and synced trees).
   Requires Node 20+, Python 3.11+, uv or pipx.
 

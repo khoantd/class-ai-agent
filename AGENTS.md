@@ -37,7 +37,7 @@ Project guidance for AI coding agents:
 ## Code intelligence
 
 - **CodeGraph MCP** (`codegraph_*`) — structural code search in chat; rules in each tool's `codegraph` rule file
-- **OntoSight** (`npx @royalsolution/ontosight`) — interactive call-graph visualization in the browser; rules in each tool's `ontosight` rule file
+- **OntoSight** (`npx @royalsolution/ontosight@0.2.0`) — interactive call-graph visualization in the browser; rules in each tool's `ontosight` rule file
 
 ## Maintainers
 
