@@ -1,7 +1,7 @@
 {
   "name": "class-ai-agent",
-  "version": "1.6.3",
-  "description": "Production-grade AI agent configuration for Claude Code, Cursor, Kiro & Antigravity",
+  "version": "1.6.4",
+  "description": "Production-grade AI agent scaffolding for Cursor, Claude Code, Kiro & Antigravity — rules, workflows, agents, CodeGraph, and cross-tool handoff.",
   "license": "MIT",
   "repository": {
     "type": "git",

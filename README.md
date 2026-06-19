@@ -1,6 +1,12 @@
-# AI Agent Project
+# class-ai-agent
 
-**Production-grade configuration for [Claude Code](https://code.claude.com/docs), [Cursor](https://cursor.com), [Kiro](https://kiro.dev), and [Antigravity](https://antigravity.google)** — shared rules, specialized agents, workflow prompts, and checklists you can drop into any repository.
+**Give your AI coding agents the same discipline your team expects from production software.**
+
+AI assistants like [Cursor](https://cursor.com), [Claude Code](https://code.claude.com/docs), [Kiro](https://kiro.dev), and [Antigravity](https://antigravity.google) move fast—but without shared rules, workflows, and handoff, every session starts from zero and quality depends on whoever wrote the prompt last. **class-ai-agent** is open-source scaffolding you drop into any repository: structured workflows, security guardrails, specialized agent personas, and code intelligence that stays with the project—not in a single chat thread.
+
+Install once with `npx class-ai-agent`. You get four parallel layouts (`.cursor/`, `.claude/`, `.kiro/`, `.agents/` + `GEMINI.md`) wired to the same habits: Spec → Plan → Build → Test → Review → Ship. Session continuity lives in committed [`.agent/SESSION.md`](.agent/SESSION.md), so you can switch IDE, teammate, or model and resume with `/handoff` and `/resume`. CodeGraph and OntoSight rules, Supabase skills, and MCP configs ship pre-configured for Cursor and Kiro.
+
+**Built for:** developers who want AI speed without sacrificing standards · teams aligning multiple AI tools · repos where security, TDD, and review are non-negotiable.
 
 <div align="center">
 
@@ -18,7 +24,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.3-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.4-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -443,6 +449,13 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+
+### 1.6.4 — 2026-06-19
+
+- Professional README hero introduction — outcome-led copy for developers and teams using Cursor, Claude Code, Kiro, and Antigravity
+- Update npm package description to highlight rules, workflows, agents, CodeGraph, and cross-tool session handoff
 
 ### 1.6.3 — 2026-06-19
 
