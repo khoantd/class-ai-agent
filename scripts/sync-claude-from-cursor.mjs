@@ -56,6 +56,21 @@ function patchCodegraphReference() {
 
 [CodeGraph](https://github.com/colbymchenry/codegraph) is a local, tree-sitter–parsed knowledge graph exposed to agents via MCP.
 
+**Mandatory for all personas:** \`.claude/agents/*.md\` each include **CodeGraph (mandatory)** and **Index health (smart)**.
+
+## Smart index management
+
+| Situation | Smart action |
+|-----------|--------------|
+| Session start / first structural query | \`codegraph_status\` (pass \`projectPath\` if MCP cwd may differ) |
+| Healthy index | Use \`codegraph_*\`; watcher auto-syncs edits in ~1–2s |
+| Staleness banner (few files) | Read only listed files; check **Pending sync** — wait, do not \`init\` |
+| Missing index | Ask user; \`npx @colbymchenry/codegraph init -i\` once at workspace root |
+| Large repo first init | Confirm with user before full index |
+| Path / wrong project | Absolute workspace root on \`projectPath\` and OntoSight \`[project-path]\` |
+
+**Never** re-run \`init\` after normal edits, failed searches, or partial staleness.
+
 ## Claude Code (included with class-ai-agent)
 
 | Item | Path |
@@ -110,8 +125,10 @@ Restart Kiro after install. See \`.kiro/references/codegraph.md\`.
 | Issue | Action |
 |-------|--------|
 | \`task must be a non-empty string\` | Use \`task\` (not \`query\`) on \`codegraph_context\`; use \`maxNodes\` (not \`limit\`). For \`/resume\`, read \`.agent/SESSION.md\` instead. |
-| MCP "not initialized" | Run \`npx @colbymchenry/codegraph init -i\` in project root |
-| Stale symbols after edit | Wait ~2s for watcher sync, or check staleness banner in tool output |
+| MCP "not initialized" | Ask user; run \`npx @colbymchenry/codegraph init -i\` once at workspace root |
+| MCP wrong project / path mismatch | Pass \`projectPath: "<workspace-root>"\` on all \`codegraph_*\` calls |
+| Stale symbols after edit | Wait ~2s for watcher sync; Read files in staleness banner; check \`codegraph_status\` **Pending sync** — do not re-init |
+| Re-init loop | Never \`init\` after every edit or failed search; init only when index is missing |
 
 See [CodeGraph README](https://github.com/colbymchenry/codegraph) for full troubleshooting.
 `;

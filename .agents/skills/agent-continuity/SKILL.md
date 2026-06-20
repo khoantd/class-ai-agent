@@ -9,12 +9,15 @@ description: Cross-tool session handoff and resume via .agent/SESSION.md
 
 Keep **Cursor**, **Claude Code**, and **Kiro** aligned on the same in-flight work using committed **`.agent/SESSION.md`**.
 
+**Applies to every agent persona** (`.agents/agents/*.md` and synced copies) — not only the default agent. When you @ mention or adopt a persona, SESSION read/update rules are still mandatory.
+
 ---
 
 ## When to apply
 
 | Situation | Action |
 |-----------|--------|
+| First agent session (`onboarding.complete` missing) | **Understand** — map structure, then continue user request |
 | New chat, same feature | **Resume** — read SESSION first |
 | End of session | **Handoff** — update SESSION |
 | Switch IDE/tool | **Handoff** then **Resume** in new tool |
@@ -38,8 +41,18 @@ Keep **Cursor**, **Claude Code**, and **Kiro** aligned on the same in-flight wor
 
 ---
 
+## First-run checklist
+
+- [ ] Confirm `.agent/onboarding.complete` is missing
+- [ ] Follow `.agents/workflows/understand-project.md`
+- [ ] Write `.agent/PROJECT.md` from template
+- [ ] Create `.agent/onboarding.complete`
+- [ ] Present structure summary to user
+- [ ] Continue user's original request
+
 ## Resume checklist
 
+- [ ] Read `.agent/PROJECT.md` if present
 - [ ] Read `.agent/SESSION.md`
 - [ ] Read `tasks/todo.md` if linked
 - [ ] Read SPEC if linked
@@ -60,6 +73,7 @@ See **`.agent/SESSION.template.md`** for the canonical sections.
 
 | Command | File |
 |---------|------|
+| `/understand` | `.agents/workflows/understand-project.md` |
 | `/handoff` | `.agents/workflows/handoff.md` (`.agents/`, `.agents/`) |
 | `/resume` | `.agents/workflows/resume.md` |
 

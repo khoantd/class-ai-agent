@@ -62,6 +62,7 @@ Project standards are **`.kiro/steering/*.md`**. They use YAML frontmatter:
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
 | Code visualization | `ontosight` (CLI; see below) |
+| UI/UX | `ui-ux-pro-max` (design-system search, UX checklist; see below) |
 | Agent continuity | `agent-continuity` (`.agent/SESSION.md` handoff) |
 
 ---
@@ -129,6 +130,7 @@ Reusable playbooks: **`.kiro/skills/*/SKILL.md`** (and related `.md` files where
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 | `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
 | `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
+| `ui-ux-pro-max` | UI/UX design systems, styling, accessibility, pre-delivery checklist |
 
 ---
 

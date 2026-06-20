@@ -22,15 +22,20 @@ Load cross-tool handoff state and continue work from a previous agent session wi
 - **`.agent/SESSION.md`** exists in the project root
 - If missing: run `npx class-ai-agent` or copy `.agent/SESSION.template.md` → `.agent/SESSION.md`
 
+## First run
+
+If **`.agent/onboarding.complete`** is missing, run **`.agents/workflows/understand-project.md`** first (present summary, write `.agent/PROJECT.md`), then continue with this resume workflow.
+
 ## Workflow
 
 ### Phase 1: Load handoff (read-only first)
 
 Read in this order:
 
-1. **`.agent/SESSION.md`** — goal, done, in progress, next, decisions, gotchas, pointers
-2. **`tasks/todo.md`** — if referenced in Pointers
-3. **`SPEC.md`** or path from Pointers — if in spec/plan/build phase
+1. **`.agent/PROJECT.md`** — if present (structure map from `/understand`)
+2. **`.agent/SESSION.md`** — goal, done, in progress, next, decisions, gotchas, pointers
+3. **`tasks/todo.md`** — if referenced in Pointers
+4. **`SPEC.md`** or path from Pointers — if in spec/plan/build phase
 
 > Do **not** edit code until Phase 3 plan is stated to the user.
 

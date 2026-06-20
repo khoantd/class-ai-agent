@@ -34,6 +34,7 @@ Follow this workflow for feature development:
 | `workflows/fix-issue.md` (`/fix-issue`) | Analyze and fix reported issues |
 | `workflows/handoff.md` (`/handoff`) | End session — update `.agent/SESSION.md` for cross-tool continuity |
 | `workflows/resume.md` (`/resume`) | Start session — load `.agent/SESSION.md` and continue prior work |
+| `workflows/understand-project.md` (`/understand`) | First run — map project structure to `.agent/PROJECT.md` (auto if `onboarding.complete` missing) |
 | `workflows/publish-npm.md` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
 
 **How to use:** Type the slash command (e.g. `/build`) in Antigravity, or open the workflow file and paste/attach in chat.
@@ -64,6 +65,7 @@ Project standards are **`.agent/rules/*.md`**. They use YAML frontmatter:
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
 | Code visualization | `ontosight` (CLI; see below) |
+| UI/UX | `ui-ux-pro-max` (design-system search, UX checklist; see below) |
 | Agent continuity | `agent-continuity` (`.agent/SESSION.md` handoff) |
 
 ---
@@ -131,6 +133,7 @@ Reusable playbooks: **`.agents/skills/*/SKILL.md`** (and related `.md` files whe
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 | `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
 | `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
+| `ui-ux-pro-max` | UI/UX design systems, styling, accessibility, pre-delivery checklist |
 
 ---
 

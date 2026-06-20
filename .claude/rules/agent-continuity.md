@@ -3,6 +3,20 @@
 
 Cross-tool handoff lives in **`.agent/SESSION.md`** (committed). Cursor, Claude Code, and Kiro agents share this file.
 
+**All agent personas** (`.claude/agents/*.md`) must read SESSION at session start and update it before ending or switching roles — see the **Agent continuity (mandatory)** section in each persona file.
+
+## First run — project understanding
+
+Before **`/resume`**, planning, or editing code, check **`.agent/onboarding.complete`**.
+
+If missing:
+
+1. Follow **`.claude/commands/understand-project.md`** ("Understanding this project structure")
+2. Present the structure summary to the user
+3. Then continue the user's request (or **`/resume`** if they asked to continue)
+
+Persistent map: **`.agent/PROJECT.md`** (schema: **`.agent/PROJECT.template.md`**).
+
 ## Session start
 
 1. If **`.agent/SESSION.md`** exists, read it **before** planning or editing code.

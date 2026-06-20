@@ -11,6 +11,7 @@ Project guidance for AI coding agents:
 
 ## Quick start (any tool)
 
+0. **First session** — if **`.agent/onboarding.complete`** is missing, agents run **`/understand`** automatically (map structure → `.agent/PROJECT.md`, then continue your request)
 1. Read **[`.agent/SESSION.md`](.agent/SESSION.md)** if it exists — run **`/resume`** to continue prior work
 2. Open your tool's **hub** (table above) for workflow, rules, agents, and skills
 3. Pick a **workflow command** for the current phase (`/spec`, `/plan`, `/build`, `/test`, `/review`, `/deploy`)
@@ -38,6 +39,7 @@ Project guidance for AI coding agents:
 
 - **CodeGraph MCP** (`codegraph_*`) — structural code search in chat; rules in each tool's `codegraph` rule file
 - **OntoSight** (`npx @royalsolution/ontosight@0.2.0`) — interactive call-graph visualization in the browser; rules in each tool's `ontosight` rule file
+- **ui-ux-pro-max** — UI/UX design systems, styling, accessibility; mandatory for UI work per each tool's `ui-ux-pro-max` rule file
 
 ## Maintainers
 

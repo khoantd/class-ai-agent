@@ -31,7 +31,9 @@ Use the same phase order as in \`.kiro/KIRO.md\`:
 5. **Review** — \`.kiro/commands/review.md\` (five-axis: \`.kiro/skills/code-review/\`)
 6. **Ship** — \`.kiro/commands/deploy.md\`
 
-Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resume\` in \`.kiro/commands/\`. Maintainers: \`publish-npm\` (say **push to npm repo** to draft README release notes and publish).
+Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resume\`, \`understand-project\` in \`.kiro/commands/\`. Maintainers: \`publish-npm\` (say **push to npm repo** to draft README release notes and publish).
+
+**First run:** if **\`.agent/onboarding.complete\`** is missing, agents automatically run **\`/understand\`** (\`.kiro/commands/understand-project.md\`) before other work.
 
 **Agent continuity:** committed **\`.agent/SESSION.md\`** — read at session start (\`/resume\`), update at end (\`/handoff\`). See **\`.kiro/steering/agent-continuity.md\`**.
 
@@ -42,6 +44,7 @@ Supporting prompts: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resum
 - Use **\`.kiro/references/\`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **\`.kiro/steering/codegraph.md\`**.
 - When the user wants a **visual call graph**, use **OntoSight CLI** per **\`.kiro/steering/ontosight.md\`** (\`npx @royalsolution/ontosight@0.2.0\`).
+- For **UI/UX work** (design, build, review, fix, improve — components, pages, layouts, styling, accessibility), read and follow the **ui-ux-pro-max** skill per **\`.kiro/steering/ui-ux-pro-max.md\`**.
 
 ## Agents (personas)
 

@@ -98,6 +98,7 @@ All rules in `.claude/rules/` are **mandatory** and must be followed:
 | `agent-continuity.md` | Session handoff via `.agent/SESSION.md` |
 | `codegraph.md` | CodeGraph MCP usage; when to use `codegraph_*` tools |
 | `ontosight.md` | OntoSight CLI for visual call graphs |
+| `ui-ux-pro-max.md` | UI/UX design systems, styling, accessibility checklist |
 
 ---
 
@@ -179,6 +180,7 @@ Specialized skills for complex operations:
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 | `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
 | `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
+| `ui-ux-pro-max` | UI/UX design systems, styling, accessibility, pre-delivery checklist |
 
 ---
 

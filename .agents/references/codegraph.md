@@ -2,6 +2,21 @@
 
 [CodeGraph](https://github.com/colbymchenry/codegraph) is a local, tree-sitter–parsed knowledge graph exposed to agents via MCP. **class-ai-agent** installs Cursor and Kiro MCP wiring plus usage rules, and runs `codegraph init -i` after scaffolding.
 
+**Mandatory for all personas:** `.cursor/agents/*.md` each include **CodeGraph (mandatory)** — use `codegraph_*` for structural questions before grep/read exploration loops.
+
+## Smart index management
+
+| Situation | Smart action |
+|-----------|--------------|
+| Session start / first structural query | `codegraph_status` (pass `projectPath` if MCP cwd may differ) |
+| Healthy index | Use `codegraph_*`; watcher auto-syncs edits in ~1–2s |
+| Staleness banner (few files) | Read only listed files; check **Pending sync** — wait, do not `init` |
+| Missing index | Ask user; `npx @colbymchenry/codegraph init -i` once at workspace root |
+| Large repo first init | Confirm with user before full index |
+| Path / wrong project | Absolute workspace root on `projectPath` and OntoSight `[project-path]` |
+
+**Never** re-run `init` after normal edits, failed searches, or partial staleness.
+
 ## Antigravity (included with class-ai-agent)
 
 | Item | Path |

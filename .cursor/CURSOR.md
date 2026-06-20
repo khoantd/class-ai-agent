@@ -32,6 +32,7 @@ Follow this workflow for feature development:
 | `commands/fix-issue.md` | Analyze and fix reported issues |
 | `commands/handoff.md` | End session — update `.agent/SESSION.md` for cross-tool continuity |
 | `commands/resume.md` | Start session — load `.agent/SESSION.md` and continue prior work |
+| `commands/understand-project.md` | First run — map project structure to `.agent/PROJECT.md` (auto if `onboarding.complete` missing) |
 | `commands/publish-npm.md` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
 
 **How to use:** Open the markdown file, copy the section you need, or **@ mention** the file in Chat/Composer so the model loads it.
@@ -61,6 +62,7 @@ Project rules are **`.cursor/rules/*.mdc`**. They use YAML frontmatter:
 | Ops & quality | `security`, `monitoring`, `testing`, `git-workflow`, `system-design` |
 | Code intelligence | `codegraph` (MCP usage; see below) |
 | Code visualization | `ontosight` (CLI; see below) |
+| UI/UX | `ui-ux-pro-max` (design-system search, UX checklist; see below) |
 
 ---
 
@@ -75,9 +77,11 @@ This project includes **[CodeGraph](https://github.com/colbymchenry/codegraph)**
 | Symbol index (generated) | `.codegraph/` (gitignored) |
 | Setup reference | `.cursor/references/codegraph.md` |
 
-After installing scaffolding, **reload the Cursor window** (or restart Cursor) so the CodeGraph MCP server connects. Use `codegraph_*` tools for structural questions (callers, callees, traces, impact); use grep/read for literal text in comments or strings.
+After installing scaffolding, **reload the Cursor window** (or restart Cursor) so the CodeGraph MCP server connects. Use `codegraph_*` tools for structural questions; use grep/read for literal text in comments or strings.
 
-If the index is missing, run `npx @colbymchenry/codegraph init -i` in the project root.
+**Smart indexing:** Run `codegraph_status` before first use — init only when the index is missing; trust the watcher for edits; Read stale-listed files instead of re-initing. See **Index health (smart)** in each persona and `.cursor/rules/codegraph.mdc`.
+
+If the index is missing, run `npx @colbymchenry/codegraph init -i` in the project root (ask on large repos).
 
 ---
 
@@ -98,6 +102,8 @@ Use `codegraph_*` MCP tools to gather structural facts in chat; run `npx @royals
 ## Agent personas
 
 Instructions live in **`.cursor/agents/`**. Invoke by **@ mentioning** the file (e.g. `@.cursor/agents/backend.md`).
+
+**Mandatory:** Every persona **must** read **`.agent/SESSION.md`** at session start and update it before ending or switching roles. Every persona **must** use **CodeGraph** (`codegraph_*` MCP) for structural code questions before grep/read loops — see **Agent continuity (mandatory)** and **CodeGraph (mandatory)** in each persona file.
 
 | Area | File |
 |------|------|
@@ -121,6 +127,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `agent-continuity` | Cross-tool session handoff via `.agent/SESSION.md` |
 | `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
 | `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
+| `ui-ux-pro-max` | UI/UX design systems, styling, accessibility, pre-delivery checklist |
 
 ---
 

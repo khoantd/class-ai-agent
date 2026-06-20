@@ -32,7 +32,9 @@ Use the same phase order as in \`GEMINI.md\`:
 5. **Review** — \`/review\` workflow (five-axis: \`.agents/skills/code-review/\`)
 6. **Ship** — \`/deploy\` workflow
 
-Supporting workflows: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resume\` in \`.agents/workflows/\`. Maintainers: \`publish-npm\` (say **push to npm repo** to draft README release notes and publish).
+Supporting workflows: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`resume\`, \`understand-project\` in \`.agents/workflows/\`. Maintainers: \`publish-npm\` (say **push to npm repo** to draft README release notes and publish).
+
+**First run:** if **\`.agent/onboarding.complete\`** is missing, agents automatically run **\`/understand\`** (\`.agents/workflows/understand-project.md\`) before other work.
 
 **Agent continuity:** committed **\`.agent/SESSION.md\`** — read at session start (\`/resume\`), update at end (\`/handoff\`). See **\`.agent/rules/agent-continuity.md\`**.
 
@@ -43,6 +45,7 @@ Supporting workflows: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`res
 - Use **\`.agents/references/\`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **\`.agent/rules/codegraph.md\`**.
 - When the user wants a **visual call graph**, use **OntoSight CLI** per **\`.agent/rules/ontosight.md\`** (\`npx @royalsolution/ontosight@0.2.0\`).
+- For **UI/UX work** (design, build, review, fix, improve — components, pages, layouts, styling, accessibility), read and follow the **ui-ux-pro-max** skill per **\`.agent/rules/ui-ux-pro-max.md\`**.
 
 ## Agents (personas)
 
@@ -209,6 +212,7 @@ Follow this workflow for feature development:
 | \`workflows/fix-issue.md\` (\`/fix-issue\`) | Analyze and fix reported issues |
 | \`workflows/handoff.md\` (\`/handoff\`) | End session — update \`.agent/SESSION.md\` for cross-tool continuity |
 | \`workflows/resume.md\` (\`/resume\`) | Start session — load \`.agent/SESSION.md\` and continue prior work |
+| \`workflows/understand-project.md\` (\`/understand\`) | First run — map project structure to \`.agent/PROJECT.md\` (auto if \`onboarding.complete\` missing) |
 | \`workflows/publish-npm.md\` | **Maintainers:** draft release notes, bump version, update README, publish to npm |
 
 **How to use:** Type the slash command (e.g. \`/build\`) in Antigravity, or open the workflow file and paste/attach in chat.
@@ -239,6 +243,7 @@ Project standards are **\`.agent/rules/*.md\`**. They use YAML frontmatter:
 | Ops & quality | \`security\`, \`monitoring\`, \`testing\`, \`git-workflow\`, \`system-design\` |
 | Code intelligence | \`codegraph\` (MCP usage; see below) |
 | Code visualization | \`ontosight\` (CLI; see below) |
+| UI/UX | \`ui-ux-pro-max\` (design-system search, UX checklist; see below) |
 | Agent continuity | \`agent-continuity\` (\`.agent/SESSION.md\` handoff) |
 
 ---
@@ -306,6 +311,7 @@ Reusable playbooks: **\`.agents/skills/*/SKILL.md\`** (and related \`.md\` files
 | \`agent-continuity\` | Cross-tool session handoff via \`.agent/SESSION.md\` |
 | \`supabase\` | Supabase products, Auth, CLI, MCP, migrations, RLS |
 | \`supabase-postgres-best-practices\` | Postgres performance, indexes, RLS tuning |
+| \`ui-ux-pro-max\` | UI/UX design systems, styling, accessibility, pre-delivery checklist |
 
 ---
 

@@ -400,6 +400,7 @@ function run(opts) {
   }
   if (shouldInstallAgentDir(opts)) {
     console.log('  Continuity: edit .agent/SESSION.md at session end (/handoff); read at start (/resume).');
+    console.log('  First session: agents auto-run /understand (map structure to .agent/PROJECT.md).');
   }
 }
 

@@ -7,6 +7,8 @@ description: "CodeGraph MCP usage guide — when to use which tool"
 
 This project has a CodeGraph MCP server (`codegraph_*` tools) configured. CodeGraph is a tree-sitter-parsed knowledge graph of every symbol, edge, and file. Reads are sub-millisecond and return structural information grep cannot.
 
+**All agent personas** (`.kiro/agents/*.md`) must use CodeGraph for structural questions — see the **CodeGraph (mandatory)** section in each persona file.
+
 ### When to prefer codegraph over native search
 
 Use codegraph for **structural** questions — what calls what, what would break, where is X defined, what is X's signature. Use native grep/read only for **literal text** queries (string contents, comments, log messages) or after you already have a specific file open.
@@ -51,6 +53,21 @@ For **impact demonstration** requests ("show impact", "blast radius", "what brea
 - **Don't chain `codegraph_search` + `codegraph_node`** when you just want context — `codegraph_context` is one call.
 - **Don't loop `codegraph_node` over many symbols** — one `codegraph_explore` call returns several symbols' source grouped in a single capped call, while each separate node/Read call re-reads the whole context and costs far more.
 - **Index lag — check the staleness banner, don't guess a wait.** When a codegraph response starts with "⚠️ Some files referenced below were edited since the last index sync…", the listed files are pending re-index — Read those specific files for accurate content. Files NOT in that banner are fresh and codegraph is authoritative for them. `codegraph_status` also lists pending files under "Pending sync".
+
+### Smart index management
+
+**Check before you init — never re-index by default.**
+
+| Situation | Smart action |
+|-----------|--------------|
+| Session start / first structural query | `codegraph_status` (with `projectPath` if cwd may be wrong) |
+| Index healthy, queries succeed | Use `codegraph_*`; trust watcher auto-sync (~1–2s) |
+| Staleness banner on a few files | **Read** only listed files; wait for **Pending sync** — no `init` |
+| MCP "not initialized" / no `.codegraph/codegraph.db` | Ask user; run `npx @colbymchenry/codegraph init -i` once at workspace root |
+| Large repo, first init | Confirm with user before full index |
+| Wrong project / path mismatch | Pass absolute `projectPath` on all `codegraph_*` calls |
+
+**Never:** re-run `init` after every edit, failed search, or partial staleness; init from a subdirectory; init when the watcher will catch up.
 
 ### If `.codegraph/` doesn't exist
 

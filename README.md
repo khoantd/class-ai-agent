@@ -24,7 +24,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.4-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.5-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -77,10 +77,11 @@ When one agent stops and another starts (new chat, different IDE, or teammate), 
 
 | Command | When |
 |---------|------|
-| **`/resume`** | Session start — read SESSION, `tasks/todo.md`, linked spec; summarize and continue |
+| **`/understand`** | First run — map project structure (auto if `.agent/onboarding.complete` missing); writes `.agent/PROJECT.md` |
+| **`/resume`** | Session start — read PROJECT + SESSION, `tasks/todo.md`, linked spec; summarize and continue |
 | **`/handoff`** | Session end — update SESSION, sync tasks, note blockers |
 
-**Read order:** `.agent/SESSION.md` → `tasks/todo.md` → `SPEC.md` (from SESSION pointers).
+**Read order:** `.agent/PROJECT.md` (if present) → `.agent/SESSION.md` → `tasks/todo.md` → `SPEC.md` (from SESSION pointers).
 
 Rules: `.cursor/rules/agent-continuity.mdc`, `.claude/rules/agent-continuity.md`, `.kiro/steering/agent-continuity.md`, `.agent/rules/agent-continuity.md`. Reference: `.cursor/references/agent-continuity.md`.
 
@@ -97,6 +98,8 @@ npx class-ai-agent
 ```
 
 The installer also runs **`npx @colbymchenry/codegraph init -i`** in the target directory (builds `.codegraph/` and adds it to `.gitignore`). **Node 20+** is recommended for CodeGraph. First run may take a minute while the index builds.
+
+**First agent session:** agents automatically run **`/understand`** to map project structure (creates `.agent/PROJECT.md` and `.agent/onboarding.complete`), then continue your request.
 
 Skip indexing (copy-only, e.g. CI):
 
@@ -451,6 +454,18 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+
+### 1.6.5 — 2026-06-20
+
+- Add **`/understand`** first-run workflow — auto project structure mapping to `.agent/PROJECT.md` when `onboarding.complete` is missing
+- Add `.agent/PROJECT.template.md` schema for persistent cross-tool project maps
+- Require **Agent continuity (mandatory)** in all 11 agent personas — read and update `.agent/SESSION.md` at session start, during work, and before handoff
+- Require **CodeGraph (mandatory)** in all agent personas — use `codegraph_*` for structural questions before grep/read exploration loops
+- Add **Index health (smart)** — `codegraph_status` preflight, trust watcher auto-sync, init only when the index is missing; never re-init after normal edits or partial staleness
+- Add always-on **ui-ux-pro-max** rules synced across Cursor, Claude Code, Kiro, and Antigravity
+- Extend parity checks and Claude sync script for CodeGraph smart-index reference parity
 
 ### 1.6.4 — 2026-06-19
 

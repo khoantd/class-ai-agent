@@ -8,12 +8,16 @@ Committed handoff state so **Cursor**, **Claude Code**, **Kiro**, and **Antigrav
 |---------------|---------|
 | **`SESSION.md`** | Live handoff — read at session start, update at session end |
 | **`SESSION.template.md`** | Schema reference (do not edit for handoff; copy to `SESSION.md` on fresh install) |
+| **`PROJECT.md`** | Structure map — written on first run by `/understand` |
+| **`PROJECT.template.md`** | Schema reference for `PROJECT.md` |
+| **`onboarding.complete`** | First-run marker — created after `/understand` (commit to share "already onboarded" with team) |
 | **`rules/`** | Antigravity supplement rules (synced from `.cursor/rules/`; see `GEMINI.md`) |
 | **`history/`** | _(optional)_ milestone snapshots, e.g. `2025-06-02-feature-x.md` |
 
 ## Workflow
 
-1. **Start** — Run `/resume` (or read `SESSION.md` first). Then `tasks/todo.md`, then linked `SPEC.md`.
+0. **First run** — If `onboarding.complete` is missing, agents run **`/understand`** (`.cursor/commands/understand-project.md`) before other work.
+1. **Start** — Run `/resume` (or read `PROJECT.md` + `SESSION.md` first). Then `tasks/todo.md`, then linked `SPEC.md`.
 2. **Work** — Follow your tool's hub (`.cursor/`, `.claude/`, `.kiro/`, or `GEMINI.md` / `/build`, etc.).
 3. **End** — Run `/handoff` to refresh `SESSION.md` before closing the chat or switching tools.
 
