@@ -1,6 +1,6 @@
 {
   "name": "class-ai-agent",
-  "version": "1.6.8",
+  "version": "1.6.9",
   "description": "Production-grade AI agent scaffolding for Cursor, Claude Code, Kiro & Antigravity — rules, workflows, agents, CodeGraph, and cross-tool handoff.",
   "author": "Royal Solution <khoa0702@gmail.com>",
   "license": "MIT",

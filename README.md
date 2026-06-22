@@ -24,10 +24,26 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.8-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.9-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
+
+---
+
+> **New in 1.6.9 — [Loop Library](https://signals.forwardfuture.ai/loop-library/) skill**
+>
+> Ship **repeatable agent workflows**, not endless one-shot prompts. class-ai-agent now bundles the Loop Library skill across Cursor, Claude Code, Kiro, and Antigravity — so agents can **find**, **adapt**, or **design** bounded loops with explicit verification and stop rules.
+>
+> | Highlight | What you get |
+> |-----------|----------------|
+> | **CLI-first shortlist** | `npx loop-library@latest recommend "<goal>" --json` — top 3 candidates without loading the full catalog into context |
+> | **Three paths** | **Find** published loops · **Adapt** thresholds and tools · **Design** via a short plain-language interview |
+> | **Safety built in** | No invented catalog entries; approval gates for production and external actions; one-shot escape when a loop is not needed |
+> | **All 11 personas** | Conditional triggers per role (PM cadences, QA regression loops, security sweeps, and more) |
+> | **Copy-ready output** | Compact loop name + one-sentence summary + pasteable prompt (ideally under 80 words) |
+>
+> Try in chat: *"Use loop-library to find a loop for keeping documentation current."* · [Browse catalog](https://signals.forwardfuture.ai/loop-library/) · [Guided builder](https://signals.forwardfuture.ai/loop-library/create/) · Details below in [Loop Library](#loop-library-repeatable-agent-workflows)
 
 ---
 
@@ -37,6 +53,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 - [Install (quick)](#install-quick)
 - [CodeGraph (code intelligence)](#codegraph-code-intelligence)
 - [OntoSight (code visualization)](#ontosight-code-visualization)
+- [Loop Library (repeatable agent workflows)](#loop-library-repeatable-agent-workflows)
 - [Agent continuity (cross-tool)](#agent-continuity-cross-tool)
 - [Overview](#overview)
 - [Development workflow](#development-workflow)
@@ -65,6 +82,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 | **`npx` installer** | Copies the folders into your project in one command |
 | **CodeGraph** | MCP + usage rules for Cursor and Kiro; Antigravity via user `mcp_config.json`; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
 | **OntoSight** | Visual call-graph UI via `royalsolution-ontosight`; usage rules synced to all four agent trees |
+| **Loop Library** | Find, adapt, or design bounded repeatable agent workflows; CLI + skill bundled in v1.6.9+ |
 | **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, Kiro, and Antigravity |
 
 Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**, **`GEMINI.md`**.
@@ -186,6 +204,36 @@ Example **impact analysis** demo:
 ```
 
 **Wrong graph in browser?** OntoSight defaults to shell `cwd` — always pass the absolute workspace root as `[project-path]`. See `.cursor/references/ontosight.md` troubleshooting.
+
+---
+
+## Loop Library (repeatable agent workflows)
+
+[class-ai-agent](https://www.npmjs.com/package/class-ai-agent) bundles the **[Loop Library](https://signals.forwardfuture.ai/loop-library/)** agent skill and documents the companion **[`loop-library`](https://www.npmjs.com/package/loop-library)** npm CLI. A loop is a feedback system — observe, act, verify, repeat or stop — not permission for endless autonomy.
+
+| Topic | Details |
+|-------|---------|
+| **What you get** | Vendored `loop-library` skill, usage rule, reference doc, and persona hooks across all four agent trees |
+| **Cursor** | `.cursor/skills/loop-library/`, `.cursor/rules/loop-library.mdc`, `.cursor/references/loop-library.md` |
+| **Kiro** | `.kiro/skills/loop-library/`, `.kiro/steering/loop-library.md`, `.kiro/references/loop-library.md` |
+| **Claude Code** | `.claude/skills/loop-library/`, `.claude/rules/loop-library.md` |
+| **Antigravity** | `.agents/skills/loop-library/`, `.agent/rules/loop-library.md`, `.agents/references/loop-library.md` |
+| **Find** | `npx loop-library@latest recommend "<goal>" --json` → skill ranks top 3 with links |
+| **Adapt** | `npx loop-library@latest show <slug> --json` or `adapt <slug> --json` |
+| **Design** | Short interview when no published loop fits → compact copy-ready prompt |
+| **Offline fallback** | Bundled `references/catalog.md` when live catalog is unavailable |
+| **Maintainers** | `npm run sync:loop-library-skill` (pin in `scripts/loop-library-skills.lock.json`) |
+| **Web catalog** | [Browse loops](https://signals.forwardfuture.ai/loop-library/) · [Guided builder](https://signals.forwardfuture.ai/loop-library/create/) |
+
+Example agent workflow:
+
+```text
+1. npx loop-library@latest recommend "keep documentation current" --json   → shortlist
+2. Read .cursor/skills/loop-library/SKILL.md                               → rank by fit, verification, stopping rules
+3. Return ≤3 recommendations with links, or deliver adapted loop prompt
+```
+
+**Smart pairing:** CLI for a fast deterministic shortlist; skill for judgment on verification fit, authority, and when *not* to manufacture a loop (use a one-shot workflow instead).
 
 ---
 
@@ -460,6 +508,15 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+
+### 1.6.9 — 2026-06-22
+
+- Bundle **Loop Library** agent skill vendored from [khoantd/loop-library](https://github.com/khoantd/loop-library) with `npm run sync:loop-library-skill`
+- Add `loop-library.mdc` rule, reference doc, and conditional Loop Library sections across all 11 agent personas
+- Document `npx loop-library@latest recommend "<goal>" --json` CLI pairing in hub docs and `cursor-overview.mdc`
+- Add `loop-library` keyword and `classAiAgent.loopLibraryVersion` to `package.json`; extend `test:cli` and parity checks
 
 ### 1.6.8 — 2026-06-22
 
