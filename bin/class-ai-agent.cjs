@@ -12,7 +12,19 @@ function readPkg() {
   return JSON.parse(fs.readFileSync(p, 'utf8'));
 }
 
+function getCodegraphVersion() {
+  const pkg = readPkg();
+  return pkg.classAiAgent?.codegraphVersion || '1.0.1';
+}
+
+function getOntosightVersion() {
+  const pkg = readPkg();
+  return pkg.classAiAgent?.ontosightVersion || '0.2.1';
+}
+
 function printHelp() {
+  const codegraphVersion = getCodegraphVersion();
+  const ontosightVersion = getOntosightVersion();
   console.log(`class-ai-agent — Install Claude Code, Cursor, Kiro & Antigravity AI agent scaffolding
 
 Usage:
@@ -36,11 +48,11 @@ AGENTS.md is installed with --cursor, --kiro, --antigravity, or a full install (
   Antigravity supplement rules live in .agent/rules/ (merged on install).
 
 CodeGraph:
-  After install, runs "npx @colbymchenry/codegraph init -i" in the target directory
+  After install, runs "npx @colbymchenry/codegraph@${codegraphVersion} init -i" in the target directory
   (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
 
 OntoSight:
-  Visual call graphs: royalsolution-ontosight "<workspace-root>"
+  Visual call graphs: npx royalsolution-ontosight@${ontosightVersion} "<workspace-root>"
   Pass absolute workspace root as [project-path] (not bare .) so the browser loads this project's graph.
   Preflight with codegraph_status; seed --symbol from codegraph_search in the same project.
   Agent rules installed at .cursor/rules/ontosight.mdc (and synced trees).
@@ -206,14 +218,18 @@ function runCodegraphInit(targetDir) {
     return;
   }
 
-  console.log('\nCodeGraph: building local index (npx @colbymchenry/codegraph init -i)...');
+  const codegraphVersion = getCodegraphVersion();
+  const codegraphPkg = `@colbymchenry/codegraph@${codegraphVersion}`;
+  const npxCmd = process.platform === 'win32' ? 'npx.cmd' : 'npx';
+
+  console.log(`\nCodeGraph: building local index (npx ${codegraphPkg} init -i)...`);
   const result = spawnSync(
-    'npx',
-    ['-y', '@colbymchenry/codegraph@latest', 'init', '-i'],
+    npxCmd,
+    ['-y', codegraphPkg, 'init', '-i'],
     {
       cwd: targetDir,
       stdio: 'inherit',
-      shell: process.platform === 'win32',
+      shell: false,
     }
   );
 
@@ -229,7 +245,7 @@ function runCodegraphInit(targetDir) {
     '\nCodeGraph: init failed (network, Node version, or permissions). Scaffolding was installed.'
   );
   console.warn(
-    '  Retry: npx @colbymchenry/codegraph init -i  (Node 20+ recommended)'
+    `  Retry: npx ${codegraphPkg} init -i  (Node 20+ recommended)`
   );
 }
 

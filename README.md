@@ -24,7 +24,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.6-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.8-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -160,9 +160,9 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 | **Kiro** | `.kiro/steering/ontosight.md`, `.kiro/references/ontosight.md` |
 | **Claude Code** | `.claude/rules/ontosight.md`, `.claude/references/ontosight.md` |
 | **Antigravity** | `.agent/rules/ontosight.md`, `.agents/references/ontosight.md` |
-| **Quick start** | `royalsolution-ontosight "<workspace-root>"` — pass absolute workspace root (not bare `.`); auto-inits CodeGraph index if missing |
+| **Quick start** | `npx royalsolution-ontosight@0.2.1 "<workspace-root>"` — pass absolute workspace root (not bare `.`); auto-inits CodeGraph index if missing |
 | **Project graph** | Preflight with `codegraph_status`; seeds from `codegraph_search` in same project — see `.cursor/rules/ontosight.mdc` |
-| **Pinned version** | `royalsolution-ontosight` (`ontosight-codegraph` 0.2.0 on PyPI) |
+| **Pinned version** | `royalsolution-ontosight@0.2.1` (`ontosight-codegraph` 0.2.0 on PyPI) |
 | **Requirements** | Node 20+, Python 3.11+, uv or pipx; shares `.codegraph/` with CodeGraph |
 | **Troubleshooting** | `.cursor/references/ontosight.md` |
 | **Impact demos** | `skills/ui-ux-pro-max/IMPACT-DEMO.md` — `codegraph_impact` → UX summary → graph |
@@ -172,7 +172,7 @@ Example agent workflow (feature area):
 ```text
 0. codegraph_status({ projectPath: "<workspace-root>" })
 1. codegraph_context({ task: "auth flow", maxNodes: 20, projectPath: "<workspace-root>" })  → answer in chat
-2. royalsolution-ontosight "<workspace-root>" --task "auth flow" --hops 2   → open graph for user
+2. npx royalsolution-ontosight@0.2.1 "<workspace-root>" --task "auth flow" --hops 2   → open graph for user
 ```
 
 Example **impact analysis** demo:
@@ -182,7 +182,7 @@ Example **impact analysis** demo:
 1. codegraph_search({ query: "<symbol>", projectPath: "<workspace-root>" })
 2. codegraph_impact({ query: "<symbol>", projectPath: "<workspace-root>" })  → ranked blast radius in chat
 3. Follow IMPACT-DEMO.md (ui-ux-pro-max presentation)
-4. royalsolution-ontosight "<workspace-root>" --symbol <name> --path <dir> --hops 3
+4. npx royalsolution-ontosight@0.2.1 "<workspace-root>" --symbol <name> --path <dir> --hops 3
 ```
 
 **Wrong graph in browser?** OntoSight defaults to shell `cwd` — always pass the absolute workspace root as `[project-path]`. See `.cursor/references/ontosight.md` troubleshooting.
@@ -459,6 +459,21 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+### 1.6.8 — 2026-06-22
+
+- Pin OntoSight to `royalsolution-ontosight@0.2.1` via `classAiAgent.ontosightVersion`; update CLI help, rules, references, and IMPACT-DEMO across all agent trees
+- Add `npm run publish:local` for local npm publish (`--provenance=false` when `publishConfig.provenance` is enabled)
+- Document pinned OntoSight version in README maintainer publishing section
+
+### 1.6.7 — 2026-06-22
+
+- Harden Socket.dev supply-chain signals: pin CodeGraph to `@colbymchenry/codegraph@1.0.1`, remove Windows shell spawn, use `npx.cmd` with `shell: false`
+- Add `author`, `publishConfig.provenance`, and `classAiAgent.codegraphVersion` to `package.json`
+- Reduce static-analysis false positives in shipped security and OntoSight docs
+- Add GitHub Actions CI (`.github/workflows/ci.yml`) running `npm run test:cli`
+
 ### 1.6.6 — 2026-06-20
 
 - Rename OntoSight CLI invocations from `npx @royalsolution/ontosight@0.2.0` to **`royalsolution-ontosight`** across all agent trees, references, README, and CLI help
@@ -543,7 +558,13 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 ## Publishing to npm (maintainers)
 
-`package.json` name: **`class-ai-agent`**. Use **`npm publish --access public`** after `npm login`.
+`package.json` name: **`class-ai-agent`**. Use **`npm run publish:local`** (or `npm publish --access public --provenance=false`) after `npm login`.
+
+`publishConfig.provenance` is enabled — prefer publishing from GitHub Actions (or use `npm publish --provenance`) so npm records build provenance. For local publishes outside CI, use **`npm publish --access public --provenance=false`**.
+
+**Pinned CodeGraph:** the installer runs `@colbymchenry/codegraph` at the version in `package.json` → `classAiAgent.codegraphVersion`. Bump that field when upgrading CodeGraph, then release a new package version.
+
+**Pinned OntoSight:** agent docs and CLI help reference `royalsolution-ontosight@<version>` from `classAiAgent.ontosightVersion`. Bump that field when upgrading the npm wrapper, then release a new package version.
 
 <details>
 <summary><strong>403 / two-factor authentication</strong></summary>
