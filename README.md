@@ -24,7 +24,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.5-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.6.6-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -64,7 +64,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 | **13 topic rules** | Code style, security, API, DB, testing, git, and more (same ideas in both trees) |
 | **`npx` installer** | Copies the folders into your project in one command |
 | **CodeGraph** | MCP + usage rules for Cursor and Kiro; Antigravity via user `mcp_config.json`; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
-| **OntoSight** | Visual call-graph UI via `npx @royalsolution/ontosight@0.2.0`; usage rules synced to all four agent trees |
+| **OntoSight** | Visual call-graph UI via `royalsolution-ontosight`; usage rules synced to all four agent trees |
 | **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, Kiro, and Antigravity |
 
 Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**, **`GEMINI.md`**.
@@ -151,7 +151,7 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 
 ## OntoSight (code visualization)
 
-[class-ai-agent](https://www.npmjs.com/package/class-ai-agent) integrates **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** — interactive CodeGraph call subgraphs in the browser. OntoSight complements CodeGraph MCP: use `codegraph_*` for facts in chat; use OntoSight when the user wants a visual graph.
+[class-ai-agent](https://www.npmjs.com/package/class-ai-agent) integrates **[OntoSight](https://www.npmjs.com/package/royalsolution-ontosight)** — interactive CodeGraph call subgraphs in the browser. OntoSight complements CodeGraph MCP: use `codegraph_*` for facts in chat; use OntoSight when the user wants a visual graph.
 
 | Topic | Details |
 |-------|---------|
@@ -160,9 +160,9 @@ npm exec -- class-ai-agent --dir /path/to/your/project
 | **Kiro** | `.kiro/steering/ontosight.md`, `.kiro/references/ontosight.md` |
 | **Claude Code** | `.claude/rules/ontosight.md`, `.claude/references/ontosight.md` |
 | **Antigravity** | `.agent/rules/ontosight.md`, `.agents/references/ontosight.md` |
-| **Quick start** | `npx @royalsolution/ontosight@0.2.0 "<workspace-root>"` — pass absolute workspace root (not bare `.`); auto-inits CodeGraph index if missing |
+| **Quick start** | `royalsolution-ontosight "<workspace-root>"` — pass absolute workspace root (not bare `.`); auto-inits CodeGraph index if missing |
 | **Project graph** | Preflight with `codegraph_status`; seeds from `codegraph_search` in same project — see `.cursor/rules/ontosight.mdc` |
-| **Pinned version** | `@royalsolution/ontosight@0.2.0` (`ontosight-codegraph` 0.2.0 on PyPI) |
+| **Pinned version** | `royalsolution-ontosight` (`ontosight-codegraph` 0.2.0 on PyPI) |
 | **Requirements** | Node 20+, Python 3.11+, uv or pipx; shares `.codegraph/` with CodeGraph |
 | **Troubleshooting** | `.cursor/references/ontosight.md` |
 | **Impact demos** | `skills/ui-ux-pro-max/IMPACT-DEMO.md` — `codegraph_impact` → UX summary → graph |
@@ -172,7 +172,7 @@ Example agent workflow (feature area):
 ```text
 0. codegraph_status({ projectPath: "<workspace-root>" })
 1. codegraph_context({ task: "auth flow", maxNodes: 20, projectPath: "<workspace-root>" })  → answer in chat
-2. npx @royalsolution/ontosight@0.2.0 "<workspace-root>" --task "auth flow" --hops 2   → open graph for user
+2. royalsolution-ontosight "<workspace-root>" --task "auth flow" --hops 2   → open graph for user
 ```
 
 Example **impact analysis** demo:
@@ -182,7 +182,7 @@ Example **impact analysis** demo:
 1. codegraph_search({ query: "<symbol>", projectPath: "<workspace-root>" })
 2. codegraph_impact({ query: "<symbol>", projectPath: "<workspace-root>" })  → ranked blast radius in chat
 3. Follow IMPACT-DEMO.md (ui-ux-pro-max presentation)
-4. npx @royalsolution/ontosight@0.2.0 "<workspace-root>" --symbol <name> --path <dir> --hops 3
+4. royalsolution-ontosight "<workspace-root>" --symbol <name> --path <dir> --hops 3
 ```
 
 **Wrong graph in browser?** OntoSight defaults to shell `cwd` — always pass the absolute workspace root as `[project-path]`. See `.cursor/references/ontosight.md` troubleshooting.
@@ -457,6 +457,13 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 
 
+
+
+### 1.6.6 — 2026-06-20
+
+- Rename OntoSight CLI invocations from `npx @royalsolution/ontosight@0.2.0` to **`royalsolution-ontosight`** across all agent trees, references, README, and CLI help
+- Update npm package links to [royalsolution-ontosight](https://www.npmjs.com/package/royalsolution-ontosight)
+
 ### 1.6.5 — 2026-06-20
 
 - Add **`/understand`** first-run workflow — auto project structure mapping to `.agent/PROJECT.md` when `onboarding.complete` is missing
@@ -480,7 +487,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 ### 1.6.2 — 2026-06-19
 
-- Pin agent OntoSight CLI invocations to **`@royalsolution/ontosight@0.2.0`** (latest; `ontosight-codegraph` 0.2.0)
+- Pin agent OntoSight CLI invocations to **`royalsolution-ontosight`** (latest; `ontosight-codegraph` 0.2.0)
 
 ### 1.6.1 — 2026-06-19
 
@@ -490,7 +497,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 ### 1.6.0 — 2026-06-19
 
-- Integrate **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** — visual CodeGraph call subgraphs via `npx @royalsolution/ontosight@0.2.0`
+- Integrate **[OntoSight](https://www.npmjs.com/package/royalsolution-ontosight)** — visual CodeGraph call subgraphs via `royalsolution-ontosight`
 - Add always-on `ontosight` rules and references synced to Cursor, Claude Code, Kiro, and Antigravity
 - Cross-link CodeGraph rules with OntoSight visualization workflows
 

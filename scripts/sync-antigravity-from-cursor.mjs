@@ -44,7 +44,7 @@ Supporting workflows: \`debug\`, \`simplify\`, \`fix-issue\`, \`handoff\`, \`res
 - Prefer **tests first** and **small vertical slices** (see \`.agents/skills/incremental-implementation/\`).
 - Use **\`.agents/references/\`** for checklists (security, testing, performance, accessibility).
 - For **structural** code questions, prefer **CodeGraph** MCP tools per **\`.agent/rules/codegraph.md\`**.
-- When the user wants a **visual call graph**, use **OntoSight CLI** per **\`.agent/rules/ontosight.md\`** (\`npx @royalsolution/ontosight@0.2.0\`).
+- When the user wants a **visual call graph**, use **OntoSight CLI** per **\`.agent/rules/ontosight.md\`** (\`royalsolution-ontosight\`).
 - For **UI/UX work** (design, build, review, fix, improve — components, pages, layouts, styling, accessibility), read and follow the **ui-ux-pro-max** skill per **\`.agent/rules/ui-ux-pro-max.md\`**.
 
 ## Agents (personas)
@@ -273,7 +273,7 @@ If the index is missing, run \`npx @colbymchenry/codegraph init -i\` in the proj
 
 ## Code visualization (OntoSight)
 
-This project includes **[OntoSight](https://www.npmjs.com/package/@royalsolution/ontosight)** for interactive CodeGraph call subgraphs in the browser.
+This project includes **[OntoSight](https://www.npmjs.com/package/royalsolution-ontosight)** for interactive CodeGraph call subgraphs in the browser.
 
 | Item | Location |
 |------|----------|
@@ -281,7 +281,7 @@ This project includes **[OntoSight](https://www.npmjs.com/package/@royalsolution
 | Setup reference | \`.agents/references/ontosight.md\` |
 | Shared index | \`.codegraph/\` (same as CodeGraph) |
 
-Use \`codegraph_*\` MCP tools to gather structural facts in chat; run \`npx @royalsolution/ontosight@0.2.0 .\` when the user wants a visual call graph. For **impact analysis demos**, follow \`skills/ui-ux-pro-max/IMPACT-DEMO.md\` (search → \`codegraph_impact\` → summary → graph). Requires Node 20+, Python 3.11+, and uv or pipx.
+Use \`codegraph_*\` MCP tools to gather structural facts in chat; run \`royalsolution-ontosight "<workspace-root>"\` when the user wants a visual call graph. For **impact analysis demos**, follow \`skills/ui-ux-pro-max/IMPACT-DEMO.md\` (search → \`codegraph_impact\` → summary → graph). Requires Node 20+, Python 3.11+, and uv or pipx.
 
 ---
 

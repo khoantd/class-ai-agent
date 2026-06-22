@@ -40,7 +40,7 @@ CodeGraph:
   (Node 20+ recommended). Set CODEGRAPH_SKIP_INIT=1 to skip indexing.
 
 OntoSight:
-  Visual call graphs: npx @royalsolution/ontosight@0.2.0 "<workspace-root>"
+  Visual call graphs: royalsolution-ontosight "<workspace-root>"
   Pass absolute workspace root as [project-path] (not bare .) so the browser loads this project's graph.
   Preflight with codegraph_status; seed --symbol from codegraph_search in the same project.
   Agent rules installed at .cursor/rules/ontosight.mdc (and synced trees).
