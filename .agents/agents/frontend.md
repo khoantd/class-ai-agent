@@ -454,6 +454,17 @@ When this task involves UI (components, pages, layouts, styling, accessibility, 
 
 ---
 
+## Loop Library skill (when applicable)
+
+When the task involves repeatable agent workflows, iterative improvement with verification, recurring automation, or the user asks to find/adapt/design a loop, read `.agents/skills/loop-library/SKILL.md` and follow `.agent/rules/loop-library.md`.
+
+- **Find:** `npx loop-library@latest recommend "<goal>" --json` first; apply skill ranking before recommending.
+- **Adapt/Design:** Follow SKILL interview and delivery format; do not invent published catalog entries.
+- **One-shot:** Skip this skill when a single action suffices.
+- **Frontend focus:** Iterative perf, bug-fix, or quality loops with verify-and-stop rules.
+
+---
+
 ## When to Invoke
 
 - Building UI components

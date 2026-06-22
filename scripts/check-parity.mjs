@@ -168,6 +168,13 @@ function assertRequiredFiles() {
     '.claude/skills/ui-ux-pro-max/IMPACT-DEMO.md',
     '.kiro/skills/ui-ux-pro-max/IMPACT-DEMO.md',
     '.agents/skills/ui-ux-pro-max/IMPACT-DEMO.md',
+    '.cursor/rules/loop-library.mdc',
+    '.claude/rules/loop-library.md',
+    '.kiro/steering/loop-library.md',
+    '.agent/rules/loop-library.md',
+    '.cursor/skills/loop-library/SKILL.md',
+    '.cursor/references/loop-library.md',
+    'scripts/sync-loop-library-skill.mjs',
   ];
   for (const rel of required) {
     if (!fs.existsSync(path.join(ROOT, rel))) errors.push(`required file missing: ${rel}`);

@@ -446,6 +446,17 @@ When requirements involve user-facing UI (flows, pages, forms, dashboards, landi
 
 ---
 
+## Loop Library skill (when applicable)
+
+When the task involves repeatable agent workflows, iterative improvement with verification, recurring automation, or the user asks to find/adapt/design a loop, read `.agents/skills/loop-library/SKILL.md` and follow `.agent/rules/loop-library.md`.
+
+- **Find:** `npx loop-library@latest recommend "<goal>" --json` first; apply skill ranking before recommending.
+- **Adapt/Design:** Follow SKILL interview and delivery format; do not invent published catalog entries.
+- **One-shot:** Skip this skill when a single action suffices.
+- **BA focus:** Turn outcomes into bounded agent loops in specs and acceptance criteria.
+
+---
+
 ## When to Invoke
 
 - Requirements elicitation and analysis

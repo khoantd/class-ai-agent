@@ -63,6 +63,7 @@ Project rules are **`.cursor/rules/*.mdc`**. They use YAML frontmatter:
 | Code intelligence | `codegraph` (MCP usage; see below) |
 | Code visualization | `ontosight` (CLI; see below) |
 | UI/UX | `ui-ux-pro-max` (design-system search, UX checklist; see below) |
+| Loop workflows | `loop-library` (find/adapt/design bounded agent loops; see below) |
 
 ---
 
@@ -128,6 +129,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `supabase` | Supabase products, Auth, CLI, MCP, migrations, RLS |
 | `supabase-postgres-best-practices` | Postgres performance, indexes, RLS tuning |
 | `ui-ux-pro-max` | UI/UX design systems, styling, accessibility, pre-delivery checklist |
+| `loop-library` | Find, adapt, or design bounded repeatable agent workflows (loops) |
 
 ---
 
@@ -145,6 +147,7 @@ Reusable playbooks: **`.cursor/skills/*/SKILL.md`** (and related `.md` files whe
 | `ontosight.md` | OntoSight CLI for visual call graphs |
 | `agent-continuity.md` | Session handoff and `/resume` / `/handoff` |
 | `supabase.md` | Supabase skills, MCP OAuth, secrets |
+| `loop-library.md` | Loop Library skill, npm CLI, web catalog |
 
 ---
 

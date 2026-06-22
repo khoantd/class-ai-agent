@@ -4,7 +4,7 @@
 
 AI assistants like [Cursor](https://cursor.com), [Claude Code](https://code.claude.com/docs), [Kiro](https://kiro.dev), and [Antigravity](https://antigravity.google) move fast—but without shared rules, workflows, and handoff, every session starts from zero and quality depends on whoever wrote the prompt last. **class-ai-agent** is open-source scaffolding you drop into any repository: structured workflows, security guardrails, specialized agent personas, and code intelligence that stays with the project—not in a single chat thread.
 
-Install once with `npx class-ai-agent`. You get four parallel layouts (`.cursor/`, `.claude/`, `.kiro/`, `.agents/` + `GEMINI.md`) wired to the same habits: Spec → Plan → Build → Test → Review → Ship. Session continuity lives in committed [`.agent/SESSION.md`](.agent/SESSION.md), so you can switch IDE, teammate, or model and resume with `/handoff` and `/resume`. CodeGraph and OntoSight rules, Supabase skills, and MCP configs ship pre-configured for Cursor and Kiro.
+Install once with `npx class-ai-agent`. You get four parallel layouts (`.cursor/`, `.claude/`, `.kiro/`, `.agents/` + `GEMINI.md`) wired to the same habits: Spec → Plan → Build → Test → Review → Ship. Session continuity lives in committed [`.agent/SESSION.md`](.agent/SESSION.md), so you can switch IDE, teammate, or model and resume with `/handoff` and `/resume`. CodeGraph and OntoSight rules, Supabase and Loop Library skills, and MCP configs ship pre-configured for Cursor and Kiro.
 
 **Built for:** developers who want AI speed without sacrificing standards · teams aligning multiple AI tools · repos where security, TDD, and review are non-negotiable.
 
@@ -206,8 +206,8 @@ What is inside:
 - **10 specialized agents** (markdown personas under `agents/`)
 - **13 mandatory topic rules** (plus **`cursor-overview.mdc`**, **`codegraph.mdc`**, **`ontosight.mdc`**, and **`agent-continuity.mdc`** under `.cursor/rules/`)
 - **11 workflow prompts** under `commands/` (includes `handoff`, `resume`)
-- **9 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **supabase**, **supabase-postgres-best-practices**)
-- **8 reference docs** (security, testing, performance, accessibility, codegraph, ontosight, agent-continuity, **supabase**)
+- **10 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **loop-library**, **supabase**, **supabase-postgres-best-practices**)
+- **9 reference docs** (security, testing, performance, accessibility, codegraph, ontosight, agent-continuity, **supabase**, **loop-library**)
 - **`.agent/SESSION.md`** for cross-tool session handoff
 - **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`); Antigravity via user `mcp_config.json` (example in `.agents/references/mcp-antigravity.md`); **OntoSight CLI** for visual call graphs
 
@@ -552,7 +552,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 2. Keep tests green.
 3. Run **`/review`** before opening a PR.
 4. Use [conventional commits](https://www.conventionalcommits.org/).
-5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, and Antigravity layout; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills.
+5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, and Antigravity layout; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills; run **`npm run sync:loop-library-skill`** to refresh the Loop Library skill.
 
 ---
 

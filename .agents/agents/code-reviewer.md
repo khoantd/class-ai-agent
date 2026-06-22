@@ -177,6 +177,17 @@ When reviewing UI code (components, pages, layouts, styling, accessibility), rea
 
 ---
 
+## Loop Library skill (when applicable)
+
+When the task involves repeatable agent workflows, iterative improvement with verification, recurring automation, or the user asks to find/adapt/design a loop, read `.agents/skills/loop-library/SKILL.md` and follow `.agent/rules/loop-library.md`.
+
+- **Find:** `npx loop-library@latest recommend "<goal>" --json` first; apply skill ranking before recommending.
+- **Adapt/Design:** Follow SKILL interview and delivery format; do not invent published catalog entries.
+- **One-shot:** Skip this skill when a single action suffices.
+- **Review focus:** Review-until-rubric-met loops only when the user requests recurring review.
+
+---
+
 ## Invoke When
 
 - PR needs review before merge

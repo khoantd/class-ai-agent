@@ -40,7 +40,8 @@ Project guidance for AI coding agents:
 - **CodeGraph MCP** (`codegraph_*`) — structural code search in chat; rules in each tool's `codegraph` rule file
 - **OntoSight** (`royalsolution-ontosight`) — interactive call-graph visualization in the browser; rules in each tool's `ontosight` rule file
 - **ui-ux-pro-max** — UI/UX design systems, styling, accessibility; mandatory for UI work per each tool's `ui-ux-pro-max` rule file
+- **loop-library** — find, adapt, or design bounded repeatable agent workflows; pairs with `npx loop-library` CLI per each tool's `loop-library` rule file
 
 ## Maintainers
 
-Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change workflows or standards. After editing **`.cursor/`** (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`. To refresh vendored Supabase skills from upstream, run **`npm run sync:supabase-skills`**.
+Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change workflows or standards. After editing **`.cursor/`** (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`. To refresh vendored Supabase skills from upstream, run **`npm run sync:supabase-skills`**. To refresh the Loop Library skill, run **`npm run sync:loop-library-skill`**.
