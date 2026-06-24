@@ -17,3 +17,12 @@ Copyright (c) Supabase. Permission is hereby granted, free of charge, to deal in
 - **Refresh:** `npm run sync:loop-library-skill`
 
 Copyright (c) Forward Future. Permission is hereby granted, free of charge, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to the MIT license terms in the upstream repository.
+
+## UI/UX Pro Max Skill
+
+- **Source:** [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) @ `v2.6.3` (`a13b2a02fd58d8ad325fefd9d146f62708be8456`)
+- **License:** MIT — [LICENSE](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill/blob/v2.6.3/LICENSE)
+- **Skill:** `ui-ux-pro-max`
+- **Refresh:** `npm run sync:ui-ux-pro-max-skill`
+
+Copyright (c) NextLevelBuilder. Permission is hereby granted, free of charge, to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, subject to the MIT license terms in the upstream repository.

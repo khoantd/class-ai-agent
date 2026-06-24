@@ -35,7 +35,7 @@ python3 .kiro/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --domain ux
 python3 .kiro/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack html-tailwind
 ```
 
-Default stack: `html-tailwind`. Also available: `react`, `nextjs`, `vue`, `svelte`, `shadcn`, `swiftui`, `react-native`, `flutter`, `jetpack-compose`.
+Default stack: `html-tailwind`. Also available: `react`, `nextjs`, `astro`, `vue`, `nuxtjs`, `nuxt-ui`, `svelte`, `shadcn`, `swiftui`, `react-native`, `flutter`, `jetpack-compose`, `angular`, `laravel`, `javafx`, `threejs`.
 
 ## Before delivery
 

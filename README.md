@@ -24,7 +24,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.6.9-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.7.0-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
@@ -251,13 +251,13 @@ This repo ships **four parallel layouts** so you can use the same habits in Clau
 What is inside:
 
 - **Structured workflow** (Spec → Plan → Build → Test → Review → Ship)
-- **10 specialized agents** (markdown personas under `agents/`)
-- **13 mandatory topic rules** (plus **`cursor-overview.mdc`**, **`codegraph.mdc`**, **`ontosight.mdc`**, and **`agent-continuity.mdc`** under `.cursor/rules/`)
+- **11 specialized agents** (markdown personas under `agents/`)
+- **13 mandatory topic rules** (plus **`cursor-overview.mdc`**, **`codegraph.mdc`**, **`ontosight.mdc`**, **`loop-library.mdc`**, **`ui-ux-pro-max.mdc`**, and **`agent-continuity.mdc`** under `.cursor/rules/`)
 - **11 workflow prompts** under `commands/` (includes `handoff`, `resume`)
 - **10 skills** (TDD, code review, incremental implementation, deploy, security review, agent continuity, UI/UX Pro Max, **loop-library**, **supabase**, **supabase-postgres-best-practices**)
 - **9 reference docs** (security, testing, performance, accessibility, codegraph, ontosight, agent-continuity, **supabase**, **loop-library**)
 - **`.agent/SESSION.md`** for cross-tool session handoff
-- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`); Antigravity via user `mcp_config.json` (example in `.agents/references/mcp-antigravity.md`); **OntoSight CLI** for visual call graphs
+- **CodeGraph + Supabase MCP** for Cursor and Kiro (`.cursor/mcp.json`, `.kiro/settings/mcp.json`); Antigravity via user `mcp_config.json` (example in `.agents/references/mcp-antigravity.md`); **OntoSight CLI** for visual call graphs; **`loop-library` CLI** for loop shortlisting
 
 Keep **`.claude/`**, **`.cursor/`**, **`.kiro/`**, and the Antigravity layout in sync when you change standards. After editing `.cursor/` (canonical), run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, `.agents/`, `.agent/rules/`, and `GEMINI.md`.
 
@@ -388,7 +388,8 @@ Regenerate from `.cursor/` after rule changes: `npm run sync:all`.
 
 ### Skill notes
 
-- **`ui-ux-pro-max/`**: A UI/UX-oriented skill bundle (includes datasets under `data/` and helper scripts under `scripts/`) to support design-system decisions and UX guidelines.
+- **`loop-library/`**: Find, adapt, or design bounded repeatable agent workflows; pairs with [`loop-library`](https://www.npmjs.com/package/loop-library) CLI (`recommend`, `show`, `adapt`). See [Loop Library](#loop-library-repeatable-agent-workflows).
+- **`ui-ux-pro-max/`**: Design-system search skill vendored from [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) (`v2.6.3` — 161 palettes, 17 stacks). Includes datasets under `data/`, helper scripts under `scripts/`, and class-ai-agent `IMPACT-DEMO.md` for CodeGraph/OntoSight impact demos. Refresh: `npm run sync:ui-ux-pro-max-skill` (pin in `scripts/ui-ux-pro-max-skills.lock.json`).
 
 ---
 
@@ -398,7 +399,7 @@ Regenerate from `.cursor/` after rule changes: `npm run sync:all`.
 |------|--------|
 | **Development** | Frontend, Backend, Systems Architect |
 | **Quality** | Code Reviewer, Test Engineer, Security Auditor, QA |
-| **Product** | Project Manager, UI/UX Designer, Copywriter/SEO |
+| **Product** | Project Manager, Business Analyst, UI/UX Designer, Copywriter/SEO |
 
 Full definitions live in **`agents/*.md`**. In Cursor, **`@`**-include a file when you want that role.
 
@@ -437,6 +438,7 @@ Use **`.claude/rules/*.md`** or **`.cursor/rules/*.mdc`** (paired content; Curso
 | **Architecture** | `tech-stack`, `system-design`, `project-structure`, `api-conventions` |
 | **Data** | `naming-conventions`, `database` |
 | **Operations** | **`security`** (critical), `monitoring`, `testing`, `git-workflow` |
+| **Agent intelligence** | `codegraph`, `ontosight`, **`loop-library`** (v1.6.9+), **`ui-ux-pro-max`** (v1.7.0+, upstream v2.6.3), `agent-continuity` |
 
 ---
 
@@ -493,30 +495,26 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 ## Release notes
 
+### 1.7.0 — 2026-06-24
 
+**UI/UX Pro Max — upstream v2.6.3**
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+- Vendor **ui-ux-pro-max** from [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) @ `v2.6.3` (`npm run sync:ui-ux-pro-max-skill`)
+- Expanded datasets: **161 color palettes**, **161 reasoning rules**, **17 tech stacks** (+ `angular`, `laravel`, `javafx`, `threejs`)
+- Add `scripts/sync-ui-ux-pro-max-skill.mjs` and `scripts/ui-ux-pro-max-skills.lock.json`; `classAiAgent.uiUxProMaxVersion` (`2.6.3`)
+- Preserve class-ai-agent **IMPACT-DEMO.md**, multi-tool SKILL paths, and web-focused pre-delivery checklist
+- Update `ui-ux-pro-max.mdc` stack list; extend `test:cli` and parity checks; THIRD_PARTY_NOTICES entry
 
 ### 1.6.9 — 2026-06-22
 
-- Bundle **Loop Library** agent skill vendored from [khoantd/loop-library](https://github.com/khoantd/loop-library) with `npm run sync:loop-library-skill`
-- Add `loop-library.mdc` rule, reference doc, and conditional Loop Library sections across all 11 agent personas
-- Document `npx loop-library@latest recommend "<goal>" --json` CLI pairing in hub docs and `cursor-overview.mdc`
-- Add `loop-library` keyword and `classAiAgent.loopLibraryVersion` to `package.json`; extend `test:cli` and parity checks
+**Loop Library — repeatable agent workflows**
+
+- Bundle **Loop Library** agent skill vendored from [khoantd/loop-library](https://github.com/khoantd/loop-library) across Cursor, Claude Code, Kiro, and Antigravity (`npm run sync:loop-library-skill`)
+- **Find · Adapt · Design** — recommend published loops, customize matches, or run a short interview for new bounded workflows with verification and stop rules
+- **CLI pairing** — `npx loop-library@latest recommend "<goal>" --json` for a fast top-3 shortlist; skill applies outcome fit, authority, and stopping-condition judgment
+- Add **`loop-library.mdc`** rule, **`.cursor/references/loop-library.md`**, and conditional Loop Library sections across all **11 agent personas**
+- README highlight banner and full [Loop Library](#loop-library-repeatable-agent-workflows) section; update hub docs and `cursor-overview.mdc`
+- Add `loop-library` npm keyword, `classAiAgent.loopLibraryVersion` (`0.1.1`); extend `test:cli` and parity checks
 
 ### 1.6.8 — 2026-06-22
 
@@ -609,7 +607,7 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 2. Keep tests green.
 3. Run **`/review`** before opening a PR.
 4. Use [conventional commits](https://www.conventionalcommits.org/).
-5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, and Antigravity layout; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills; run **`npm run sync:loop-library-skill`** to refresh the Loop Library skill.
+5. Update **`.cursor/`** when rules or workflows change, then run **`npm run sync:all`** to refresh `.claude/`, `.kiro/`, and Antigravity layout; run **`npm run sync:supabase-skills`** to refresh vendored Supabase skills; run **`npm run sync:loop-library-skill`** to refresh the Loop Library skill; run **`npm run sync:ui-ux-pro-max-skill`** to refresh UI/UX Pro Max.
 
 ---
 
@@ -622,6 +620,10 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 **Pinned CodeGraph:** the installer runs `@colbymchenry/codegraph` at the version in `package.json` → `classAiAgent.codegraphVersion`. Bump that field when upgrading CodeGraph, then release a new package version.
 
 **Pinned OntoSight:** agent docs and CLI help reference `royalsolution-ontosight@<version>` from `classAiAgent.ontosightVersion`. Bump that field when upgrading the npm wrapper, then release a new package version.
+
+**Loop Library:** vendored skill from [khoantd/loop-library](https://github.com/khoantd/loop-library); agents use `npx loop-library@<version>` per `classAiAgent.loopLibraryVersion`. Refresh with `npm run sync:loop-library-skill` (pin in `scripts/loop-library-skills.lock.json`).
+
+**UI/UX Pro Max:** vendored skill from [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) @ `classAiAgent.uiUxProMaxVersion`. Refresh with `npm run sync:ui-ux-pro-max-skill` (pin in `scripts/ui-ux-pro-max-skills.lock.json`).
 
 <details>
 <summary><strong>403 / two-factor authentication</strong></summary>

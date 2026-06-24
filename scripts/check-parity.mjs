@@ -175,6 +175,8 @@ function assertRequiredFiles() {
     '.cursor/skills/loop-library/SKILL.md',
     '.cursor/references/loop-library.md',
     'scripts/sync-loop-library-skill.mjs',
+    'scripts/sync-ui-ux-pro-max-skill.mjs',
+    'scripts/ui-ux-pro-max-skills.lock.json',
   ];
   for (const rel of required) {
     if (!fs.existsSync(path.join(ROOT, rel))) errors.push(`required file missing: ${rel}`);

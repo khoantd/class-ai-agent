@@ -5,7 +5,7 @@ description: "Use for ANY UI/UX task. Triggers: design, build, create, implement
 
 # ui-ux-pro-max
 
-Comprehensive design guide for web and mobile applications. Contains 67 styles, 96 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types across 13 technology stacks. Searchable database with priority-based recommendations.
+Comprehensive design guide for web and mobile applications. Contains 67 styles, 161 color palettes, 57 font pairings, 99 UX guidelines, and 25 chart types across 17 technology stacks. Searchable database with priority-based recommendations.
 
 ## Prerequisites
 
@@ -133,7 +133,7 @@ Get implementation-specific best practices. If user doesn't specify a stack, **d
 python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<keyword>" --stack html-tailwind
 ```
 
-Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`
+Available stacks: `html-tailwind`, `react`, `nextjs`, `astro`, `vue`, `nuxtjs`, `nuxt-ui`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`, `angular`, `laravel`, `javafx`, `threejs`
 
 ---
 
@@ -161,13 +161,20 @@ Available stacks: `html-tailwind`, `react`, `nextjs`, `vue`, `svelte`, `swiftui`
 | `html-tailwind` | Tailwind utilities, responsive, a11y (DEFAULT) |
 | `react` | State, hooks, performance, patterns |
 | `nextjs` | SSR, routing, images, API routes |
+| `astro` | Islands, content collections, view transitions |
 | `vue` | Composition API, Pinia, Vue Router |
+| `nuxtjs` | Nuxt modules, server routes, composables |
+| `nuxt-ui` | Nuxt UI components, theming, forms |
 | `svelte` | Runes, stores, SvelteKit |
 | `swiftui` | Views, State, Navigation, Animation |
 | `react-native` | Components, Navigation, Lists |
 | `flutter` | Widgets, State, Layout, Theming |
 | `shadcn` | shadcn/ui components, theming, forms, patterns |
 | `jetpack-compose` | Composables, Modifiers, State Hoisting, Recomposition |
+| `angular` | Standalone components, signals, routing, forms |
+| `laravel` | Blade, Livewire, Inertia.js patterns |
+| `javafx` | Enterprise desktop apps, AtlantaFX themes, FXML, CSS |
+| `threejs` | 3D scenes, materials, lighting, performance |
 
 ---
 
