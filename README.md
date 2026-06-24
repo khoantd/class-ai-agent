@@ -4,7 +4,7 @@
 
 AI assistants like [Cursor](https://cursor.com), [Claude Code](https://code.claude.com/docs), [Kiro](https://kiro.dev), and [Antigravity](https://antigravity.google) move fast—but without shared rules, workflows, and handoff, every session starts from zero and quality depends on whoever wrote the prompt last. **class-ai-agent** is open-source scaffolding you drop into any repository: structured workflows, security guardrails, specialized agent personas, and code intelligence that stays with the project—not in a single chat thread.
 
-Install once with `npx class-ai-agent`. You get four parallel layouts (`.cursor/`, `.claude/`, `.kiro/`, `.agents/` + `GEMINI.md`) wired to the same habits: Spec → Plan → Build → Test → Review → Ship. Session continuity lives in committed [`.agent/SESSION.md`](.agent/SESSION.md), so you can switch IDE, teammate, or model and resume with `/handoff` and `/resume`. CodeGraph and OntoSight rules, Supabase and Loop Library skills, and MCP configs ship pre-configured for Cursor and Kiro.
+Install once with `npx class-ai-agent`. You get four parallel layouts (`.cursor/`, `.claude/`, `.kiro/`, `.agents/` + `GEMINI.md`) wired to the same habits: Spec → Plan → Build → Test → Review → Ship. Session continuity lives in committed [`.agent/SESSION.md`](.agent/SESSION.md), so you can switch IDE, teammate, or model and resume with `/handoff` and `/resume`. CodeGraph and OntoSight rules, **UI/UX Pro Max** (v2.6.3), Supabase and Loop Library skills, and MCP configs ship pre-configured for Cursor and Kiro.
 
 **Built for:** developers who want AI speed without sacrificing standards · teams aligning multiple AI tools · repos where security, TDD, and review are non-negotiable.
 
@@ -24,26 +24,29 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
   <a href="https://www.npmjs.com/package/class-ai-agent"><img src="https://img.shields.io/npm/v/class-ai-agent?label=npm&logo=npm&style=flat-square" alt="npm version" /></a>
   <img src="https://img.shields.io/badge/node-%3E%3D16.7-339933?logo=node.js&logoColor=white&style=flat-square" alt="Node.js 16.7+" />
   <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="License MIT" />
-  <img src="https://img.shields.io/badge/version-1.7.0-blue?style=flat-square" alt="Version" />
+  <img src="https://img.shields.io/badge/version-1.7.1-blue?style=flat-square" alt="Version" />
 </p>
 
 </div>
 
 ---
 
-> **New in 1.6.9 — [Loop Library](https://signals.forwardfuture.ai/loop-library/) skill**
+> **New in 1.7.0 — [UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) v2.6.3**
 >
-> Ship **repeatable agent workflows**, not endless one-shot prompts. class-ai-agent now bundles the Loop Library skill across Cursor, Claude Code, Kiro, and Antigravity — so agents can **find**, **adapt**, or **design** bounded loops with explicit verification and stop rules.
+> Stop guessing colors, fonts, and layout patterns. class-ai-agent now vendors **UI/UX Pro Max** across Cursor, Claude Code, Kiro, and Antigravity — a searchable design intelligence skill agents query **before** writing UI code.
 >
 > | Highlight | What you get |
 > |-----------|----------------|
-> | **CLI-first shortlist** | `npx loop-library@latest recommend "<goal>" --json` — top 3 candidates without loading the full catalog into context |
-> | **Three paths** | **Find** published loops · **Adapt** thresholds and tools · **Design** via a short plain-language interview |
-> | **Safety built in** | No invented catalog entries; approval gates for production and external actions; one-shot escape when a loop is not needed |
-> | **All 11 personas** | Conditional triggers per role (PM cadences, QA regression loops, security sweeps, and more) |
-> | **Copy-ready output** | Compact loop name + one-sentence summary + pasteable prompt (ideally under 80 words) |
+> | **Design-system search** | `python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "<product> <industry>" --design-system` → pattern, palette, typography, effects, anti-patterns |
+> | **161 palettes + 161 reasoning rules** | Industry-specific recommendations (SaaS, fintech, healthcare, e-commerce, and more) |
+> | **17 tech stacks** | `html-tailwind` (default), `nextjs`, `react`, `shadcn`, `angular`, `laravel`, `threejs`, `javafx`, and more |
+> | **Tiered workflow** | Full design-system pass for **new UI**; targeted `--domain ux` / `--stack` for fixes; checklist-only for trivial edits |
+> | **Impact demos** | `IMPACT-DEMO.md` pairs with CodeGraph + OntoSight — ranked blast-radius table before opening the graph |
+> | **Maintainers** | `npm run sync:ui-ux-pro-max-skill` (pin in `scripts/ui-ux-pro-max-skills.lock.json`) |
 >
-> Try in chat: *"Use loop-library to find a loop for keeping documentation current."* · [Browse catalog](https://signals.forwardfuture.ai/loop-library/) · [Guided builder](https://signals.forwardfuture.ai/loop-library/create/) · Details below in [Loop Library](#loop-library-repeatable-agent-workflows)
+> Try in chat: *"Use ui-ux-pro-max to build a fintech SaaS dashboard — run design-system search first."* · [Upstream repo](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) · Details below in [UI/UX Pro Max](#uiux-pro-max-design-intelligence)
+
+> **Also in 1.6.9 — [Loop Library](https://signals.forwardfuture.ai/loop-library/) skill** · [section below](#loop-library-repeatable-agent-workflows)
 
 ---
 
@@ -53,6 +56,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 - [Install (quick)](#install-quick)
 - [CodeGraph (code intelligence)](#codegraph-code-intelligence)
 - [OntoSight (code visualization)](#ontosight-code-visualization)
+- [UI/UX Pro Max (design intelligence)](#uiux-pro-max-design-intelligence)
 - [Loop Library (repeatable agent workflows)](#loop-library-repeatable-agent-workflows)
 - [Agent continuity (cross-tool)](#agent-continuity-cross-tool)
 - [Overview](#overview)
@@ -83,6 +87,7 @@ Open-source AI agent scaffolding by **Royal Solution** — use it in your own pr
 | **CodeGraph** | MCP + usage rules for Cursor and Kiro; Antigravity via user `mcp_config.json`; local index via [CodeGraph](https://github.com/colbymchenry/codegraph) |
 | **OntoSight** | Visual call-graph UI via `royalsolution-ontosight`; usage rules synced to all four agent trees |
 | **Loop Library** | Find, adapt, or design bounded repeatable agent workflows; CLI + skill bundled in v1.6.9+ |
+| **UI/UX Pro Max** | Design-system search, 161 palettes, 17 stacks, pre-delivery checklist; vendored v2.6.3 in v1.7.0+ |
 | **Agent continuity** | Committed **`.agent/SESSION.md`** — `/resume` and `/handoff` across Cursor, Claude Code, Kiro, and Antigravity |
 
 Root **`AGENTS.md`** links hubs: **`.cursor/CURSOR.md`**, **`.kiro/KIRO.md`**, **`.claude/CLAUDE.md`**, **`GEMINI.md`**.
@@ -204,6 +209,41 @@ Example **impact analysis** demo:
 ```
 
 **Wrong graph in browser?** OntoSight defaults to shell `cwd` — always pass the absolute workspace root as `[project-path]`. See `.cursor/references/ontosight.md` troubleshooting.
+
+---
+
+## UI/UX Pro Max (design intelligence)
+
+[class-ai-agent](https://www.npmjs.com/package/class-ai-agent) bundles **[UI/UX Pro Max](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill)** — a vendored design intelligence skill agents read before building or reviewing UI. Data and scripts ship in-repo; agents run Python searches locally (no API key).
+
+| Topic | Details |
+|-------|---------|
+| **What you get** | Searchable datasets (styles, palettes, typography, UX guidelines, stack rules), `search.py` CLI, `ui-ux-pro-max.mdc` rule, and **IMPACT-DEMO.md** for CodeGraph/OntoSight impact presentations |
+| **Cursor** | `.cursor/skills/ui-ux-pro-max/`, `.cursor/rules/ui-ux-pro-max.mdc` |
+| **Claude Code** | `.claude/skills/ui-ux-pro-max/`, `.claude/rules/ui-ux-pro-max.md` |
+| **Kiro** | `.kiro/skills/ui-ux-pro-max/`, `.kiro/steering/ui-ux-pro-max.md` |
+| **Antigravity** | `.agents/skills/ui-ux-pro-max/`, `.agent/rules/ui-ux-pro-max.md` |
+| **New UI (required)** | `--design-system` search → pattern, colors, typography, effects, anti-patterns |
+| **Fixes / reviews** | Targeted `--domain ux` or `--stack <name>`; skip full design-system unless scope is large |
+| **Persist** | `--design-system --persist` writes `design-system/MASTER.md` + per-page overrides |
+| **Stacks (17)** | `html-tailwind` (default), `nextjs`, `react`, `shadcn`, `vue`, `svelte`, `astro`, `nuxtjs`, `nuxt-ui`, `angular`, `laravel`, `threejs`, `javafx`, `flutter`, `swiftui`, `react-native`, `jetpack-compose` |
+| **Maintainers** | `npm run sync:ui-ux-pro-max-skill` (pin in `scripts/ui-ux-pro-max-skills.lock.json`) |
+| **Upstream** | [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) · [uupm.cc](https://uupm.cc) |
+
+Example agent workflow (new landing page):
+
+```bash
+# 1. Design system (required for new UI)
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness elegant" --design-system -p "Serenity Spa"
+
+# 2. Supplement UX / stack guidance as needed
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "animation accessibility" --domain ux
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "layout responsive form" --stack html-tailwind
+```
+
+**Pre-delivery checklist** (in SKILL.md): SVG icons (no emoji), contrast, `cursor-pointer` on interactive elements, hover/focus states, responsive breakpoints (375/768/1024/1440), form labels, `prefers-reduced-motion`.
+
+**Impact demos:** when presenting blast radius with OntoSight, follow `.cursor/skills/ui-ux-pro-max/IMPACT-DEMO.md` — text summary + ranked table *before* opening the graph.
 
 ---
 
@@ -495,15 +535,24 @@ Ship thin end-to-end slices (DB + API + UI), not “all models first, then all r
 
 ## Release notes
 
+### 1.7.1 — 2026-06-24
+
+**README — UI/UX Pro Max highlights**
+
+- Add **1.7.0 highlight banner** (design-system search, 161 palettes, 17 stacks, tiered workflow, impact demos)
+- New [UI/UX Pro Max (design intelligence)](#uiux-pro-max-design-intelligence) section with paths, commands, and example workflow
+- Update Contents, intro, and **Why use this** table for v2.6.3 skill
+
 ### 1.7.0 — 2026-06-24
 
 **UI/UX Pro Max — upstream v2.6.3**
 
 - Vendor **ui-ux-pro-max** from [nextlevelbuilder/ui-ux-pro-max-skill](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) @ `v2.6.3` (`npm run sync:ui-ux-pro-max-skill`)
-- Expanded datasets: **161 color palettes**, **161 reasoning rules**, **17 tech stacks** (+ `angular`, `laravel`, `javafx`, `threejs`)
+- Expanded datasets: **161 color palettes**, **161 industry reasoning rules**, **67 styles**, **99 UX guidelines**, **25 chart types**
+- **17 tech stacks** — adds `angular`, `laravel`, `javafx`, `threejs` (+ existing `html-tailwind`, `nextjs`, `react`, `shadcn`, `vue`, `svelte`, `astro`, `nuxtjs`, `nuxt-ui`, mobile stacks)
 - Add `scripts/sync-ui-ux-pro-max-skill.mjs` and `scripts/ui-ux-pro-max-skills.lock.json`; `classAiAgent.uiUxProMaxVersion` (`2.6.3`)
-- Preserve class-ai-agent **IMPACT-DEMO.md**, multi-tool SKILL paths, and web-focused pre-delivery checklist
-- Update `ui-ux-pro-max.mdc` stack list; extend `test:cli` and parity checks; THIRD_PARTY_NOTICES entry
+- Preserve class-ai-agent **IMPACT-DEMO.md** (CodeGraph → UX summary → OntoSight), multi-tool SKILL paths, tiered workflow rule, and web-focused pre-delivery checklist
+- README highlight banner and [UI/UX Pro Max](#uiux-pro-max-design-intelligence) section; update `ui-ux-pro-max.mdc` stack list; extend `test:cli` and parity checks; THIRD_PARTY_NOTICES entry
 
 ### 1.6.9 — 2026-06-22
 
